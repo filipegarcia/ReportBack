@@ -1,0 +1,214 @@
+<!doctype html>
+<html>
+  <head>
+       <meta charset="utf-8">
+    <title>Components · Report Tool</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/jquery.ui.css" rel="stylesheet">
+    <link href="assets/css/searchable-navbar.css" rel="stylesheet">
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="assets/css/docs.css" rel="stylesheet">
+    <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+    <script src="assets/js/jquery.js"></script>
+
+  </head>
+   <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+    <!-- Navbar
+    ================================================== -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="./index.html">Bootstrap</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active">
+                <a href="#">Home</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- Subhead
+================================================== -->
+<header class="jumbotron subhead" id="overview">
+  <div class="container">
+    <h1>Report Tool</h1>
+    <p class="lead">feedback and bug report Tool <i>à la</i> youtube</p>  </div>
+</header>
+
+  <div class="container">
+
+
+      <!-- Dropdowns
+      ================================================== -->
+      <section id="dropdowns">
+        <div class="page-header">
+          <h1>Report Tool</h1>
+        </div>
+
+        <h2>Description</h2>
+        <p>The Tool is loaded dynamicly when clicking the feedback button. It grabs user and browser information and the page html code and screenshot.<br>
+        It allow the user to highligt or blackout a portion of the page.<br>
+        The screenshot is done on client side and allows to see the viewport of the client and how the page was rendered. For this html2canvas comes to the rescue. Taking the screenshot in client side is like buiding a browser inside the browser, and render the page that browser. <br>
+        In the end, you can save the result that was built in <code>json</code> format
+        </p>
+        <div class="bs-docs-example">
+
+          <div id="newnav"></div>
+
+        </div>
+<pre class="prettyprint linenums">
+
+&lt;div class="reportTool"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+
+
+&lt;/script&gt;
+
+
+</pre>
+
+    <h2>Markup</h2>
+    <p>
+
+
+    </p>
+
+<pre class="prettyprint linenums">
+
+
+</pre>
+
+
+    <h2>Dependencies</h2>
+
+<pre class="prettyprint linenums">
+&lt;link href="assets/css/bootstrap.min.css" rel="stylesheet"&gt;
+&lt;link href="assets/css/jquery.ui.css" rel="stylesheet"&gt;
+&lt;link href="assets/css/searchable-navbar.css" rel="stylesheet"&gt;
+
+&lt;script src="assets/js/bootstrap.min.js"&gt;&lt;/script&gt;
+&lt;script src="assets/js/jquery.ui.js"&gt;&lt;/script&gt;
+&lt;script src="assets/js/html2canvas.min.js"&gt;&lt;/script&gt;
+</pre>
+
+
+    <h3>Download</h3>
+
+    Drop me a <a href="mailto:hello@evolving.in">line</a> if you're using this in your project. <br>
+    <div class="well center" style="max-width: 400px; margin: 0 auto 10px;">
+      <div class="btn-group" style="width: 123px; margin: 0 auto;">
+        <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
+          <i class="icon-download-alt icon-white"></i> Download
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="https://github.com/filipegarcia/reportTool/zipball/master">Download <strong>ZIP File</strong></a></li>
+            <li><a href="https://github.com/filipegarcia/reportTool/tarball/master">Download <strong>TAR Ball</strong></a></li>
+            <li><a href="https://github.com/filipegarcia/reportTool">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </div>
+    </div>
+
+
+  <h2>ToDos:</h2>
+    <p>Add remove box</p>
+    <p> </p>
+    <p> </p>
+
+
+        </section>
+
+  </div>
+
+
+
+    <!-- Footer
+    ================================================== -->
+    <footer class="footer">
+      <div class="container">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>Report Tool <a href="mailto:hello@evolving.in">Filipe Garcia</a>.</p>
+        <p>html2canvas <a href="http://www.twitter.com/niklasvh">Niklas von Hertzen</a>.</p>
+        <p>Twitter Bootsrap with all the love in the world <a href="http://twitter.com/twitter" target="_blank">@twitter</a> by <a href="http://twitter.com/mdo" target="_blank">@mdo</a> and <a href="http://twitter.com/fat" target="_blank">@fat</a>.</p>
+        <p>Code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+        <p>Icons from <a href="http://glyphicons.com">Glyphicons Free</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+        <p>jQuery UI from <a href="http://http://jqueryui.com">jQuery UI</a>.</p>
+        <p>jQuery UI Bootstrap theme from <a href="http://addyosmani.github.com/jquery-ui-bootstrap/">Addy Osmani</a>.</p>
+
+      </div>
+    </footer>
+
+
+<script type="text/javascript">
+
+
+</script>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/jquery.ui.js"></script>
+    <script src="assets/js/html2canvas.min.js"></script>
+    <script src="assets/js/google-code-prettify/prettify.js"></script>
+    <script src="assets/js/bootstrap-transition.js"></script>
+    <script src="assets/js/bootstrap-alert.js"></script>
+    <script src="assets/js/bootstrap-modal.js"></script>
+    <script src="assets/js/bootstrap-dropdown.js"></script>
+    <script src="assets/js/bootstrap-scrollspy.js"></script>
+    <script src="assets/js/bootstrap-tab.js"></script>
+    <script src="assets/js/bootstrap-tooltip.js"></script>
+    <script src="assets/js/bootstrap-popover.js"></script>
+    <script src="assets/js/bootstrap-button.js"></script>
+    <script src="assets/js/bootstrap-collapse.js"></script>
+    <script src="assets/js/bootstrap-carousel.js"></script>
+    <script src="assets/js/bootstrap-typeahead.js"></script>
+    <script src="assets/js/bootstrap-affix.js"></script>
+    <script src="assets/js/application.js"></script>
+    <script src="assets/js/fuse.min.js"></script>
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37955838-1']);
+  _gaq.push(['_setDomainName', 'github.com']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>
