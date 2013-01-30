@@ -10,7 +10,6 @@
     <!-- Le styles -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <link href="assets/css/jquery.ui.css" rel="stylesheet">
-    <link href="assets/css/searchable-navbar.css" rel="stylesheet">
     <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="assets/css/docs.css" rel="stylesheet">
     <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
@@ -84,10 +83,10 @@
         </div>
 <pre class="prettyprint linenums">
 
-&lt;div class="reportback"&gt;&lt;/div&gt;
 
 &lt;script type="text/javascript"&gt;
 
+  warmup();
 
 &lt;/script&gt;
 
@@ -111,7 +110,6 @@
 <pre class="prettyprint linenums">
 &lt;link href="assets/css/bootstrap.min.css" rel="stylesheet"&gt;
 &lt;link href="assets/css/jquery.ui.css" rel="stylesheet"&gt;
-&lt;link href="assets/css/searchable-navbar.css" rel="stylesheet"&gt;
 
 &lt;script src="assets/js/bootstrap.min.js"&gt;&lt;/script&gt;
 &lt;script src="assets/js/jquery.ui.js"&gt;&lt;/script&gt;
@@ -167,15 +165,25 @@
 
 
 <script type="text/javascript">
+// Actual ReportBack script
 
+  $(document).ready(function() {
+    warmup();
+  });
 
 </script>
+
+
+
+
+
+
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/report-back.js"></script>
     <script src="assets/js/jquery.ui.js"></script>
-    <script src="assets/js/html2canvas.min.js"></script>
     <script src="assets/js/google-code-prettify/prettify.js"></script>
     <script src="assets/js/bootstrap-transition.js"></script>
     <script src="assets/js/bootstrap-alert.js"></script>
