@@ -81,6 +81,7 @@
           <div id="newnav"></div>
 
         </div>
+
 <pre class="prettyprint linenums">
 
 
@@ -89,8 +90,6 @@
   warmup();
 
 &lt;/script&gt;
-
-
 </pre>
 
     <h2>Markup</h2>
@@ -152,6 +151,7 @@
     <footer class="footer">
       <div class="container">
         <p class="pull-right"><a href="#">Back to top</a></p>
+
         <p>Report Back <a href="mailto:hello@evolving.in">Filipe Garcia</a>.</p>
         <p>html2canvas <a href="https://github.com/niklasvh/html2canvas/tree/gh-pages">Niklas von Hertzen</a>.</p>
         <p>Twitter Bootsrap with all the love in the world <a href="http://twitter.com/twitter" target="_blank">@twitter</a> by <a href="http://twitter.com/mdo" target="_blank">@mdo</a> and <a href="http://twitter.com/fat" target="_blank">@fat</a>.</p>
@@ -162,13 +162,43 @@
 
       </div>
     </footer>
+<style type="text/css">
 
+#canvas{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  display: block;
+  cursor: default;
+  z-index: 21;
+}
+
+#myCanvas{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  display: block;
+  cursor: default;
+
+  z-index: 20;
+}
+
+
+</style>
 
 <script type="text/javascript">
 // Actual ReportBack script
 
   $(document).ready(function() {
     report_warmup();
+
+
+    //drawModal2()
+    //$( "#dialog" ).dialog({ position: { my: "right top", at: "right bottom", of: window } , "width": 500});
+
+
+
+
   });
 
 
