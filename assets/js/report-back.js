@@ -169,6 +169,9 @@ function report_warmup() {
 			drawModal3()
 	    $( "#dialog" ).dialog();
 	    $( "#dialog" ).dialog("option", "width", 500 );
+
+//TODO change z index of modal jquery ui modal
+	    $( "#dialog" ).dialog( zIndex, 1050);
 	    return false;
 
 		})
@@ -267,7 +270,7 @@ function writeUserInfo() {
 
 /* #########################################################################################
 
-		Highlight and Black Out in canvas
+		Highlight and Blackout in canvas
 
 
 ######################################################################################### */
@@ -286,20 +289,23 @@ function drawInCanvas(){
 
 	var drawCanvas = $('#canvas')
 	var myCanvas = $('#myCanvas')
-	var context = myCanvas[0].getContext('2d');
+	var context = myCanvas[0].getContext('2d')
 
+	var shadergb = "rgba(0, 0, 0, 0.295)"
+	var blackrgb = "rgba(0, 0, 0, 1)"
+	var whitergb = "rgba(0, 0, 0, 0)"
+
+
+	// intilialization of the canvas element
 	strechOut();
 
   // highlight or blackout state
   var $boxSettings = "highlight";
 
 
-
-
 	$(window).resize(function() {
 	  shrinkIn()
 	  strechOut()
-	  console.log("resize")
 	});
 
 
@@ -340,8 +346,7 @@ $.widget("ui.boxer", $.ui.mouse, {
   },
 
   _init: function() {
-    //Set canvas fill to black
-    context.fillStyle = "rgba(0, 0, 0, 1)";
+
 
     this.element.addClass("ui-boxer");
 
@@ -350,7 +355,7 @@ $.widget("ui.boxer", $.ui.mouse, {
     this._mouseInit();
 
     this.helper = $(document.createElement('div'))
-      .css({border:'1px dotted black'})
+      .css({border:'1px dotted red'})
       .addClass("ui-boxer-helper");
   },
 
@@ -373,8 +378,16 @@ $.widget("ui.boxer", $.ui.mouse, {
       "left": event.clientX,
       "top": event.clientY,
       "width": 0,
-      "height": 0
+      "height": 0,
+      "z-index": 1040
     });
+
+    if ($boxSettings == "highlight") {
+    	this.helper.css({"background": whitergb})
+    }
+    else{
+    	this.helper.css({"background": shadergb})
+    }
   },
 
   _mouseDrag: function(event) {
@@ -415,16 +428,12 @@ $.widget("ui.boxer", $.ui.mouse, {
 
     // check if highlight or black out
  		if ($boxSettings == "highlight") {
- 			console.log("dahe" + context)
 			context.clearRect (bleft,btop,bwith,bheight);
     }
     else{
-      context.fillStyle = "rgba(0, 0, 0, 1)";
+      context.fillStyle = blackrgb
     	context.fillRect (bleft,btop,bwith,bheight);
     };
-
-    console.log(	bleft + " - " + btop +"  - "+bwith +"  - "+ bheight)
-    //this._trigger("stop", event, { box: clone });
 
     this.helper.remove();
 
@@ -448,22 +457,18 @@ $.widget("ui.boxer", $.ui.mouse, {
 
 // stretch Canvas and div to full page
 function strechOut(){
-	console.log(document.width+ " -  " + document.height)
+
     drawCanvas.width(document.width)
     drawCanvas.height(document.height)
 
   	myCanvas.attr({ width: document.width, height: document.height });
 
 
-    console.log(myCanvas.width() +" - "+ myCanvas.height())
-  // Fill the canvas with black opacity 0.2
-    context.fillStyle = "rgba(0, 0, 0, 0.2)"
+  // Fill the canvas with black opacity of shade
+    context.fillStyle = shadergb
     context.fillRect (0,0,myCanvas.width(),myCanvas.height())
 
-
-
-  // Fill the canvas with black opacity 0.2
-   cleanCanvas()
+  	cleanCanvas()
 }
 
 // clear Canvas and div so the page can srihnk
@@ -478,9 +483,9 @@ function shrinkIn(){
 
 // clean Canvas element
 function cleanCanvas(){
-	console.log(myCanvas.width() +" - "  + myCanvas.height() )
+
   context.clearRect (0,0,myCanvas.width(),myCanvas.height())
-  context.fillStyle = "rgba(0, 0, 0, 0.2)"
+  context.fillStyle = shadergb
   context.fillRect (0,0,myCanvas.width(),myCanvas.height())
 }
 
