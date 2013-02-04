@@ -297,7 +297,7 @@ function drawInCanvas(){
 
 
 	// intilialization of the canvas element
-	strechOut();
+	stretchOut();
 
   // highlight or blackout state
   var $boxSettings = "highlight";
@@ -305,7 +305,7 @@ function drawInCanvas(){
 
 	$(window).resize(function() {
 	  shrinkIn()
-	  strechOut()
+	  stretchOut()
 	});
 
 
@@ -456,7 +456,7 @@ $.widget("ui.boxer", $.ui.mouse, {
 
 
 // stretch Canvas and div to full page
-function strechOut(){
+function stretchOut(){
 
     drawCanvas.width(document.width)
     drawCanvas.height(document.height)
