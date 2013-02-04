@@ -5,6 +5,19 @@
  Released under MIT License
 */
 
+// report array to be build during the process
+var report = []
+
+
+
+function saveReport(report ){
+
+	console.log(report);
+
+	console.log("Give feedback to the user")
+
+
+}
 
 
 function report_warmup() {
@@ -24,6 +37,8 @@ function report_warmup() {
 }
 
 
+// 	Get the user feedback description.
+// 		prepare click for step2
   function drawModal1() {
 
 		var out = '<div id="reportWindow1" class="modal hide in ">'+
@@ -37,7 +52,7 @@ function report_warmup() {
 		'          tell us where you would improve or change'+
 		'              <br />'+
 		'          <label>Description</label>'+
-		'          <textarea rows="4" class="span12"></textarea>'+
+		'          <textarea id="usrDescription" ows="4" class="span12"></textarea>'+
 		'          </div>'+
 		'        </form>'+
 		'    </div>'+
@@ -53,21 +68,23 @@ function report_warmup() {
 
 		$("#window1B").on("click", function(){
 
+			// Push user description to final report.
+			report.push({ description: $("#usrDescription").val() })
+
+			// prepare next step
 			$("#reportWindow1").modal('hide')
 			drawModal2();
 
-			$('#dialog').dialog({
-				position: { my: "right top", at: "right bottom", of: window },
-				"width": 500,
-	      modal: false,
-	      resizable: false,
-	      zIndex: 1050
-	    });
-
 		})
+
 
 	}
 
+
+
+
+// 	Show modal that allow user to highlight and black out the page.
+// 		Set up canvas element and prepare click event for step 3
   function drawModal2() {
   	var out = '<div id="dialog" title="Report Back">'+
   				'	<p>Click and drag on the page to help us better understand your feedback.'+
@@ -91,11 +108,78 @@ function report_warmup() {
 
 		$('body').append(out)
 
+
+		$('#dialog').dialog({
+				position: { my: "right top", at: "right bottom", of: window },
+				width: 500,
+				buttons: [{
+		        class: "btn",
+		        text:"Back",
+		        click:function(){takeScreenShot()}
+			    },{
+		        class: "btn",
+		        text:"Next",
+		        click: function(){
+		        	takeScreenShot()
+		        }
+			   	}],
+	      modal: false,
+	      resizable: false,
+	      zIndex: 1050
+	    });
+			$(".ui-dialog-titlebar").css("cursor", "auto")
+
+
 		drawInCanvas()
+
 
   }
 
+function drawViewport(){
 
+	//Sets a stroke around the users viewport
+	context.strokeStyle = "red";
+	var $w = $(window);
+	context.strokeRect($w.scrollLeft(),$w.scrollTop(),$w.width(),$w.height());
+}
+
+
+function	takeScreenShot(){
+
+		// Draw outline on viewport
+		drawViewport();
+
+		// capture current screen
+		var target = $('body');
+		html2canvas(target, {
+	    onrendered: function(canvas) {
+	  	  var data = canvas.toDataURL();
+
+	    	//
+	    	//$("body").append("<img class='screenShotCanvas' src='"+data+"' alt='Page Screenshot' width='400' >")
+
+	    	// Push user description to final report.
+				report.push({ screenshot: data })
+
+				// after canvas saved, remove draw canvas elements after screenshot is taken
+				prepareStep3();
+			}
+		})
+
+		//Close modal
+		$('#dialog').dialog("close");
+
+	}
+
+
+
+function prepareStep3(){
+		$("#canvas").hide()
+		$("#myCanvas").hide()
+
+		//open step 3 window
+		drawModal3();
+}
 
 
   function drawModal3() {
@@ -172,10 +256,12 @@ function report_warmup() {
 		$("#reportWindow3").modal('hide');
 
 
-	    return false;
+			saveReport()
 
+	 	  return false;
 		})
-//Fetch info
+
+		//Fetch info
 		writeUserInfo()
 		writePageInfo()
 		writeBrowserInfo()
@@ -232,10 +318,17 @@ function get_cookies_array() {
 
 
 function writeBrowserInfo() {
-   $(".browserInfo").append("<h4>Browser version:</h4>");
-   dumpVars(jQuery.browser, ".browserInfo");
-   $(".browserInfo").append("<h4>Operating System: </h4>");
-   dumpVars(navigator, ".browserInfo", ['plugins', 'mimeTypes']);
+   $(".browserInfo").append("<h4>Browser version:</h4>")
+   dumpVars(jQuery.browser, ".browserInfo")
+   report.push({ browserInfo: jQuery.browser })
+
+   $(".browserInfo").append("<h4>Operating System: </h4>")
+   dumpVars(navigator, ".browserInfo", ['plugins', 'mimeTypes'])
+   report.push({ "navigator": navigator })
+
+
+   	console.log(report)
+
    $(".browserInfo").append("<h4>Installed Plugins: </h4>" + showPlugins());
 }
 
@@ -289,7 +382,7 @@ function drawInCanvas(){
 
 	var drawCanvas = $('#canvas')
 	var myCanvas = $('#myCanvas')
-	var context = myCanvas[0].getContext('2d')
+	context = myCanvas[0].getContext('2d')
 
 	var shadergb = "rgba(0, 0, 0, 0.295)"
 	var blackrgb = "rgba(0, 0, 0, 1)"
