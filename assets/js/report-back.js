@@ -171,6 +171,7 @@ function report_warmup() {
 	    $( "#dialog" ).dialog("option", "width", 500 );
 
 //TODO change z index of modal jquery ui modal
+// This is only necessary because bootstrap ui has some high z indexes
 	    $( "#dialog" ).dialog( zIndex, 1050);
 	    return false;
 
@@ -191,7 +192,7 @@ function report_warmup() {
 function stripTags(val) { return val.replace(/<\/?[^>]+>/gi, ''); };
 
 
-// append to div an echo of all properties with exeption
+// append to div an echo of all properties with exception
 function dumpVars(obj, div, notInclude) {
     jQuery.each(obj, function (j, val) {
         if (typeof (val) != "function" && jQuery.inArray(j, notInclude) == -1) {
@@ -296,7 +297,7 @@ function drawInCanvas(){
 	var whitergb = "rgba(0, 0, 0, 0)"
 
 
-	// intilialization of the canvas element
+	// initialization of the canvas element
 	stretchOut();
 
   // highlight or blackout state
@@ -471,7 +472,7 @@ function stretchOut(){
   	cleanCanvas()
 }
 
-// clear Canvas and div so the page can srihnk
+// clear Canvas and div so the page can shrink
 function shrinkIn(){
 
     drawCanvas.width(0)
