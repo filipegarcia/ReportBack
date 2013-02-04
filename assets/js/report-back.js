@@ -53,9 +53,16 @@ function report_warmup() {
 
 		$("#window1B").on("click", function(){
 
-					$("#reportWindow1").modal('hide')
-					drawModal2();
-					$( "#dialog" ).dialog({ position: { my: "right top", at: "right bottom", of: window } , "width": 500});
+			$("#reportWindow1").modal('hide')
+			drawModal2();
+
+			$('#dialog').dialog({
+				position: { my: "right top", at: "right bottom", of: window },
+				"width": 500,
+	      modal: false,
+	      resizable: false,
+	      zIndex: 1050
+	    });
 
 		})
 
@@ -83,7 +90,6 @@ function report_warmup() {
 
 
 		$('body').append(out)
-
 
 		drawInCanvas()
 
@@ -165,14 +171,7 @@ function report_warmup() {
 
 		$("#reportWindow3").modal('hide');
 
-/// Send info
-			drawModal3()
-	    $( "#dialog" ).dialog();
-	    $( "#dialog" ).dialog("option", "width", 500 );
 
-//TODO change z index of modal jquery ui modal
-// This is only necessary because bootstrap ui has some high z indexes
-	    $( "#dialog" ).dialog( zIndex, 1050);
 	    return false;
 
 		})
