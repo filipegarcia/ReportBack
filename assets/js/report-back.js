@@ -110,24 +110,27 @@ function report_warmup() {
 
 
 		$('#dialog').dialog({
-				position: { my: "right top", at: "right bottom", of: window },
-				width: 500,
-				buttons: [{
-		        class: "btn",
-		        text:"Back",
-		        click:function(){takeScreenShot()}
-			    },{
-		        class: "btn",
-		        text:"Next",
-		        click: function(){
-		        	takeScreenShot()
-		        }
-			   	}],
-	      modal: false,
-	      resizable: false,
-	      zIndex: 1050
-	    });
-			$(".ui-dialog-titlebar").css("cursor", "auto")
+			position: { my: "right top", at: "right bottom", of: window },
+			width: 500,
+			buttons: [{
+	        class: "btn",
+	        text:"Back",
+	        click:function(){
+	        	//TODO Do something else
+	        }
+		    },{
+	        class: "btn",
+	        text:"Next",
+	        click: function(){
+	        	takeScreenShot()
+	        }
+		   	}],
+      modal: false,
+      resizable: false,
+      zIndex: 1050
+    });
+		//I really don't like the cross mouse pointer in the jquery ui modal
+		$(".ui-dialog-titlebar").css("cursor", "auto")
 
 
 		drawInCanvas()
@@ -155,13 +158,13 @@ function	takeScreenShot(){
 	    onrendered: function(canvas) {
 	  	  var data = canvas.toDataURL();
 
-	    	//
-	    	//$("body").append("<img class='screenShotCanvas' src='"+data+"' alt='Page Screenshot' width='400' >")
+	    	// you can append the captured image right away
+	    	// $("body").append("<img class='screenShotCanvas' src='"+data+"' alt='Page Screenshot' width='400' >")
 
 	    	// Push user description to final report.
 				report.push({ screenshot: data })
 
-				// after canvas saved, remove draw canvas elements after screenshot is taken
+				// after canvas is saved, we can remove the draw canvas elements
 				prepareStep3();
 			}
 		})
@@ -184,87 +187,133 @@ function prepareStep3(){
 
   function drawModal3() {
 
-			var out = '<div id="reportWindow3" class="modal hide in">'+
-				'    <div class="modal-header">'+
-				'        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-				'        <h3>Give us your feedback :)</h3>'+
-				'    </div>'+
-				'    <div class="modal-body">'+
-				'        <form>'+
-				'          <div class="row-fluid">'+
-				'          tell us where you would improve or change'+
-				'              <br />'+
-				'          <label>Description</label>'+
-				'          <div class="accordion" id="accordion2">'+
-				'            <div class="accordion-group">'+
-				'                <div class="accordion-heading">'+
-				'                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">'+
-				'                        User info</a>'+
-				'                </div>'+
-				'                <div id="collapseOne" class="accordion-body collapse">'+
-				'                    <div class="accordion-inner userInfo"></div>'+
-				'                </div>'+
-				'            </div>'+
-				'                <div class="accordion-group">'+
-				'                    <div class="accordion-heading">'+
-				'                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">'+
-				'                            Page info </a>'+
-				'                    </div>'+
-				'                    <div id="collapseTwo" class="accordion-body collapse">'+
-				'                        <div class="accordion-inner pageInfo"></div>'+
-				'                    </div>'+
-				'                </div>'+
-				'                <div class="accordion-group">'+
-				'                <div class="accordion-heading">'+
-				'                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">'+
-				'                       Browser info </a>'+
-				'                </div>'+
-				'                <div id="collapseThree" class="accordion-body collapse">'+
-				'                    <div class="accordion-inner browserInfo"></div>'+
-				'                </div>'+
-				'            </div>'+
-				'        </div>'+
-				'          </div>'+
-				'        </form>'+
-				'    </div>'+
-				'    <div class="modal-footer">'+
-				'        <a href="#" id="window3BBack" class="btn">Back</a>'+
-				'        <a href="#" data-dismiss="modal" id="window3B" class="btn btn-primary">Send Feedback</a>'+
-				'    </div>'+
-				'</div>'
+		var out = '<div id="reportWindow3" class="modal hide in">'+
+			'    <div class="modal-header">'+
+			'        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+			'        <h3>Give us your feedback :)</h3>'+
+			'    </div>'+
+			'    <div class="modal-body">'+
+			'        <form>'+
+			'          <div class="row-fluid">'+
+			'          tell us where you would improve or change'+
+			'              <br />'+
+			'          <label>Description</label>'+
+			'          <div class="accordion" id="accordion2">'+
+			'            <div class="accordion-group">'+
+			'                <div class="accordion-heading">'+
+			'                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">'+
+			'                        User info</a>'+
+			'                </div>'+
+			'                <div id="collapseOne" class="accordion-body collapse">'+
+			'                    <div class="accordion-inner userInfo"></div>'+
+			'                </div>'+
+			'            </div>'+
+			'                <div class="accordion-group">'+
+			'                    <div class="accordion-heading">'+
+			'                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">'+
+			'                            Page info </a>'+
+			'                    </div>'+
+			'                    <div id="collapseTwo" class="accordion-body collapse">'+
+			'                        <div class="accordion-inner pageInfo"></div>'+
+			'                    </div>'+
+			'                </div>'+
+			'                <div class="accordion-group">'+
+			'                <div class="accordion-heading">'+
+			'                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">'+
+			'                       Browser info </a>'+
+			'                </div>'+
+			'                <div id="collapseThree" class="accordion-body collapse">'+
+			'                    <div class="accordion-inner browserInfo"></div>'+
+			'                </div>'+
+			'            </div>'+
+			'        </div>'+
+			'          </div>'+
+			'        </form>'+
+			'    </div>'+
+			'    <div class="modal-footer">'+
+			'        <a href="#" id="window3BBack" class="btn">Back</a>'+
+			'        <a href="#" data-dismiss="modal" id="window3B" class="btn btn-primary">Send Feedback</a>'+
+			'    </div>'+
+			'</div>'
 
-		$('body').append(out);
+			//$('body').append(out);
 
-		$('body').tooltip({
-    	selector: '[rel=tooltip]'
-		});
+			//$('body').tooltip({
+	    //	selector: '[rel=tooltip]'
+			//});
 
-		$("#reportWindow3").modal('show');
+			//$("#reportWindow3").modal('show');
+
+			var coiso = '<div class="row-fluid">'+
+			'<div class="span6" >'+
+			'	<form>'+
+			'          <div class="row-fluid">'+
+			'          tell us where you would improve or change'+
+			'              <br />'+
+			'          <label>Description</label>'+
+			'          <div class="accordion" id="accordion2">'+
+			'            <div class="accordion-group">'+
+			'                <div class="accordion-heading">'+
+			'                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">'+
+			'                        User info</a>'+
+			'                </div>'+
+			'                <div id="collapseOne" class="accordion-body collapse">'+
+			'                    <div class="accordion-inner userInfo"></div>'+
+			'                </div>'+
+			'            </div>'+
+			'                <div class="accordion-group">'+
+			'                    <div class="accordion-heading">'+
+			'                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">'+
+			'                            Page info </a>'+
+			'                    </div>'+
+			'                    <div id="collapseTwo" class="accordion-body collapse">'+
+			'                        <div class="accordion-inner pageInfo"></div>'+
+			'                    </div>'+
+			'                </div>'+
+			'                <div class="accordion-group">'+
+			'                <div class="accordion-heading">'+
+			'                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">'+
+			'                       Browser info </a>'+
+			'                </div>'+
+			'                <div id="collapseThree" class="accordion-body collapse">'+
+			'                    <div class="accordion-inner browserInfo"></div>'+
+			'                </div>'+
+			'            </div>'+
+			'        </div>'+
+			'          </div>'+
+			'        </form>'+
+			'	</div>'+
+			'	<div class="span6">'+
+			'		<div id="screenPreview">'+
+			'				<b>Screenshot</b>'+
+			' 			<div id="screenshoImg" ></div>'+
+			'		</div>'+
+			'	</div>'+
+			'</div>'
 
 
-		$("#window3BBack").on( "click", function(){
-			$("#reportWindow3").modal('hide');
-			//close the modal and not window 1
-			$("#reportWindow1").modal('show');
-		})
 
+			//	Change width first, then position it in the center, and change the contents
+			$('#dialog').dialog({width: 900}).dialog({position: ['center',150]}).html(coiso)
+			//console.log(report["1"].screenshot)
+			$("#screenshoImg").append("<img class='screenShotCanvas' src='"+ report["1"].screenshot +"' alt='Page Screenshot' width='400' >")
 
+			$("#window3BBack").on( "click", function(){
+				$("#reportWindow3").modal('hide');
+				//close the modal and not window 1
+				$("#reportWindow1").modal('show');
+			})
 
+			$("#window3B").on( "click", function(){
+				$("#reportWindow3").modal('hide');
+				saveReport()
+		 	  return false;
+			})
 
-		$("#window3B").on( "click", function(){
-
-		$("#reportWindow3").modal('hide');
-
-
-			saveReport()
-
-	 	  return false;
-		})
-
-		//Fetch info
-		writeUserInfo()
-		writePageInfo()
-		writeBrowserInfo()
+			//Fetch info
+			writeUserInfo()
+			writePageInfo()
+			writeBrowserInfo()
 
 	}
 
