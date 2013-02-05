@@ -69,7 +69,7 @@ function report_warmup() {
 		$("#window1B").on("click", function(){
 
 			// Push user description to final report.
-			report.push({ description: $("#usrDescription").val() })
+			report.description = $("#usrDescription").val()
 
 			// prepare next step
 			$("#reportWindow1").modal('hide')
@@ -161,8 +161,8 @@ function	takeScreenShot(){
 	    	// you can append the captured image right away
 	    	// $("body").append("<img class='screenShotCanvas' src='"+data+"' alt='Page Screenshot' width='400' >")
 
-	    	// Push user description to final report.
-				report.push({ screenshot: data })
+	    	// add screenshot image
+				report.screenshot = data
 
 				// after canvas is saved, we can remove the draw canvas elements
 				prepareStep3();
@@ -244,7 +244,7 @@ function prepareStep3(){
 
 			//$("#reportWindow3").modal('show');
 
-			var coiso = '<div class="row-fluid">'+
+			var content = '<div class="row-fluid">'+
 			'<div class="span6" >'+
 			'	<form>'+
 			'          <div class="row-fluid">'+
@@ -294,9 +294,9 @@ function prepareStep3(){
 
 
 			//	Change width first, then position it in the center, and change the contents
-			$('#dialog').dialog({width: 900}).dialog({position: ['center',150]}).html(coiso)
-			//console.log(report["1"].screenshot)
-			$("#screenshoImg").append("<img class='screenShotCanvas' src='"+ report["1"].screenshot +"' alt='Page Screenshot' width='400' >")
+			$('#dialog').dialog({width: 900}).dialog({position: ['center',150]}).html(content)
+
+			$("#screenshoImg").append("<img class='screenShotCanvas' src='"+ report.screenshot +"' alt='Page Screenshot' width='400' >")
 
 			$("#window3BBack").on( "click", function(){
 				$("#reportWindow3").modal('hide');
@@ -369,14 +369,11 @@ function get_cookies_array() {
 function writeBrowserInfo() {
    $(".browserInfo").append("<h4>Browser version:</h4>")
    dumpVars(jQuery.browser, ".browserInfo")
-   report.push({ browserInfo: jQuery.browser })
+   report.browserInfo =  jQuery.browser
 
    $(".browserInfo").append("<h4>Operating System: </h4>")
    dumpVars(navigator, ".browserInfo", ['plugins', 'mimeTypes'])
-   report.push({ "navigator": navigator })
-
-
-   	console.log(report)
+   report.navigator =  navigator
 
    $(".browserInfo").append("<h4>Installed Plugins: </h4>" + showPlugins());
 }
@@ -385,23 +382,26 @@ function writePageInfo() {
    // Get all page url info
    $(".pageInfo").append("<h4>Page Url:</h4>");
    dumpVars(window.location, ".pageInfo", ["ancestorOrigins"]);
+   report.location = window.location
 
    // Get all DOM elements
    var html = $.base64.encode($("html").clone().html());
    //var html = $("html").clone().html();
    $(".pageInfo").append("<h4>Page Structure:</h4>");
    $(".pageInfo").append("<div class='row-fluid'><textarea rows='4' class='span12'>" + html + "</textarea></div>");
+   report.encodedHtml = html
+
 }
 
 
 
 function writeUserInfo() {
 
-
  // Get all cookies
  var cookies = get_cookies_array();
  $(".userInfo").append("<h4>Cookies:</h4>");
  dumpVars(cookies, ".userInfo");
+ report.cookies = cookies
 
 }
 
