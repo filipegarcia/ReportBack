@@ -12,7 +12,7 @@ var report = []
 
 function saveReport(report ){
 
-	console.log(report);
+	console.log(report)
 
 	console.log("Give feedback to the user")
 
@@ -27,11 +27,11 @@ function report_warmup() {
 	   position : 'fixed',
 	   bottom : '0',
 	   right : '0'
-	});
+	})
 
 	$("#feedback").on("click", function () {
 		drawModal1()
-	});
+	})
 
 
 }
@@ -41,7 +41,7 @@ function report_warmup() {
 // 		prepare click for step2
   function drawModal1() {
 
-		var out = '<div id="reportWindow1" class="modal hide in ">'+
+		var ouwedwedt = '<div id="reportWindow1" class="modal hide in ">'+
 		'    <div class="modal-header">'+
 		'        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
 		'        <h3>Give us your feedback :)</h3>'+
@@ -60,22 +60,50 @@ function report_warmup() {
 		'        <a href="#" data-dismiss="modal" class="btn">Close</a>'+
 		'        <a href="#"  id="window1B" class="btn btn-primary">Next <i></a>'+
 		'    </div>'+
-		'</div>';
+		'</div>'
 
-		$('body').append(out);
+		var out = '<div id="dialog" title="Give us your feedback :)">'+
+		'    <div class="modal-body">'+
+		'        <form>'+
+		'          <div class="row-fluid">'+
+		'          tell us where you would improve or change'+
+		'              <br />'+
+		'          <label>Description</label>'+
+		'          <textarea id="usrDescription" ows="4" class="span12"></textarea>'+
+		'          </div>'+
+		'        </form>'+
+		'	   </div>'+
+		'</div>'
 
-		$("#reportWindow1").modal('show')
+		$('body').append(out)
 
-		$("#window1B").on("click", function(){
 
-			// Push user description to final report.
-			report.description = $("#usrDescription").val()
 
-			// prepare next step
-			$("#reportWindow1").modal('hide')
-			drawModal2();
+		$('#dialog').dialog({
+		width: 500,
+		buttons: [{
+        class: "btn",
+        text:"Back",
+        click:function(){
+        	//TODO Do something else
+        }
+	    },{
+        class: "btn",
+        text:"Next",
+        click: function(){
+        	report.description = $("#usrDescription").val()
 
-		})
+					// prepare next step
+					$("#reportWindow1").modal('hide')
+					drawModal2()
+        }
+	   	}],
+    modal: false,
+    resizable: false,
+    zIndex: 1050
+    })
+		//I really don't like the cross mouse pointer in the jquery ui modal
+		$(".ui-dialog-titlebar").css("cursor", "auto")
 
 
 	}
@@ -86,8 +114,7 @@ function report_warmup() {
 // 	Show modal that allow user to highlight and black out the page.
 // 		Set up canvas element and prepare click event for step 3
   function drawModal2() {
-  	var out = '<div id="dialog" title="Report Back">'+
-  				'	<p>Click and drag on the page to help us better understand your feedback.'+
+  	var content = '	<p>Click and drag on the page to help us better understand your feedback.'+
   				' You can move this dialog if it\'s in the way.</p>'+
   				'<div>'+
   					'<div class="row-fluid">'+
@@ -102,11 +129,11 @@ function report_warmup() {
   						'<div class="span12"> <button id="clear" class="btn" type="button"><i class="icon-remove"></i> Clear</button>'+
   						' Black out any personal information.</div>'+
   					'</div>'+
-  				'</div>'+
-				'</div>'
+  				'</div>'
 
 
-		$('body').append(out)
+
+		$('#dialog').html(content)
 
 
 		$('#dialog').dialog({
@@ -128,9 +155,7 @@ function report_warmup() {
       modal: false,
       resizable: false,
       zIndex: 1050
-    });
-		//I really don't like the cross mouse pointer in the jquery ui modal
-		$(".ui-dialog-titlebar").css("cursor", "auto")
+    })
 
 
 		drawInCanvas()
@@ -141,22 +166,77 @@ function report_warmup() {
 function drawViewport(){
 
 	//Sets a stroke around the users viewport
-	context.strokeStyle = "red";
-	var $w = $(window);
-	context.strokeRect($w.scrollLeft(),$w.scrollTop(),$w.width(),$w.height());
+	context.strokeStyle = "red"
+	var $w = $(window)
+	context.strokeRect($w.scrollLeft(),$w.scrollTop(),$w.width(),$w.height())
+}
+
+function cropThumbnail(canvas){
+
+	//context.drawImage(imageObj, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight)
+
+	var original = new Image()
+  original.src = canvas
+
+	var $w = $(window)
+
+	hiuhiuhiuh = '<canvas id="thumbCanvas"></canvas>'
+	$('body').append(hiuhiuhiuh)
+
+
+	thumbCanvas = $("#thumbCanvas")
+	thumbContext = thumbCanvas[0].getContext('2d')
+
+
+	//set viewport crop window
+	var $w = $(window)
+	console.log("thumbanl" +$w.scrollLeft() + " - "+$w.scrollTop()+ " - "+$w.width()+ " - "+$w.height())
+	thumbCanvas.attr({ width: document.width, height: document.height })
+
+
+  thumbContext.drawImage(original, $w.scrollLeft(),$w.scrollTop(),$w.width(),$w.height())
+
+	html2canvas(thumbCanvas, {
+    onrendered: function(canvas) {
+    	// Set thumb image to report
+  	  report.thumb = canvas.toDataURL()
+
+			// remove loading bar
+			$("#thumbProgress").hide()
+
+			// show thumbnail
+			$("#screenshoImg").append("<img class='screenShotCanvas' src='"+ report.thumb +"' alt='Page Screenshot' width='400' >")
+
+			//remove thumbnail canvas from dom
+			$("#thumbCanvas").hide();
+  	}
+	})
+
+    //return thumbCanvas.toDataURL()
+
 }
 
 
-function	takeScreenShot(){
+function takeScreenShot(){
 
 		// Draw outline on viewport
-		drawViewport();
+		drawViewport()
 
 		// capture current screen
-		var target = $('body');
+		var target = $('body')
 		html2canvas(target, {
 	    onrendered: function(canvas) {
-	  	  var data = canvas.toDataURL();
+	  	  var data = canvas.toDataURL()
+
+
+				var $w = $(window)
+				console.log("inside c" +$w.scrollLeft() + " - "+$w.scrollTop()+ " - "+$w.width()+ " - "+$w.height())
+
+
+
+	  	  // Create screenshot thumbnail
+				// thumbnail = cropThumbnail(canvas)
+				cropThumbnail(data)
 
 	    	// you can append the captured image right away
 	    	// $("body").append("<img class='screenShotCanvas' src='"+data+"' alt='Page Screenshot' width='400' >")
@@ -165,12 +245,12 @@ function	takeScreenShot(){
 				report.screenshot = data
 
 				// after canvas is saved, we can remove the draw canvas elements
-				prepareStep3();
+				prepareStep3()
 			}
 		})
 
 		//Close modal
-		$('#dialog').dialog("close");
+		$('#dialog').dialog("close")
 
 	}
 
@@ -181,12 +261,13 @@ function prepareStep3(){
 		$("#myCanvas").hide()
 
 		//open step 3 window
-		drawModal3();
+		drawModal3()
 }
 
 
   function drawModal3() {
-
+var $w = $(window)
+	console.log("draw "+$w.scrollLeft() + " - "+$w.scrollTop()+ " - "+$w.width()+ " - "+$w.height())
 		var out = '<div id="reportWindow3" class="modal hide in">'+
 			'    <div class="modal-header">'+
 			'        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
@@ -236,13 +317,13 @@ function prepareStep3(){
 			'    </div>'+
 			'</div>'
 
-			//$('body').append(out);
+			//$('body').append(out)
 
 			//$('body').tooltip({
 	    //	selector: '[rel=tooltip]'
-			//});
+			//})
 
-			//$("#reportWindow3").modal('show');
+			//$("#reportWindow3").modal('show')
 
 			var content = '<div class="row-fluid">'+
 			'<div class="span6" >'+
@@ -286,7 +367,10 @@ function prepareStep3(){
 			'	<div class="span6">'+
 			'		<div id="screenPreview">'+
 			'				<b>Screenshot</b>'+
-			' 			<div id="screenshoImg" ></div>'+
+			' 			<div id="screenshoImg" >'+
+			'					<div id="thumbProgress" class="progress progress-striped active">'+
+  		'						<div class="bar" style="width: 100%;"></div>'+
+			'						</div></div>'+
 			'		</div>'+
 			'	</div>'+
 			'</div>'
@@ -296,18 +380,22 @@ function prepareStep3(){
 			//	Change width first, then position it in the center, and change the contents
 			$('#dialog').dialog({width: 900}).dialog({position: ['center',150]}).html(content)
 
-			$("#screenshoImg").append("<img class='screenShotCanvas' src='"+ report.screenshot +"' alt='Page Screenshot' width='400' >")
+
+
+
+			console.log(report.thumb)
+
 
 			$("#window3BBack").on( "click", function(){
-				$("#reportWindow3").modal('hide');
+				$("#reportWindow3").modal('hide')
 				//close the modal and not window 1
-				$("#reportWindow1").modal('show');
+				$("#reportWindow1").modal('show')
 			})
 
 			$("#window3B").on( "click", function(){
-				$("#reportWindow3").modal('hide');
+				$("#reportWindow3").modal('hide')
 				saveReport()
-		 	  return false;
+		 	  return false
 			})
 
 			//Fetch info
@@ -323,45 +411,45 @@ function prepareStep3(){
 
 
 
-function stripTags(val) { return val.replace(/<\/?[^>]+>/gi, ''); };
+function stripTags(val) { return val.replace(/<\/?[^>]+>/gi, ''); }
 
 
 // append to div an echo of all properties with exception
 function dumpVars(obj, div, notInclude) {
     jQuery.each(obj, function (j, val) {
         if (typeof (val) != "function" && jQuery.inArray(j, notInclude) == -1) {
-            $(div).append(j + " : " + val + "<br/>");
+            $(div).append(j + " : " + val + "<br/>")
         }
-    });
+    })
 }
 
 function showPlugins() {
-  var len = navigator.plugins.length;
-  var result = "";
+  var len = navigator.plugins.length
+  var result = ""
   for (var i = 0; i < len; i++) {
-    result += '<a rel="tooltip" href="#" data-original-title="' + stripTags(navigator.plugins[i].description) + '" data-triger="hover" data-placement="right">' + navigator.plugins[i].name + '</a>';
-    result += " , ";
-    result += navigator.plugins[i].filename;
+    result += '<a rel="tooltip" href="#" data-original-title="' + stripTags(navigator.plugins[i].description) + '" data-triger="hover" data-placement="right">' + navigator.plugins[i].name + '</a>'
+    result += " , "
+    result += navigator.plugins[i].filename
     if (navigator.plugins[i].version) {
-      result += " | ";
-      result += navigator.plugins[i].version;
+      result += " | "
+      result += navigator.plugins[i].version
     }
-    result += "<br>";
+    result += "<br>"
   }
-  return result;
+  return result
 }
 
 function get_cookies_array() {
-    var cookies = { };
+    var cookies = { }
     if (document.cookie && document.cookie != '') {
-			var split = document.cookie.split(';');
+			var split = document.cookie.split(';')
 			for (var i = 0; i < split.length; i++) {
-			  var name_value = split[i].split("=");
-			  name_value[0] = name_value[0].replace(/^ /, '');
-			  cookies[decodeURIComponent(name_value[0])] = decodeURIComponent(name_value[1]);
+			  var name_value = split[i].split("=")
+			  name_value[0] = name_value[0].replace(/^ /, '')
+			  cookies[decodeURIComponent(name_value[0])] = decodeURIComponent(name_value[1])
 			}
     }
-    return cookies;
+    return cookies
 }
 
 
@@ -375,20 +463,20 @@ function writeBrowserInfo() {
    dumpVars(navigator, ".browserInfo", ['plugins', 'mimeTypes'])
    report.navigator =  navigator
 
-   $(".browserInfo").append("<h4>Installed Plugins: </h4>" + showPlugins());
+   $(".browserInfo").append("<h4>Installed Plugins: </h4>" + showPlugins())
 }
 
 function writePageInfo() {
    // Get all page url info
-   $(".pageInfo").append("<h4>Page Url:</h4>");
-   dumpVars(window.location, ".pageInfo", ["ancestorOrigins"]);
+   $(".pageInfo").append("<h4>Page Url:</h4>")
+   dumpVars(window.location, ".pageInfo", ["ancestorOrigins"])
    report.location = window.location
 
    // Get all DOM elements
-   var html = $.base64.encode($("html").clone().html());
-   //var html = $("html").clone().html();
-   $(".pageInfo").append("<h4>Page Structure:</h4>");
-   $(".pageInfo").append("<div class='row-fluid'><textarea rows='4' class='span12'>" + html + "</textarea></div>");
+   var html = $.base64.encode($("html").clone().html())
+   //var html = $("html").clone().html()
+   $(".pageInfo").append("<h4>Page Structure:</h4>")
+   $(".pageInfo").append("<div class='row-fluid'><textarea rows='4' class='span12'>" + html + "</textarea></div>")
    report.encodedHtml = html
 
 }
@@ -397,11 +485,11 @@ function writePageInfo() {
 
 function writeUserInfo() {
 
- // Get all cookies
- var cookies = get_cookies_array();
- $(".userInfo").append("<h4>Cookies:</h4>");
- dumpVars(cookies, ".userInfo");
- report.cookies = cookies
+	// Get all cookies
+	var cookies = get_cookies_array()
+	$(".userInfo").append("<h4>Cookies:</h4>")
+	dumpVars(cookies, ".userInfo")
+	report.cookies = cookies
 
 }
 
@@ -426,7 +514,7 @@ function drawInCanvas(){
 
 	var canvasElements = '<canvas id="myCanvas"></canvas>'+
 						'<div id="canvas"></div>'
-	$('body').append(canvasElements);
+	$('body').append(canvasElements)
 
 
 	var drawCanvas = $('#canvas')
@@ -439,16 +527,16 @@ function drawInCanvas(){
 
 
 	// initialization of the canvas element
-	stretchOut();
+	stretchOut()
 
   // highlight or blackout state
-  var $boxSettings = "highlight";
+  var $boxSettings = "highlight"
 
 
 	$(window).resize(function() {
 	  shrinkIn()
 	  stretchOut()
-	});
+	})
 
 
 
@@ -457,27 +545,27 @@ function drawInCanvas(){
 	    appendTo: 'body',
 	    distance: 0
 	  })
-	});
+	})
 
 
 
 $("#highlight").on("click", function(event){
 	$("#dialog button").removeClass("btn-primary")
 	$(this).addClass("btn-primary")
-	$boxSettings = "highlight";
-});
+	$boxSettings = "highlight"
+})
 
 
 $("#block").on("click", function(event){
 	$("#dialog button").removeClass("btn-primary")
 	$(this).addClass("btn-primary")
-	$boxSettings = "block";
-});
+	$boxSettings = "block"
+})
 
 
 $("#clear").on("click", function(){
   cleanCanvas()
-});
+})
 
 
 //$.widget("ui.boxer", $.extend({}, $.ui.mouse, {
@@ -490,30 +578,30 @@ $.widget("ui.boxer", $.ui.mouse, {
   _init: function() {
 
 
-    this.element.addClass("ui-boxer");
+    this.element.addClass("ui-boxer")
 
-    this.dragged = false;
+    this.dragged = false
 
-    this._mouseInit();
+    this._mouseInit()
 
     this.helper = $(document.createElement('div'))
       .css({border:'1px dotted red'})
-      .addClass("ui-boxer-helper");
+      .addClass("ui-boxer-helper")
   },
 
   _mouseStart: function(event) {
-    var self = this;
+    var self = this
 
-    this.opos = [event.pageX, event.pageY];
+    this.opos = [event.pageX, event.pageY]
 
     if (this.options.disabled)
-      return;
+      return
 
-    var options = this.options;
+    var options = this.options
 
-    this._trigger("start", event);
+    this._trigger("start", event)
 
-    $(options.appendTo).append(this.helper);
+    $(options.appendTo).append(this.helper)
 
     this.helper.css({
       "position": "absolute",
@@ -522,7 +610,7 @@ $.widget("ui.boxer", $.ui.mouse, {
       "width": 0,
       "height": 0,
       "z-index": 1040
-    });
+    })
 
     if ($boxSettings == "highlight") {
     	this.helper.css({"background": whitergb})
@@ -533,31 +621,31 @@ $.widget("ui.boxer", $.ui.mouse, {
   },
 
   _mouseDrag: function(event) {
-    var self = this;
-    this.dragged = true;
+    var self = this
+    this.dragged = true
 
     if (this.options.disabled)
-      return;
+      return
 
-    var options = this.options;
+    var options = this.options
 
     var x1 = this.opos[0], y1 = this.opos[1], x2 = event.pageX, y2 = event.pageY;
 
     if (x1 > x2) { var tmp = x2; x2 = x1; x1 = tmp; }
     if (y1 > y2) { var tmp = y2; y2 = y1; y1 = tmp; }
-    this.helper.css({left: x1, top: y1, width: x2-x1, height: y2-y1});
+    this.helper.css({left: x1, top: y1, width: x2-x1, height: y2-y1})
 
-    this._trigger("drag", event);
+    this._trigger("drag", event)
 
-    return false;
+    return false
   },
 
   _mouseStop: function(event) {
-    var self = this;
+    var self = this
 
-    this.dragged = false;
+    this.dragged = false
 
-    var options = this.options;
+    var options = this.options
 
     var clone = this.helper.clone()
 
@@ -570,19 +658,19 @@ $.widget("ui.boxer", $.ui.mouse, {
 
     // check if highlight or black out
  		if ($boxSettings == "highlight") {
-			context.clearRect (bleft,btop,bwith,bheight);
+			context.clearRect (bleft,btop,bwith,bheight)
     }
     else{
       context.fillStyle = blackrgb
-    	context.fillRect (bleft,btop,bwith,bheight);
-    };
+    	context.fillRect (bleft,btop,bwith,bheight)
+    }
 
-    this.helper.remove();
+    this.helper.remove()
 
-    return false;
+    return false
   }
 
-});
+})
 
 
 
@@ -590,9 +678,9 @@ $.widget("ui.boxer", $.ui.mouse, {
 	// Using the boxer plugin
 	$('#canvas').boxer({
 	  stop: function(event, ui) {
-	    ui.box.addClass($boxSettings);
+	    ui.box.addClass($boxSettings)
 	  }
-	});
+	})
 
 
 
@@ -603,7 +691,7 @@ function stretchOut(){
     drawCanvas.width(document.width)
     drawCanvas.height(document.height)
 
-  	myCanvas.attr({ width: document.width, height: document.height });
+  	myCanvas.attr({ width: document.width, height: document.height })
 
 
   // Fill the canvas with black opacity of shade
@@ -620,7 +708,7 @@ function shrinkIn(){
     drawCanvas.height(0)
 
 
-   myCanvas.attr({ width: 0, height: 0 });
+   myCanvas.attr({ width: 0, height: 0 })
 }
 
 // clean Canvas element
