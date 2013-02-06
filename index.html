@@ -71,11 +71,12 @@
         </div>
 
         <h2>Description</h2>
-        <p>The Tool is loaded dynamically when clicking the feedback button. It grabs user and browser information and the page html code and screenshot.<br>
-        It allow the user to highligt or blackout a portion of the page.<br>
+        <p>The Tool is loaded dynamically when clicking the feedback button ( not implemented yet :) ). It grabs user and browser information and the page html code and screenshot.<br>
+        It allow the user to highlight or blackout a portion of the page.<br>
         The screenshot is done on client side and allows to see the viewport of the client and how the page was rendered. For this html2canvas comes to the rescue. Taking the screenshot in client side is like building a browser inside the browser, and render the page that browser. <br>
         In the end, you can save the result that was built in <code>json</code> format
         </p>
+        <h2>Markup</h2>
         <div class="bs-docs-example">
 
           <div id="newnav"></div>
@@ -92,27 +93,45 @@
 &lt;/script&gt;
 </pre>
 
-    <h2>Markup</h2>
-    <p>
+        <h2>What is grabbed?</h2>
+        <p>
+          <dl>
+            <dt>Browser info</dt>
+            <dd>Version</dd>
+            <dd>Installed plugins</dd>
 
+            <dt>Screenshot</dt>
+            <dd>a rendered version of the page with highlight and blackout parts</dd>
+            <dd>cropped version of the viewport</dd>
 
-    </p>
+            <dt>Page info</dt>
+            <dd>Full url info</dd>
+            <dd>page structure</dd>
 
-<pre class="prettyprint linenums">
+            <dt>User info</dt>
+            <dd>Cookies</dd>
+            <dd>everything that </dd>
 
+            <dt>Anything else</dt>
+            <dd>just add more stuff to be recored from you own system</dd>
 
-</pre>
+          </dl>
+        </p>
+
 
 
     <h2>Dependencies</h2>
+      <p>They can be all injected in the page when the user clicks the feedback button. </br>
+          If you are already using any of these dependencies, you can remove them from the load
+      </p>
 
 <pre class="prettyprint linenums">
 &lt;link href="assets/css/bootstrap.min.css" rel="stylesheet"&gt;
 &lt;link href="assets/css/jquery.ui.css" rel="stylesheet"&gt;
 
+&lt;script src="assets/js/jquery.js"&gt;&lt;/script&gt;
 &lt;script src="assets/js/bootstrap.min.js"&gt;&lt;/script&gt;
 &lt;script src="assets/js/jquery.ui.js"&gt;&lt;/script&gt;
-&lt;script src="assets/js/jquery.js"&gt;&lt;/script&gt;
 &lt;script src="assets/js/html2canvas.min.js"&gt;&lt;/script&gt;
 </pre>
 
@@ -122,14 +141,13 @@
     Drop me a <a href="mailto:hello@evolving.in">line</a> if you're using this in your project. <br>
     <div class="well center" style="max-width: 400px; margin: 0 auto 10px;">
       <div class="btn-group" style="width: 123px; margin: 0 auto;">
-        <a class="btn dropdown-toggle btn-primary " data-toggle="dropdown" href="#">
-          <i class="icon-download-alt icon-white"></i> Download
-          <span class="caret"></span>
-        </a>
+        <a class="btn btn-primary" href="https://github.com/filipegarcia/ReportBack/archive/gh-pages.zip"><i class="icon-download-alt icon-white"></i> Download</a>
+        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+
         <ul class="dropdown-menu">
+          <li><a href="https://github.com/filipegarcia/ReportBack">View On <strong>GitHub</strong></a></li>
           <li><a href="https://github.com/filipegarcia/ReportBack/zipball/master">Download <strong>ZIP File</strong></a></li>
-            <li><a href="https://github.com/filipegarcia/ReportBack/tarball/master">Download <strong>TAR Ball</strong></a></li>
-            <li><a href="https://github.com/filipegarcia/ReportBack">View On <strong>GitHub</strong></a></li>
+          <li><a href="https://github.com/filipegarcia/ReportBack/tarball/master">Download <strong>TAR Ball</strong></a></li>
         </ul>
       </div>
     </div>
