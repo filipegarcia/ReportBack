@@ -256,8 +256,7 @@ function setStep3Buttons(){
 	        class: "btn",
 	        text:"Next",
 	        click: function(){
-	        	//Todo
-	        	//				saveReport()
+	        	saveReport()
 	        }
 		   	}]
 	})
@@ -296,17 +295,19 @@ function drawViewportBox(){
 	context.strokeRect($w.scrollLeft(),$w.scrollTop(),$w.width(),$w.height())
 }
 
-function cropThumbnail(canvas){
-
-	//context.drawImage(imageObj, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight)
-
+function makeThumbnail(x,  y){
 	var original = new Image()
-  original.src = canvas
+  original.src = report.screenshot
+
+
+$("body").append("<img id='screenscanvas' src='"+ report.screenshot +"' alt='Page Screenshot' width='400' >")
+
+img = document.getElementById("screenscanvas")
 
 	var $w = $(window)
 
-	thumbCanvas = '<canvas id="thumbCanvas"></canvas>'
-	$('body').append(thumbCanvas)
+	thumbCanvasTxt = '<canvas id="thumbCanvas"></canvas>'
+	$('body').append(thumbCanvasTxt)
 
 
 	thumbCanvas = $("#thumbCanvas")
@@ -314,14 +315,13 @@ function cropThumbnail(canvas){
 
 
 	//set viewport crop window
-	var $w = $(window)
-	console.log("thumbanl" +$w.scrollLeft() + " - "+$w.scrollTop()+ " - "+$w.width()+ " - "+$w.height())
-	console.log("thumbanl" +$w.width() +" - "+  $w.height())
+	console.log("thumbnail " +$w.width() +" - "+  $w.height())
 
   thumbCanvas.width($w.width())
   thumbCanvas.height($w.height())
 
-  thumbContext.drawImage(original, $w.scrollLeft(),$w.scrollTop(),$w.width(),$w.height(), 0,0,$w.width(),$w.height())
+  //thumbContext.drawImage(original, $w.scrollLeft(),$w.scrollTop(),$w.width(),$w.height() , 0,0,$w.width(),$w.height())
+  thumbContext.drawImage(img, 0, 0 ,$w.width() , $w.height() )
 
 	report.thumb = thumbCanvas[0].toDataURL()
 
@@ -330,22 +330,16 @@ function cropThumbnail(canvas){
 	thumbCanvas.hide()
 
 	$("#thumbProgress").hide()
-	$("#screenshoImg").append("<img class='screenShotCanvas' src='"+ report.thumb +"' alt='Page Screenshot' width='400' >")
+	//$("#screenshoImg").append("<img class='screenShotCanvas' src='"+ report.thumb +"' alt='Page Screenshot' width='400' >")
+
+
+	$("body").append("<img src='"+ report.thumb +"' alt='Page wedwedwed' width='400' >")
+
+
+
 
 }
 
-
-function takeScreenShot2(){
-		// Draw outline on viewport
-		drawViewportBox()
-
-		// capture current screen
-		var html2obj = html2canvas([ document.body ], { logging:true });
-  var queue = html2obj.parse();
-  var canvas = html2obj.render(queue);
-
-
-	}
 
 function takeScreenShot(){
 		// Draw outline on viewport
@@ -355,7 +349,6 @@ function takeScreenShot(){
 		var $w = $(window)
 		oldtop = $w.scrollTop()
 		oldLeft = $w.scrollLeft()
-
 
 		// capture current screen
 		var target = $('body')
@@ -367,21 +360,20 @@ function takeScreenShot(){
 				$w.scrollTop(oldtop)
 				$w.scrollLeft(oldLeft)
 
-
-	  	  // Create screenshot thumbnail
-				cropThumbnail(data)
-
-
 	    	// add screenshot image
 				report.screenshot = data
-				$("accordion-body").append("<img class='screenShotCanvas' src='"+ data +"' alt='Page Screenshot' width='400' >")
+
 
 				// Clean canvas after the work is done
-
 				$("#canvas").hide()
 				$("#myCanvas").hide()
 
 				fillInInfo()
+
+				makeThumbnail(oldtop, oldLeft)
+
+				// Create screenshot thumbnail
+
 
 			}
 		})
