@@ -295,39 +295,40 @@ function drawViewportBox(){
 	context.strokeRect($w.scrollLeft(),$w.scrollTop(),$w.width(),$w.height())
 }
 
-function makeThumbnail(x,  y){
+function makeThumbnail(){
 	var original = new Image()
   original.src = report.screenshot
 
-
-$("body").append("<img id='screenscanvas' src='"+ report.screenshot +"' alt='Page Screenshot' width='400' >")
-
-img = document.getElementById("screenscanvas")
+//TOdelete
+	$("body").append("<img id='screenscanvas' src='"+ report.screenshot +"' alt='Page Screenshot' width='400' >")
+	img = document.getElementById("screenscanvas")
 
 	var $w = $(window)
 
-	thumbCanvasTxt = '<canvas id="thumbCanvas"></canvas>'
-	$('body').append(thumbCanvasTxt)
+	$('body').append('<canvas id="thumbCanvas"></canvas>')
 
+	var thumbCanvas = $("#thumbCanvas")
+	thumbCanvas.width($w.width())
+  thumbCanvas.height($w.height())
 
-	thumbCanvas = $("#thumbCanvas")
-	thumbContext = thumbCanvas[0].getContext('2d')
+	var thumbContext = thumbCanvas[0].getContext('2d')
 
 
 	//set viewport crop window
 	console.log("thumbnail " +$w.width() +" - "+  $w.height())
 
-  thumbCanvas.width($w.width())
-  thumbCanvas.height($w.height())
+
+	//debugger
+
 
   //thumbContext.drawImage(original, $w.scrollLeft(),$w.scrollTop(),$w.width(),$w.height() , 0,0,$w.width(),$w.height())
-  thumbContext.drawImage(img, 0, 0 ,$w.width() , $w.height() )
+  thumbContext.drawImage(img, $w.scrollLeft(), $w.scrollTop(), $w.width(), $w.height(), 0, 0, $w.width(), $w.height() )
 
 	report.thumb = thumbCanvas[0].toDataURL()
 
 	console.log(report.thumb)
 
-	thumbCanvas.hide()
+	//thumbCanvas.hide()
 
 	$("#thumbProgress").hide()
 	//$("#screenshoImg").append("<img class='screenShotCanvas' src='"+ report.thumb +"' alt='Page Screenshot' width='400' >")
@@ -370,7 +371,7 @@ function takeScreenShot(){
 
 				fillInInfo()
 
-				makeThumbnail(oldtop, oldLeft)
+				makeThumbnail()
 
 				// Create screenshot thumbnail
 
