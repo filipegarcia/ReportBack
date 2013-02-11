@@ -10,7 +10,7 @@ var report = []
 
 
 
-function saveReport(report ){
+function saveReport(){
 
 	console.log(report)
 
@@ -139,6 +139,7 @@ function drawDialog(){
 // 		prepare click for step2
   function goStep1() {
 
+
 		$('#reportDialog').dialog({
 			width: 500,
 	    modal: false,
@@ -146,7 +147,6 @@ function drawDialog(){
 	    zIndex: 1050
     })
 
-		$('#reportDialog').dialog({position: "center"})
     if ($("#step2").is(':visible') ) {
 			$('#step2').hide("blind", { direction: "vertical" }, 500)
 			$('#step1').show("blind", { direction: "vertical" }, 500)
@@ -165,8 +165,13 @@ function drawDialog(){
 // 		Set up canvas element and prepare click event for step 3
   function goStep2() {
 
+		$('#reportDialog').dialog({ width: 500})
 
-		$('#reportDialog').dialog({position: { my: "right top", at: "right bottom", of: window }, width: 500,})
+		$('#reportDialog').dialog("widget").animate({
+        left: $(window).width()  - 550,
+        top:  $(window).height() - 350
+    }, 1000);
+
 		if ($("#step1").is(':visible') ) {
 			report.description = $("#usrDescription").val()
 			$('#step1').hide("blind", { direction: "vertical" }, 500)
@@ -175,6 +180,7 @@ function drawDialog(){
 			$('#step3').hide("blind", { direction: "vertical" }, 500)
 		}
 		$('#step2').show("blind", { direction: "vertical" }, 500)
+
 
 		setStep2Buttons()
 
@@ -186,24 +192,24 @@ function drawDialog(){
   function goStep3() {
 
 			//	Change width first, then position it in the center, and change the contents
-			$('#reportDialog').dialog({width: 900}).dialog({position: ['center',150]})
-			$('#step2').hide()//"blind", { direction: "vertical" }, 500)
-			$('#step3').show()//"blind", { direction: "vertical" }, 500)
+			$('#reportDialog').dialog("widget").animate({
+	        left: ($(window).width()/2  ) - 450 ,
+	        top:  ($(window).height()/2 ) - 200
+	    }, 1000);
+
+
+			$('#reportDialog').dialog({width: 900})
+
+			$('#step2').hide("blind", { direction: "vertical" }, 500)
+			$('#step3').show("blind", { direction: "vertical" }, 500)
 
 			setStep3Buttons()
 
-			//setTimeout(function (){
-				takeScreenShot()
-     // }, 2000);
-
-
-			//Fetch info
-	//		writeUserInfo()
-	//		writePageInfo()
-	//		writeBrowserInfo()
-
-			// take the screenshot and append it
-
+			//take the screenshot and continue the logic after that
+			// wait after the animation is complete
+			setTimeout(function(){
+        takeScreenShot()
+    	}, 1000);
 
 
 	}
@@ -230,6 +236,10 @@ function setStep2Buttons(){
 	        text:"Back",
 	        click:function(){
 	        	goStep1()
+	        	$('#reportDialog').dialog("widget").animate({
+				        left: ($(window).width() /2  ) - 250 ,
+				        top:  ($(window).height()/2 ) - 200
+				    }, 1000);
 	        }
 		    },{
 	        class: "btn",
