@@ -9,7 +9,7 @@ try it [here](http://filipegarcia.github.com/ReportBack/)
 
 Author
 ===
-SearchableNavbar was created by [Filipe Garcia](mailto:hello@evolving.in)
+ReportBack was created by [Filipe Garcia](mailto:hello@evolving.in)
 
 License
 ===
