@@ -360,6 +360,8 @@ function takeScreenShot(){
 		$(".ui-dialog").attr("data-html2canvas-ignore", "true")
 
 		html2canvas($('body'), {
+		//you can enable logging on
+		//logging:true ,
 	    onrendered: function(canvas) {
 	  	  var data = canvas.toDataURL()
 
