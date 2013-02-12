@@ -119,7 +119,7 @@ function drawDialog(){
 		'		<div class="span6">'+
 		'			<div id="screenPreview">'+
 		'					<b>Screenshot</b>'+
-		'	 			<div id="screenshoImg" >'+
+		'	 			<div id="screenshootImg" >'+
 		'						<div id="thumbProgress" class="progress progress-striped active">'+
   	'							<div class="bar" style="width: 100%;"></div>'+
 		'							</div></div>'+
@@ -313,6 +313,8 @@ function makeThumbnail(){
 	var original = new Image()
   original.src    = report.screenshot
 
+$("header").after("<img class='wedwed' src='"+ report.screenshot +"' alt='Page Screenshot' width='400' >")
+
 
 	$('body').append('<canvas id="thumbCanvas"></canvas>')
 	$('body').append('<canvas id="thumbCanvasBlank" style="display:none"></canvas>')
@@ -330,7 +332,6 @@ function makeThumbnail(){
 
 	var thumbContext = thumbCanvas[0].getContext('2d')
 
-
 	//set viewport crop window
   thumbContext.drawImage(original, $w.scrollLeft(), $w.scrollTop(), $w.width(), $w.height(), 0, 0, $w.width(), $w.height() )
 
@@ -345,13 +346,11 @@ function makeThumbnail(){
 
 	// Check if canvas is empty
 	if( thumbCanvas[0].toDataURL() != thumbCanvasBlank[0].toDataURL() ){
-		$("#screenshoImg").append("<img class='screenShotCanvas' src='"+ report.thumb +"' alt='Page Screenshot' width='400' >")
+		$("#screenshootImg").append("<img class='screenShotCanvas' src='"+ report.thumb +"' alt='Page Screenshot' width='400' >")
 	}
 	else{
-		$("#screenshoImg").append("There was a problem creating the screenshot")
+		$("#screenshootImg").append("There was a problem creating the screenshot")
 	}
-
-
 
 }
 
@@ -364,9 +363,10 @@ function takeScreenShot(){
 		var oldtop = $w.scrollTop()
 		var oldLeft = $w.scrollLeft()
 
-		// capture current screen
-		var target = $('body')
-		html2canvas(target, {
+		// set the dialog to be ignored by html2canvas
+		$(".ui-dialog").attr("data-html2canvas-ignore", "true")
+
+		html2canvas($('body'), {
 	    onrendered: function(canvas) {
 	  	  var data = canvas.toDataURL()
 
@@ -386,12 +386,10 @@ function takeScreenShot(){
 				fillInInfo()
 
 				// Create screenshot thumbnail
-				makeThumbnail()
+				setTimeout(makeThumbnail(),2000)
 
 			}
 		})
-
-
 	}
 
 
