@@ -236,9 +236,10 @@ function setStep2Buttons(){
 	        text:"Back",
 	        click:function(){
 	        	goStep1()
+	        	// The animation is only set only when coming back
 	        	$('#reportDialog').dialog("widget").animate({
-				        left: ($(window).width() /2  ) - 250 ,
-				        top:  ($(window).height()/2 ) - 200
+				        left: ($(window).width()  /2 ) - 250 ,
+				        top:  ($(window).height() /2 ) - 200
 				    }, 1000);
 	        }
 		    },{
@@ -306,46 +307,49 @@ function drawViewportBox(){
 }
 
 function makeThumbnail(){
-	var original = new Image()
-  original.src = report.screenshot
-
-//TOdelete
-	$("body").append("<img id='screenscanvas' src='"+ report.screenshot +"' alt='Page Screenshot' width='400' >")
-	img = document.getElementById("screenscanvas")
 
 	var $w = $(window)
 
-	$('body').append('<canvas id="thumbCanvas"></canvas>')
+	var original = new Image()
+  original.src    = report.screenshot
 
+
+	$('body').append('<canvas id="thumbCanvas"></canvas>')
+	$('body').append('<canvas id="thumbCanvasBlank" style="display:none"></canvas>')
+
+	// The thumbnail will be drawn in here
 	var thumbCanvas = $("#thumbCanvas")
-	thumbCanvas.width($w.width())
-  thumbCanvas.height($w.height())
+	thumbCanvas[0].width = $w.width()
+  thumbCanvas[0].height = $w.height()
+
+  // This will be used to check if the thumbnail canvas is empty
+	var thumbCanvasBlank = $("#thumbCanvasBlank")
+	thumbCanvasBlank[0].width = $w.width()
+  thumbCanvasBlank[0].height = $w.height()
+
 
 	var thumbContext = thumbCanvas[0].getContext('2d')
 
 
 	//set viewport crop window
-	console.log("thumbnail " +$w.width() +" - "+  $w.height())
-
-
-	//debugger
-
-
-  //thumbContext.drawImage(original, $w.scrollLeft(),$w.scrollTop(),$w.width(),$w.height() , 0,0,$w.width(),$w.height())
-  thumbContext.drawImage(img, $w.scrollLeft(), $w.scrollTop(), $w.width(), $w.height(), 0, 0, $w.width(), $w.height() )
+  thumbContext.drawImage(original, $w.scrollLeft(), $w.scrollTop(), $w.width(), $w.height(), 0, 0, $w.width(), $w.height() )
 
 	report.thumb = thumbCanvas[0].toDataURL()
 
-	console.log(report.thumb)
+	// hide the thumbnail
+	thumbCanvas.hide()
 
-	//thumbCanvas.hide()
-
+	// Hide the progress bar
 	$("#thumbProgress").hide()
-	//$("#screenshoImg").append("<img class='screenShotCanvas' src='"+ report.thumb +"' alt='Page Screenshot' width='400' >")
 
 
-	$("body").append("<img src='"+ report.thumb +"' alt='Page wedwedwed' width='400' >")
-
+	// Check if canvas is empty
+	if( thumbCanvas[0].toDataURL() != thumbCanvasBlank[0].toDataURL() ){
+		$("#screenshoImg").append("<img class='screenShotCanvas' src='"+ report.thumb +"' alt='Page Screenshot' width='400' >")
+	}
+	else{
+		$("#screenshoImg").append("There was a problem creating the screenshot")
+	}
 
 
 
@@ -356,10 +360,9 @@ function takeScreenShot(){
 		// Draw outline on viewport
 		drawViewportBox()
 
-
 		var $w = $(window)
-		oldtop = $w.scrollTop()
-		oldLeft = $w.scrollLeft()
+		var oldtop = $w.scrollTop()
+		var oldLeft = $w.scrollLeft()
 
 		// capture current screen
 		var target = $('body')
@@ -371,7 +374,7 @@ function takeScreenShot(){
 				$w.scrollTop(oldtop)
 				$w.scrollLeft(oldLeft)
 
-	    	// add screenshot image
+	    	// add screenshot image to report
 				report.screenshot = data
 
 
@@ -379,12 +382,11 @@ function takeScreenShot(){
 				$("#canvas").hide()
 				$("#myCanvas").hide()
 
+				// Collect and fill in the info about the page
 				fillInInfo()
 
-				makeThumbnail()
-
 				// Create screenshot thumbnail
-
+				makeThumbnail()
 
 			}
 		})
