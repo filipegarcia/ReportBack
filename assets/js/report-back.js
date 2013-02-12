@@ -10,7 +10,7 @@ var report = []
 
 
 
-function saveReport(){
+function saveReport() {
 
 	console.log(report)
 
@@ -38,139 +38,138 @@ function report_warmup() {
 }
 
 
+// add all steps to the dialog window
+// show step 1 first
 function drawDialog(){
 
-			var out = '<div id="reportDialog" title="Give us your feedback :)">'+
-		'</div>'
+	var out = '<div id="reportDialog" title="Give us your feedback :)"></div>'
 
-		step1 = ' <div id="step1">'+
-		'        <form>'+
-		'          <div class="row-fluid">'+
-		'          Report Back lets you send suggestions about the product.'+
-		'					 We welcome problem reports, feature ideas and general comments.<br/><br/>'+
-		'					 Legal notifications sent through Report Back will not be processed and '+
-		'they\'r something I don\'t care about in here.<br/><br/>'+
-		'					 Start by writing a brief description:'+
-		'          <textarea id="usrDescription" rows="5" class="span12"></textarea>'+
-		'						Next we\'ll let you identify areas of the page related to your description.'+
-		'          </div>'+
-		'        </form>'+
-		'      </div>'
+	step1 = ' <div id="step1">'+
+	'        <form>'+
+	'          <div class="row-fluid">'+
+	'          Report Back lets you send suggestions about the product.'+
+	'					 We welcome problem reports, feature ideas and general comments.<br/><br/>'+
+	'					 Legal notifications sent through Report Back will not be processed and '+
+	'they\'r something I don\'t care about in here.<br/><br/>'+
+	'					 Start by writing a brief description:'+
+	'          <textarea id="usrDescription" rows="5" class="span12"></textarea>'+
+	'						Next we\'ll let you identify areas of the page related to your description.'+
+	'          </div>'+
+	'        </form>'+
+	'      </div>'
 
-		step2 = '<div id="step2" style="display:none;">'+
-  	'	<p>Click and drag on the page to help us better understand your feedback.'+
-  	'			 You can move this dialog if it\'s in the way.</p>'+
-  	'			<div>'+
-  	'				<div class="row-fluid">'+
-  	'					<div class="span12"> <button id="highlight" class="btn" type="button"><i class="icon-eye-open"></i> Highlight&nbsp;</button>'+
-  	'					 Highlight areas relevant to your feedback.</div>'+
-  	'				</div><br/>'+
-  	'				<div class="row-fluid">'+
-  	'					<div class="span12"> <button id="block" class="btn" type="button"><i class="icon-eye-close"></i> Black out</button>'+
-  	'					 Black out any personal information.</div>'+
-  	'				</div><br/>'+
-  	'				<div class="row-fluid">'+
-  	'					<div class="span12"> <button id="clear" class="btn" type="button"><i class="icon-remove"></i> Clear</button>'+
-  	'					 Black out any personal information.</div>'+
-  	'				</div>'+
-  	'				</div>'+
-  	'			</div>'
+	step2 = '<div id="step2" style="display:none;">'+
+	'	<p>Click and drag on the page to help us better understand your feedback.'+
+	'			 You can move this dialog if it\'s in the way.</p>'+
+	'			<div>'+
+	'				<div class="row-fluid">'+
+	'					<div class="span12"> <button id="highlight" class="btn btn-primary" type="button">'+
+  '<i class="icon-eye-open"></i> Highlight&nbsp;</button>'+
+	'					 Highlight areas relevant to your feedback.</div>'+
+	'				</div><br/>'+
+	'				<div class="row-fluid">'+
+	'					<div class="span12"> <button id="block" class="btn" type="button"><i class="icon-eye-close">'+
+  '</i> Black out</button>'+
+	'					 Black out any personal information.</div>'+
+	'				</div><br/>'+
+	'				<div class="row-fluid">'+
+	'					<div class="span12"> <button id="clear" class="btn" type="button"><i class="icon-remove"></i>'+
+  ' Clear&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>'+
+	'					 Remove all boxes.</div>'+
+	'				</div>'+
+	'				</div>'+
+	'			</div>'
 
-  	step3 = '<div id="step3" style="display:none;">'+
-		'	<div class="row-fluid">'+
-		'	<div class="span6" >'+
-		'		<form>'+
-		'	          <div class="row-fluid">'+
-		'	          tell us where you would improve or change'+
-		'	              <br />'+
-		'	          <label>Description</label>'+
-		'	          <div class="accordion" id="accordion2">'+
-		'	            <div class="accordion-group">'+
-		'	                <div class="accordion-heading">'+
-		'	                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">'+
-		'	                        User info</a>'+
-		'	                </div>'+
-		'	                <div id="collapseOne" class="accordion-body collapse">'+
-		'	                    <div class="accordion-inner userInfo"></div>'+
-		'	                </div>'+
-		'	            </div>'+
-		'	                <div class="accordion-group">'+
-		'	                    <div class="accordion-heading">'+
-		'	                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">'+
-		'	                            Page info </a>'+
-		'	                    </div>'+
-		'	                    <div id="collapseTwo" class="accordion-body collapse">'+
-		'	                        <div class="accordion-inner pageInfo"></div>'+
-		'	                    </div>'+
-		'	                </div>'+
-		'	                <div class="accordion-group">'+
-		'	                <div class="accordion-heading">'+
-		'	                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">'+
-		'	                       Browser info </a>'+
-		'	                </div>'+
-		'	                <div id="collapseThree" class="accordion-body collapse">'+
-		'	                    <div class="accordion-inner browserInfo"></div>'+
-		'	                </div>'+
-		'	            </div>'+
-		'	        </div>'+
-		'	          </div>'+
-		'	        </form>'+
-		'		</div>'+
-		'		<div class="span6">'+
-		'			<div id="screenPreview">'+
-		'					<b>Screenshot</b>'+
-		'	 			<div id="screenshootImg" >'+
-		'						<div id="thumbProgress" class="progress progress-striped active">'+
-  	'							<div class="bar" style="width: 100%;"></div>'+
-		'							</div></div>'+
-		'			</div>'+
-		'		</div>'+
-		'		</div>'+
-		'	</div>'
+	step3 = '<div id="step3" style="display:none;">'+
+	'	<div class="row-fluid">'+
+	'	<div class="span6" >'+
+	'		<form>'+
+	'	    <div class="row-fluid">tell us where you would improve or change'+
+	'	        <br />'+
+	'	    <label>Description</label>'+
+	'	    <div class="accordion" id="accordion2">'+
+	'	      <div class="accordion-group">'+
+	'	          <div class="accordion-heading">'+
+	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">'+
+	'	                  User info</a>'+
+	'	          </div>'+
+	'	          <div id="collapseOne" class="accordion-body collapse">'+
+	'	              <div class="accordion-inner userInfo"></div>'+
+	'	          </div>'+
+	'	      </div>'+
+	'	          <div class="accordion-group">'+
+	'	              <div class="accordion-heading">'+
+	'	                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">'+
+	'	                      Page info </a>'+
+	'	              </div>'+
+	'	              <div id="collapseTwo" class="accordion-body collapse">'+
+	'	                  <div class="accordion-inner pageInfo"></div>'+
+	'	              </div>'+
+	'	          </div>'+
+	'	          <div class="accordion-group">'+
+	'	          <div class="accordion-heading">'+
+	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">'+
+	'	                 Browser info </a>'+
+	'	          </div>'+
+	'	          <div id="collapseThree" class="accordion-body collapse">'+
+	'	              <div class="accordion-inner browserInfo"></div>'+
+	'	          </div>'+
+	'	      </div>'+
+	'	    </div>'+
+	'	    </div>'+
+	'	   </form>'+
+	'		</div>'+
+	'		<div class="span6">'+
+	'			<div id="screenPreview">'+
+	'					<b>Screenshot</b>'+
+	'	 			<div id="screenshootImg" >'+
+	'						<div id="thumbProgress" class="progress progress-striped active">'+
+	'							<div class="bar" style="width: 100%;"></div>'+
+	'							</div></div>'+
+	'			</div>'+
+	'		</div>'+
+	'		</div>'+
+	'	</div>'
 
 
-		$('body').append(out)
-		$('#reportDialog').append(step1 + step2 + step3)
+	$('body').append(out)
+	$('#reportDialog').append(step1 + step2 + step3)
 
 }
 
 
-// 	Get the user feedback description.
-// 		prepare click for step2
-  function goStep1() {
-
+	// 	Get the user feedback description.
+	// 		prepare click actions for step1
+	function goStep1() {
 
 		$('#reportDialog').dialog({
 			width: 500,
-	    modal: false,
-	    resizable: false,
-	    zIndex: 1050
-    })
+			modal: false,
+			resizable: false,
+			zIndex: 1050
+		})
 
-    if ($("#step2").is(':visible') ) {
+		if ($("#step2").is(':visible') ) {
 			$('#step2').hide("blind", { direction: "vertical" }, 500)
 			$('#step1').show("blind", { direction: "vertical" }, 500)
 		}
 
 		setStep1Buttons()
 
-
 		//I really don't like the cross mouse pointer in the jquery ui modal
 		$(".ui-dialog-titlebar").css("cursor", "auto")
-
-
 	}
 
-// 	Show modal that allow user to highlight and black out the page.
-// 		Set up canvas element and prepare click event for step 3
-  function goStep2() {
+	// 	Show modal that allow user to highlight and black out the page.
+	// 		Set up canvas element and prepare click event for step 2
+	function goStep2() {
 
 		$('#reportDialog').dialog({ width: 500})
 
 		$('#reportDialog').dialog("widget").animate({
-        left: $(window).width()  - 550,
-        top:  $(window).height() - 350
-    }, 1000);
+			left: $(window).width()  - 550,
+			top:  $(window).height() - 350
+		}, 1000);
 
 		if ($("#step1").is(':visible') ) {
 			report.description = $("#usrDescription").val()
@@ -187,70 +186,74 @@ function drawDialog(){
 		// clean canvas first
 		drawInCanvas()
 
-  }
-
-  function goStep3() {
-
-			//	Change width first, then position it in the center, and change the contents
-			$('#reportDialog').dialog("widget").animate({
-	        left: ($(window).width()/2  ) - 450 ,
-	        top:  ($(window).height()/2 ) - 200
-	    }, 1000);
-
-
-			$('#reportDialog').dialog({width: 900})
-
-			$('#step2').hide("blind", { direction: "vertical" }, 500)
-			$('#step3').show("blind", { direction: "vertical" }, 500)
-
-			setStep3Buttons()
-
-			//take the screenshot and continue the logic after that
-			// wait after the animation is complete
-			setTimeout(function(){
-        takeScreenShot()
-    	}, 1000);
-
-
 	}
 
+
+	// show the screenshot taken and all the info about the environment
+	//		set up buttons for step 3
+  function goStep3() {
+
+		//	animate to center, already using the new width
+		$('#reportDialog').dialog("widget").animate({
+        left: ($(window).width()/2  ) - 450 ,
+        top:  ($(window).height()/2 ) - 200
+    }, 1000);
+
+		$('#reportDialog').dialog({width: 900})
+
+		$('#step2').hide("blind", { direction: "vertical" }, 500)
+		$('#step3').show("blind", { direction: "vertical" }, 500)
+
+		setStep3Buttons()
+
+		//take the screenshot and continue the logic after that
+		// wait after the animation is complete or otherwise the screen would freeze
+		setTimeout(function(){
+      takeScreenShot()
+  	}, 1000);
+	}
+
+
+/* #########################################################################################
+
+		Set up the button actions
+
+######################################################################################### */
 
 function setStep1Buttons(){
 
 	$('#reportDialog').dialog({
 		buttons: [{
+			text:"Next",
       class: "btn",
-      text:"Next",
       click: function(){
     		goStep2()
       }
 	  }]
 	})
-
 }
 function setStep2Buttons(){
 
 	$('#reportDialog').dialog({
 		buttons: [{
-	        class: "btn",
-	        text:"Back",
-	        click:function(){
-	        	goStep1()
-	        	// The animation is only set only when coming back
-	        	$('#reportDialog').dialog("widget").animate({
-				        left: ($(window).width()  /2 ) - 250 ,
-				        top:  ($(window).height() /2 ) - 200
-				    }, 1000);
-	        }
+				text:"Back",
+				class: "btn",
+				click:function(){
+					goStep1()
+        	// The animation is only set only when coming back
+        	$('#reportDialog').dialog("widget").animate({
+        		left: ($(window).width()  /2 ) - 250 ,
+        		top:  ($(window).height() /2 ) - 200
+        	}, 1000);
+	      }
 		    },{
-	        class: "btn",
-	        text:"Next",
-	        click: function(){
-	        	goStep3()
-	        }
-		   	}]
+		    text:"Next",
+		    class: "btn",
+		    click: function(){
+		    	goStep3()
+		    }
+	  }]
 	})
-
 }
 
 
@@ -258,54 +261,42 @@ function setStep3Buttons(){
 
 	$('#reportDialog').dialog({
 		buttons: [{
-	        class: "btn",
-	        text:"Back",
-	        click:function(){
-	        	goStep2()
-	        }
-		    },{
-	        class: "btn",
-	        text:"Next",
-	        click: function(){
-	        	saveReport()
-	        }
-		   	}]
+      text:"Back",
+      class: "btn",
+      click:function(){
+      	goStep2()
+      }
+    	},{
+    	text:"Next",
+      class: "btn",
+      click: function(){
+      	saveReport()
+      }
+   	}]
 	})
 
 }
 
+/* #########################################################################################
 
-function clearModal(){
-	// first of all. close the modal box
-	$('#reportDialog').hide()
+		Take a screenshot and create a "thumbnail"
 
-	//remove all canvas elements
-	$("#canvas").hide()
-	$("#myCanvas").hide()
-	$("#thumbCanvas").hide()
+######################################################################################### */
 
 
-
-}
-
-
-function fillInInfo(){
-	//Fetch info
-			writeUserInfo()
-			writePageInfo()
-			writeBrowserInfo()
-
-}
-
-
+//Draw a red stoke around the viewport so when the screenshot is taken
+//		the viewport is defined
 function drawViewportBox(){
-
-	//Sets a stroke around the users viewport
 	context.strokeStyle = "red"
 	var $w = $(window)
 	context.strokeRect($w.scrollLeft(),$w.scrollTop(),$w.width(),$w.height())
 }
 
+
+// Create a "thumbnail" of the original render of the page
+//		using drawImage and cropping only the viewport.
+//		The new canvas is then appended to the modal box with fixed width
+//			(not a real thumbnail I now)
 function makeThumbnail(){
 
 	var $w = $(window)
@@ -313,11 +304,11 @@ function makeThumbnail(){
 	var original = new Image()
   original.src    = report.screenshot
 
-$("header").after("<img class='wedwed' src='"+ report.screenshot +"' alt='Page Screenshot' width='400' >")
+//TODO check why the thumbnail is not always created.
+//$("header").after("<img class='wedwed' src='"+ report.screenshot +"' alt='Page Screenshot' width='400' >")
 
 
 	$('body').append('<canvas id="thumbCanvas"></canvas>')
-	$('body').append('<canvas id="thumbCanvasBlank" style="display:none"></canvas>')
 
 	// The thumbnail will be drawn in here
 	var thumbCanvas = $("#thumbCanvas")
@@ -325,10 +316,10 @@ $("header").after("<img class='wedwed' src='"+ report.screenshot +"' alt='Page S
   thumbCanvas[0].height = $w.height()
 
   // This will be used to check if the thumbnail canvas is empty
+	$('body').append('<canvas id="thumbCanvasBlank" style="display:none"></canvas>')
 	var thumbCanvasBlank = $("#thumbCanvasBlank")
 	thumbCanvasBlank[0].width = $w.width()
   thumbCanvasBlank[0].height = $w.height()
-
 
 	var thumbContext = thumbCanvas[0].getContext('2d')
 
@@ -346,10 +337,11 @@ $("header").after("<img class='wedwed' src='"+ report.screenshot +"' alt='Page S
 
 	// Check if canvas is empty
 	if( thumbCanvas[0].toDataURL() != thumbCanvasBlank[0].toDataURL() ){
-		$("#screenshootImg").append("<img class='screenShotCanvas' src='"+ report.thumb +"' alt='Page Screenshot' width='400' >")
+		$("#screenshootImg").append("<img class='screenShotCanvas' src='"+ report.thumb +
+            "' alt='Page Screenshot' width='400' >")
 	}
 	else{
-		$("#screenshootImg").append("There was a problem creating the screenshot")
+		$("#screenshootImg").append("There was a problem creating the screenshot :(")
 	}
 
 }
@@ -360,6 +352,7 @@ function takeScreenShot(){
 		drawViewportBox()
 
 		var $w = $(window)
+		// record current viewport position to set it later
 		var oldtop = $w.scrollTop()
 		var oldLeft = $w.scrollLeft()
 
@@ -377,8 +370,7 @@ function takeScreenShot(){
 	    	// add screenshot image to report
 				report.screenshot = data
 
-
-				// Clean canvas after the work is done
+				// Clean canvas after all the work is done
 				$("#canvas").hide()
 				$("#myCanvas").hide()
 
@@ -392,6 +384,19 @@ function takeScreenShot(){
 		})
 	}
 
+/* #########################################################################################
+
+		Fetch environment values
+
+######################################################################################### */
+
+
+function fillInInfo(){
+	//Fetch info
+		writeUserInfo()
+		writePageInfo()
+		writeBrowserInfo()
+}
 
 function stripTags(val) { return val.replace(/<\/?[^>]+>/gi, ''); }
 
@@ -409,7 +414,8 @@ function showPlugins() {
   var len = navigator.plugins.length
   var result = ""
   for (var i = 0; i < len; i++) {
-    result += '<a rel="tooltip" href="#" data-original-title="' + stripTags(navigator.plugins[i].description) + '" data-triger="hover" data-placement="right">' + navigator.plugins[i].name + '</a>'
+    result += '<a rel="tooltip" href="#" data-original-title="' + stripTags(navigator.plugins[i].description) +
+        '" data-triger="hover" data-placement="right">' + navigator.plugins[i].name + '</a>'
     result += " , "
     result += navigator.plugins[i].filename
     if (navigator.plugins[i].version) {
@@ -484,12 +490,7 @@ function writeUserInfo() {
 
 		Highlight and Blackout in canvas
 
-
 ######################################################################################### */
-
-
-
-
 
 function drawInCanvas(){
 

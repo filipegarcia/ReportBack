@@ -156,14 +156,15 @@
     <p>Refactor</p>
     <p>dynamically load the js</p>
     <p>Take the screenshot</p>
+    <p>In older browsers that don't support canvas, don't take screenshot</p>
     <p>Add extra fields to be recorded(public and "private")</p>
     <p>Add send to Trello</p>
     <p> </p>
 
 
-        </section>
+  </section>
 
-  </div>
+</div>
 
 
 
@@ -183,8 +184,7 @@
       </div>
     </footer>
 <style type="text/css">
-
-#canvas , #thumbCanvas{
+#canvas, #myCanvas {
   position: absolute;
   left: 0px;
   top: 0px;
@@ -192,18 +192,6 @@
   cursor: default;
   z-index: 1040;
 }
-
-#myCanvas{
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  display: block;
-  cursor: default;
-
-  z-index: 1040;
-}
-
-
 </style>
 
 <script type="text/javascript">
