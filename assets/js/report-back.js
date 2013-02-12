@@ -2,7 +2,7 @@
  reportback  <https://github.com/filipegarcia/ReportBack>
  Copyright (c) 2013 Filipe Garcia. All rights reserved.
 
- Released under MIT License
+ Released under Apache License v2.0
 */
 
 // report array to be build during the process
@@ -12,22 +12,38 @@ var report = []
 
 function saveReport() {
 
+	var finalMsg = "<h3>All done</h3>  Now it's up to you to do something with the gathered info."+
+	"<br/>Check console to view the log of the report object "
+
+	$("#reportDialog").html(finalMsg)
+
 	console.log(report)
-
-	console.log("Give feedback to the user")
-
 
 }
 
+function report_warmup_dyn(userInfo) {
+
+	//Load the dependencies
+
+		// I already loaded the bootstrap for the demo page but you might need them in here
+		$.getScript('assets/js/bootstrap.min.js');
+		$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'assets/css/bootstrap.min.css') );
+
+		// the rest of the dependencies
+		$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'assets/css/jquery.ui.css') );
+		$.getScript('assets/js/jquery.base64.min.js');
+    $.getScript('assets/js/html2canvas.min.js');
+
+  //Draw modal dialog and set step 1
+
+		drawDialog()
+		goStep1()
+
+		report.user = userInfo
+}
 
 function report_warmup() {
 
-	$('body').append("<div id='feedback' class='btn feedbackBtnGroup'><i class='icon-bullhorn'></i> Feedback</div>")
-	$('#feedback').css({
-	   position : 'fixed',
-	   bottom : '0',
-	   right : '0'
-	})
 
 	$("#feedback").on("click", function () {
 		drawDialog()
@@ -87,10 +103,10 @@ function drawDialog(){
 	'	    <div class="row-fluid">tell us where you would improve or change'+
 	'	        <br />'+
 	'	    <label>Description</label>'+
-	'	    <div class="accordion" id="accordion2">'+
+	'	    <div class="accordion" id="envInfo" style="max-height: 350px;overflow-y: scroll;}">'+
 	'	      <div class="accordion-group">'+
 	'	          <div class="accordion-heading">'+
-	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">'+
+	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseOne">'+
 	'	                  User info</a>'+
 	'	          </div>'+
 	'	          <div id="collapseOne" class="accordion-body collapse">'+
@@ -99,7 +115,7 @@ function drawDialog(){
 	'	      </div>'+
 	'	          <div class="accordion-group">'+
 	'	              <div class="accordion-heading">'+
-	'	                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">'+
+	'	                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseTwo">'+
 	'	                      Page info </a>'+
 	'	              </div>'+
 	'	              <div id="collapseTwo" class="accordion-body collapse">'+
@@ -108,7 +124,7 @@ function drawDialog(){
 	'	          </div>'+
 	'	          <div class="accordion-group">'+
 	'	          <div class="accordion-heading">'+
-	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">'+
+	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseThree">'+
 	'	                 Browser info </a>'+
 	'	          </div>'+
 	'	          <div id="collapseThree" class="accordion-body collapse">'+
@@ -137,16 +153,31 @@ function drawDialog(){
 
 }
 
+function cleanup() {
+console.log("close")
+hideCanvas()
+$('#feedback').show()
+$('#step1').show()
+$('#step2').hide()
+$('#step3').hide()
+$("#feedback").unbind('click')
+$("#feedback").on('click', function(){
+	goStep1()
+})
+}
 
 	// 	Get the user feedback description.
 	// 		prepare click actions for step1
 	function goStep1() {
 
+		$("#feedback").hide()
+
 		$('#reportDialog').dialog({
 			width: 500,
 			modal: false,
 			resizable: false,
-			zIndex: 1050
+			zIndex: 1050,
+      close: function() {cleanup()}
 		})
 
 		if ($("#step2").is(':visible') ) {
@@ -163,6 +194,7 @@ function drawDialog(){
 	// 	Show modal that allow user to highlight and black out the page.
 	// 		Set up canvas element and prepare click event for step 2
 	function goStep2() {
+
 
 		$('#reportDialog').dialog({ width: 500})
 
@@ -196,7 +228,7 @@ function drawDialog(){
 		//	animate to center, already using the new width
 		$('#reportDialog').dialog("widget").animate({
         left: ($(window).width()/2  ) - 450 ,
-        top:  ($(window).height()/2 ) - 200
+        top:  ($(window).height()/2 ) - 260
     }, 1000);
 
 		$('#reportDialog').dialog({width: 900})
@@ -209,8 +241,9 @@ function drawDialog(){
 		//take the screenshot and continue the logic after that
 		// wait after the animation is complete or otherwise the screen would freeze
 		setTimeout(function(){
-      takeScreenShot()
+    	takeScreenShot()
   	}, 1000);
+
 	}
 
 
@@ -341,7 +374,9 @@ function makeThumbnail(){
             "' alt='Page Screenshot' width='400' >")
 	}
 	else{
-		$("#screenshootImg").append("There was a problem creating the screenshot :(")
+		var thumbErrorMsg = 'There was a problem creating the screenshot :(<br/> '+
+				'Don\'t worry, submit your feedback anyway'
+		$("#screenshootImg").append(thumbErrorMsg)
 	}
 
 }
@@ -372,9 +407,7 @@ function takeScreenShot(){
 	    	// add screenshot image to report
 				report.screenshot = data
 
-				// Clean canvas after all the work is done
-				$("#canvas").hide()
-				$("#myCanvas").hide()
+				hideCanvas()
 
 				// Collect and fill in the info about the page
 				fillInInfo()
@@ -384,6 +417,13 @@ function takeScreenShot(){
 
 			}
 		})
+	}
+
+	// Clean canvas after all the work is done
+	function hideCanvas(){
+console.log("hide canvas")
+				$("#canvas").hide()
+				$("#myCanvas").hide()
 	}
 
 /* #########################################################################################
@@ -403,10 +443,11 @@ function fillInInfo(){
 function stripTags(val) { return val.replace(/<\/?[^>]+>/gi, ''); }
 
 
-// append to div an echo of all properties with exception
+// append to a div an echo of all properties with exception of empty values, functions or
+//		something inside the notInclude array
 function dumpVars(obj, div, notInclude) {
     jQuery.each(obj, function (j, val) {
-        if (typeof (val) != "function" && jQuery.inArray(j, notInclude) == -1) {
+        if (typeof (val) != "function" && jQuery.inArray(j, notInclude) == -1 && val != "") {
             $(div).append(j + " : " + val + "<br/>")
         }
     })
@@ -475,12 +516,19 @@ function writePageInfo() {
 
 function writeUserInfo() {
 
+	//Check if the user has something filled in
+	if (report.user != null) {
+		$(".userInfo").append("<h4>User Info:</h4>")
+		dumpVars(report.user, ".userInfo")
+	}
+
 	// Get all cookies
 	var cookies = get_cookies_array()
-	$(".userInfo").append("<h4>Cookies:</h4>")
-	dumpVars(cookies, ".userInfo")
-	report.cookies = cookies
-
+	if (!$.isEmptyObject(cookies)) {
+		$(".userInfo").append("<h4>Cookies:</h4>")
+		dumpVars(cookies, ".userInfo")
+		report.cookies = cookies
+	}
 }
 
 
@@ -499,7 +547,18 @@ function drawInCanvas(){
 
 	var canvasElements = '<canvas id="myCanvas"></canvas>'+
 						'<div id="canvas"></div>'
+
 	$('body').append(canvasElements)
+
+	//Change the canvas css
+	$('#canvas, #myCanvas').css({
+		'position': 'absolute',
+		'left': '0px',
+	  'top': '0px',
+	  'display': 'block',
+	  'cursor': 'default',
+	  'z-index': '1040'
+	})
 
 
 	var drawCanvas = $('#canvas')
@@ -658,16 +717,12 @@ $.widget("ui.boxer", $.ui.mouse, {
 })
 
 
-
-
-	// Using the boxer plugin
+	// Using the boxer "plugin"
 	$('#canvas').boxer({
 	  stop: function(event, ui) {
 	    ui.box.addClass($boxSettings)
 	  }
 	})
-
-
 
 
 // stretch Canvas and div to full page
@@ -707,8 +762,6 @@ function cleanCanvas(){
 
 
 }
-
-
 
 
 

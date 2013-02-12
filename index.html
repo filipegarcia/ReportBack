@@ -2,16 +2,15 @@
 <html>
   <head>
        <meta charset="utf-8">
-    <title>Components · Report Back</title>
+    <title>Report Back</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/css/jquery.ui.css" rel="stylesheet">
     <link href="assets/css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="assets/css/docs.css" rel="stylesheet">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -40,7 +39,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="./index.html">Bootstrap</a>
+          <a class="brand" href="./index.html">ReportBack</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active">
@@ -62,34 +61,40 @@
 
   <div class="container">
 
-
-      <!-- Dropdowns
-      ================================================== -->
-      <section id="dropdowns">
-        <div class="page-header">
-          <h1>Report Back</h1>
-        </div>
+      <section id="Report-Back<">
 
         <h2>Description</h2>
-        <p>The Tool is loaded dynamically when clicking the feedback button ( not implemented yet :) ). It grabs user and browser information and the page html code and screenshot.<br>
+        <p>The Tool is loaded dynamically when the feedback button is clicked. It grabs user information, browser information, operating system information, the page html code, and a screenshot of the rendered page.<br>
         It allow the user to highlight or blackout a portion of the page.<br>
-        The screenshot is done on client side and allows to see the viewport of the client and how the page was rendered. For this html2canvas comes to the rescue. Taking the screenshot in client side is like building a browser inside the browser, and render the page that browser. <br>
-        In the end, you can save the result that was built in <code>json</code> format
+        The screenshot is done on client side and allows to see the viewport of the client and how the page was rendered.<br/> For this html2canvas comes to the rescue. Taking the screenshot in client side is like building a browser inside the browser, and rendering the page again in the browser. <br>
+        In the end, you can save the json result that was created.<br>
+        <i>The thumbnail creation is still really buggy but the full screenshot is recorded (when canvas is supported).</i>
         </p>
+
+         <h2>Demo</h2>
+        <p>
+          Press the feedback button on the right bottom corner to try it out
+        </p>
+        <br>
         <h2>Markup</h2>
         <div class="bs-docs-example">
 
-          <div id="newnav"></div>
-
-        </div>
+<div id="newnav"></div>
+You can draw the feedback button directly in your layout and just add the click event. <br>
+This only needs jquery, jqueryUI and the rest can be added dynamically.
+</div>
 
 <pre class="prettyprint linenums">
 &lt;script type="text/javascript"&gt;
 
-  warmup();
+$("#feedback").on("click",function (){
+  $.getScript("assets/js/report-back.js", function() { report_warmup_dyn() })
+})
 
 &lt;/script&gt;
 </pre>
+
+
 
         <h2>What is grabbed?</h2>
         <p>
@@ -119,10 +124,21 @@
 
 
     <h2>Dependencies</h2>
-      <p>They can be all injected in the page when the user clicks the feedback button. </br>
-          If you are already using any of these dependencies, you can remove them from the load
-      </p>
+      <p>The dependencies could all injected in the page when the user clicks the feedback button or loaded normally.</p>
 
+<div class="bs-docs-example">
+  <div id="newnav"></div>
+  For this demo it's only needed this ones:
+</div>
+<pre class="prettyprint linenums">
+&lt;script src="assets/js/jquery.js"&gt;&lt;/script&gt;
+&lt;script src="assets/js/jquery.ui.js"&gt;&lt;/script&gt;
+</pre>
+
+<div class="bs-docs-example">
+  <div id="newnav"></div>
+  But these are all the dependencies used by the tool:
+</div>
 <pre class="prettyprint linenums">
 &lt;link href="assets/css/bootstrap.min.css" rel="stylesheet"&gt;
 &lt;link href="assets/css/jquery.ui.css" rel="stylesheet"&gt;
@@ -131,6 +147,8 @@
 &lt;script src="assets/js/bootstrap.min.js"&gt;&lt;/script&gt;
 &lt;script src="assets/js/jquery.ui.js"&gt;&lt;/script&gt;
 &lt;script src="assets/js/html2canvas.min.js"&gt;&lt;/script&gt;
+&lt;script src="assets/js/jquery.base64.min.js"&gt;&lt;/script&gt;
+&lt;script src="assets/js/report-back.min.js"&gt;&lt;/script&gt;
 </pre>
 
 
@@ -152,15 +170,12 @@
 
 
   <h2>ToDos:</h2>
-    <p>Add a function to remove highlight and black out boxes</p>
-    <p>Refactor</p>
-    <p>dynamically load the js</p>
-    <p>Take the screenshot</p>
+    <p>Add a function to remove highlight and black out boxes individually</p>
+    <p>Make a thumbnail</p>
     <p>In older browsers that don't support canvas, don't take screenshot</p>
-    <p>Add extra fields to be recorded(public and "private")</p>
-    <p>Add send to Trello</p>
+    <p>add close modal event with cleanup function</p>
+    <p>Add extra fields to be saved(public and "private")</p>
     <p> </p>
-
 
   </section>
 
@@ -183,48 +198,35 @@
 
       </div>
     </footer>
-<style type="text/css">
-#canvas, #myCanvas {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  display: block;
-  cursor: default;
-  z-index: 1040;
-}
-</style>
 
 <script type="text/javascript">
-// Actual ReportBack script
 
-  $(document).ready(function() {
-    report_warmup();
-
-    //$( "#dialog" ).dialog({ position: { my: "right top", at: "right bottom", of: window } , "width": 500});
-    //report_warmup2()
-
-  });
-
-
-    //$.getScript('assets/js/jquery.base64.min.js');
-    //$.getScript('assets/js/report-back.js');
+  // for demo purpose
+    // some user information that can come from your system
+    var user = new Object();
+    user.fullName = "John Doe"
+    user.permissions = "view and edit"
+    user.logedIn = "false"
+    user.otherStuff = "this and that"
+    // and a cookie value
+    document.cookie = escape("reportBack")+"="+escape("Demo value")+"; path=/";
 
 
-    //$.ajax({
-    //  url: 'assets/js/report-back.js',
-    //  async: false,
-    //  dataType: "script",
-    //});
 
 
-       /*  Facebook style */
-        //  var d=document
-        //  h=d.getElementsByTagName('head')[0]
-        //  s=d.createElement('script')
-        //  s.type='text/javascript'
-        //  s.async=true
-        //  s.src='assets/js/report-back.min.js'
-        //  h.appendChild(s)
+    // Append the feedback button. This could also be
+    $('body').append("<div id='feedback' class='btn feedbackBtnGroup'><i class='icon-bullhorn'></i> Feedback</div>")
+    $('#feedback').css({position : 'fixed',bottom : '0',right : '0'})
+
+    // Set up the click event that will load the js file and its dependencies
+    //
+<!--    -->
+      $("#feedback").on("click",function (){
+      $.getScript("assets/js/report-back.js", function() { report_warmup_dyn(user) })
+    })
+
+    //report_warmup()
+
 
 </script>
 
@@ -237,11 +239,7 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="assets/js/report-back.js"></script>
-    <script src="assets/js/html2canvas.min.js"></script>
-    <script src="assets/js/jquery.base64.js"></script>
     <script src="assets/js/jquery.ui.js"></script>
-
 
 
     <script src="assets/js/bootstrap.min.js"></script>
