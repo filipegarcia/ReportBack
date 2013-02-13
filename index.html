@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
   <head>
        <meta charset="utf-8">
     <title>Report Back</title>
@@ -65,8 +65,8 @@
 
         <h2>Description</h2>
         <p>The Tool is loaded dynamically when the feedback button is clicked. It grabs user information, browser information, operating system information, the page html code, and a screenshot of the rendered page.<br>
-        It allow the user to highlight or blackout a portion of the page.<br>
-        The screenshot is done on client side and allows to see the viewport of the client and how the page was rendered.<br/> For this html2canvas comes to the rescue. Taking the screenshot in client side is like building a browser inside the browser, and rendering the page again in the browser. <br>
+        It allows the user to highlight or blackout a portion of the page.<br>
+        The screenshot is done in client-side and allows to see the viewport of the client and how the page was rendered.<br/> For this html2canvas comes to the rescue. Taking the screenshot in client side is like building a browser inside the browser, and rendering the page again in the browser. <br>
         In the end, you can save the json result that was created.<br>
         <i>The thumbnail creation is still really buggy but the full screenshot is recorded (when canvas is supported).</i>
         </p>
@@ -116,19 +116,18 @@ $("#feedback").on("click",function (){
             <dd>everything that </dd>
 
             <dt>Anything else</dt>
-            <dd>just add more stuff to be recored from you own system</dd>
-
+            <dd>just add more stuff to be recorded from you own system</dd>
           </dl>
         </p>
 
 
 
     <h2>Dependencies</h2>
-      <p>The dependencies could all injected in the page when the user clicks the feedback button or loaded normally.</p>
+      <p>The dependencies could all be injected in the page when the user clicks the feedback button or loaded normally.</p>
 
 <div class="bs-docs-example">
-  <div id="newnav"></div>
-  For this demo it's only needed this ones:
+  <div id="newnav2"></div>
+  For this demo only these ones are needed:
 </div>
 <pre class="prettyprint linenums">
 &lt;script src="assets/js/jquery.js"&gt;&lt;/script&gt;
@@ -136,7 +135,7 @@ $("#feedback").on("click",function (){
 </pre>
 
 <div class="bs-docs-example">
-  <div id="newnav"></div>
+  <div id="newnav3"></div>
   But these are all the dependencies used by the tool:
 </div>
 <pre class="prettyprint linenums">
@@ -150,7 +149,7 @@ $("#feedback").on("click",function (){
 &lt;script src="assets/js/jquery.base64.min.js"&gt;&lt;/script&gt;
 &lt;script src="assets/js/report-back.min.js"&gt;&lt;/script&gt;
 </pre>
-
+<p></p>
 
     <h3>Download</h3>
 
@@ -209,7 +208,7 @@ $("#feedback").on("click",function (){
     user.logedIn = "false"
     user.otherStuff = "this and that"
     // and a cookie value
-    document.cookie = escape("reportBack")+"="+escape("Demo value")+"; path=/";
+    document.cookie = encodeURI("reportBack")+"="+encodeURI("Demo value")+"; path=/";
 
 
 
@@ -220,7 +219,7 @@ $("#feedback").on("click",function (){
 
     // Set up the click event that will load the js file and its dependencies
     //
-<!--    -->
+
       $("#feedback").on("click",function (){
       $.getScript("assets/js/report-back.js", function() { report_warmup_dyn(user) })
     })

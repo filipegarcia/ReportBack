@@ -138,10 +138,11 @@ function drawDialog(){
 	'		<div class="span6">'+
 	'			<div id="screenPreview">'+
 	'					<b>Screenshot</b>'+
-	'	 			<div id="screenshootImg" >'+
-	'						<div id="thumbProgress" class="progress progress-striped active">'+
-	'							<div class="bar" style="width: 100%;"></div>'+
-	'							</div></div>'+
+	'					<div id="thumbProgress" class="progress progress-striped active">'+
+	'						<div class="bar" style="width: 100%;"></div>'+
+	'					</div>'+
+	'	 				<div id="screenshootImg" >'+
+  '					</div>'+
 	'			</div>'+
 	'		</div>'+
 	'		</div>'+
@@ -155,15 +156,26 @@ function drawDialog(){
 
 function cleanup() {
 console.log("close")
-hideCanvas()
-$('#feedback').show()
-$('#step1').show()
-$('#step2').hide()
-$('#step3').hide()
-$("#feedback").unbind('click')
-$("#feedback").on('click', function(){
-	goStep1()
-})
+
+	//Hide the  canvas element
+	hideCanvas()
+	//return to initial state
+	$('#feedback').show()
+	$('#step1').show()
+	$('#step2').hide()
+	$('#step3').hide()
+
+	//Now the click on the feedback button has to be different
+	$("#feedback").unbind('click').on('click', function(){
+		goStep1()
+	})
+
+	//Clear the environment variables
+	$(".pageInfo").empty()
+	$(".userInfo").empty()
+	$(".browserInfo").empty()
+
+	cleanThumbElement()
 }
 
 	// 	Get the user feedback description.
@@ -177,7 +189,7 @@ $("#feedback").on('click', function(){
 			modal: false,
 			resizable: false,
 			zIndex: 1050,
-      close: function() {cleanup()}
+            close: function() {cleanup()}
 		})
 
 		if ($("#step2").is(':visible') ) {
@@ -196,9 +208,7 @@ $("#feedback").on('click', function(){
 	function goStep2() {
 
 
-		$('#reportDialog').dialog({ width: 500})
-
-		$('#reportDialog').dialog("widget").animate({
+		$('#reportDialog').dialog({ width: 500}).dialog("widget").animate({
 			left: $(window).width()  - 550,
 			top:  $(window).height() - 350
 		}, 1000);
@@ -229,9 +239,8 @@ $("#feedback").on('click', function(){
 		$('#reportDialog').dialog("widget").animate({
         left: ($(window).width()/2  ) - 450 ,
         top:  ($(window).height()/2 ) - 260
-    }, 1000);
-
-		$('#reportDialog').dialog({width: 900})
+    }, 1000)
+      $('#reportDialog').dialog({width: 900})
 
 		$('#step2').hide("blind", { direction: "vertical" }, 500)
 		$('#step3').show("blind", { direction: "vertical" }, 500)
@@ -298,6 +307,7 @@ function setStep3Buttons(){
       class: "btn",
       click:function(){
       	goStep2()
+        cleanThumbElement()
       }
     	},{
     	text:"Next",
@@ -331,7 +341,6 @@ function drawViewportBox(){
 //		The new canvas is then appended to the modal box with fixed width
 //			(not a real thumbnail I now)
 function makeThumbnail(){
-
 	var $w = $(window)
 
 	var original = new Image()
@@ -388,7 +397,7 @@ function takeScreenShot(){
 
 		var $w = $(window)
 		// record current viewport position to set it later
-		var oldtop = $w.scrollTop()
+		var oldTop = $w.scrollTop()
 		var oldLeft = $w.scrollLeft()
 
 		// set the dialog to be ignored by html2canvas
@@ -401,7 +410,7 @@ function takeScreenShot(){
 	  	  var data = canvas.toDataURL()
 
 	  	  //the render canvas messes up the viewport
-				$w.scrollTop(oldtop)
+				$w.scrollTop(oldTop)
 				$w.scrollLeft(oldLeft)
 
 	    	// add screenshot image to report
@@ -421,11 +430,15 @@ function takeScreenShot(){
 
 	// Clean canvas after all the work is done
 	function hideCanvas(){
-console.log("hide canvas")
 				$("#canvas").hide()
 				$("#myCanvas").hide()
 	}
 
+	// clean the preview of the thumbnail
+	function cleanThumbElement(){
+		$("#screenshootImg").empty()
+		$("#thumbProgress").show()
+	}
 /* #########################################################################################
 
 		Fetch environment values
@@ -434,6 +447,7 @@ console.log("hide canvas")
 
 
 function fillInInfo(){
+
 	//Fetch info
 		writeUserInfo()
 		writePageInfo()
@@ -486,28 +500,30 @@ function get_cookies_array() {
 
 
 function writeBrowserInfo() {
-   $(".browserInfo").append("<h4>Browser version:</h4>")
+   var browserInfo = $(".browserInfo")
+   browserInfo.append("<h4>Browser version:</h4>")
    dumpVars(jQuery.browser, ".browserInfo")
-   report.browserInfo =  jQuery.browser
+   report.browserInfo = jQuery.browser
 
-   $(".browserInfo").append("<h4>Operating System: </h4>")
+   browserInfo.append("<h4>Operating System: </h4>")
    dumpVars(navigator, ".browserInfo", ['plugins', 'mimeTypes'])
-   report.navigator =  navigator
+   report.navigator = navigator
 
-   $(".browserInfo").append("<h4>Installed Plugins: </h4>" + showPlugins())
+   browserInfo.append("<h4>Installed Plugins: </h4>" + showPlugins())
 }
 
 function writePageInfo() {
+   var pageInfo  = $(".pageInfo")
    // Get all page url info
-   $(".pageInfo").append("<h4>Page Url:</h4>")
+   pageInfo.append("<h4>Page Url:</h4>")
    dumpVars(window.location, ".pageInfo", ["ancestorOrigins"])
    report.location = window.location
 
    // Get all DOM elements
    var html = $.base64.encode($("html").clone().html())
    //var html = $("html").clone().html()
-   $(".pageInfo").append("<h4>Page Structure:</h4>")
-   $(".pageInfo").append("<div class='row-fluid'><textarea rows='4' class='span12'>" + html + "</textarea></div>")
+    pageInfo.append("<h4>Page Structure:</h4>")
+                 .append("<div class='row-fluid'><textarea rows='4' class='span12'>" + html + "</textarea></div>")
    report.encodedHtml = html
 
 }
@@ -515,17 +531,17 @@ function writePageInfo() {
 
 
 function writeUserInfo() {
-
+    var userinfo = $(".userInfo")
 	//Check if the user has something filled in
 	if (report.user != null) {
-		$(".userInfo").append("<h4>User Info:</h4>")
+        userinfo.append("<h4>User Info:</h4>")
 		dumpVars(report.user, ".userInfo")
 	}
 
 	// Get all cookies
 	var cookies = get_cookies_array()
 	if (!$.isEmptyObject(cookies)) {
-		$(".userInfo").append("<h4>Cookies:</h4>")
+        userinfo.append("<h4>Cookies:</h4>")
 		dumpVars(cookies, ".userInfo")
 		report.cookies = cookies
 	}
