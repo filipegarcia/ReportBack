@@ -155,8 +155,6 @@ function drawDialog(){
 }
 
 function cleanup() {
-console.log("close")
-
 	//Hide the  canvas element
 	hideCanvas()
 	//return to initial state
@@ -326,6 +324,11 @@ function setStep3Buttons(){
 
 ######################################################################################### */
 
+function isCanvasSupported(){
+  var elem = document.createElement('canvas');
+  return !!(elem.getContext && elem.getContext('2d'));
+}
+
 
 //Draw a red stoke around the viewport so when the screenshot is taken
 //		the viewport is defined
@@ -343,11 +346,11 @@ function drawViewportBox(){
 function makeThumbnail(){
 	var $w = $(window)
 
+
 	var original = new Image()
   original.src    = report.screenshot
 
 //TODO check why the thumbnail is not always created.
-//$("header").after("<img class='wedwed' src='"+ report.screenshot +"' alt='Page Screenshot' width='400' >")
 
 
 	$('body').append('<canvas id="thumbCanvas"></canvas>')
@@ -365,8 +368,42 @@ function makeThumbnail(){
 
 	var thumbContext = thumbCanvas[0].getContext('2d')
 
+
+//  thumbContext.drawImage(original, $w.scrollLeft(), $w.scrollTop(), $w.width(), $w.height(), 0, 0, $w.width(), $w.height() )
+
+
+
 	//set viewport crop window
+	// It looks like drawImage doesn't like to wait for original image
+	// so divided the function to a loop for now.
+	//TODO add loop limit counter
+	//TODO try to optimize this process
+	cropImg(original,thumbContext, $w, thumbCanvas, thumbCanvasBlank)
+
+}
+
+
+// try to draw the thumbnail
+// if it's still empty, try again.
+function cropImg(original, thumbContext, $w, thumbCanvas, thumbCanvasBlank){
+
   thumbContext.drawImage(original, $w.scrollLeft(), $w.scrollTop(), $w.width(), $w.height(), 0, 0, $w.width(), $w.height() )
+
+	if (thumbCanvas[0].toDataURL() == thumbCanvasBlank[0].toDataURL()) {
+		setTimeout(function(){
+			cropImg(original, thumbContext, $w, thumbCanvas, thumbCanvasBlank)
+		},500)
+	}
+	else{
+		finishCrop(original, thumbContext, $w, thumbCanvas, thumbCanvasBlank)
+	}
+
+}
+
+
+
+// It would be cool to catch invalidstateerror instead of doing this bad trick
+function finishCrop(original, thumbContext, $w, thumbCanvas, thumbCanvasBlank){
 
 	report.thumb = thumbCanvas[0].toDataURL()
 
@@ -385,10 +422,14 @@ function makeThumbnail(){
 	else{
 		var thumbErrorMsg = 'There was a problem creating the screenshot :(<br/> '+
 				'Don\'t worry, submit your feedback anyway'
-		$("#screenshootImg").append(thumbErrorMsg)
+				$("#screenshootImg").append(thumbErrorMsg)
 	}
 
 }
+
+
+
+
 
 
 function takeScreenShot(){
@@ -422,7 +463,8 @@ function takeScreenShot(){
 				fillInInfo()
 
 				// Create screenshot thumbnail
-				setTimeout(makeThumbnail(),2000)
+				makeThumbnail()
+				//setTimeout(function(){makeThumbnail()},2000)
 
 			}
 		})
