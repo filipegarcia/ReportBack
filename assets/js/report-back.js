@@ -437,6 +437,7 @@ function finishCrop(original, thumbContext, $w, thumbCanvas, thumbCanvasBlank){
 
 
 function takeScreenShot(){
+
 		// Draw outline on viewport
 		drawViewportBox()
 
@@ -452,6 +453,7 @@ function takeScreenShot(){
 		//you can enable logging on
 		//logging:true ,
 	    onrendered: function(canvas) {
+
 	  	  var data = canvas.toDataURL()
 
 	  	  //the render canvas messes up the viewport
@@ -546,6 +548,7 @@ function get_cookies_array() {
 
 
 function writeBrowserInfo() {
+
    var browserInfo = $(".browserInfo")
    browserInfo.append("<h4>Browser version:</h4>")
    dumpVars(jQuery.browser, ".browserInfo")
@@ -790,10 +793,12 @@ $.widget("ui.boxer", $.ui.mouse, {
 // stretch Canvas and div to full page
 function stretchOut(){
 
-    drawCanvas.width(document.width)
-    drawCanvas.height(document.height)
+	var width = getDocWidth()
+	var height = getDocHeight()
+    drawCanvas.width(width)
+    drawCanvas.height(height)
 
-  	myCanvas.attr({ width: document.width, height: document.height })
+  	myCanvas.attr({ width: width, height: height })
 
 
   // Fill the canvas with black opacity of shade
@@ -821,13 +826,84 @@ function cleanCanvas(){
   context.fillRect (0,0,myCanvas.width(),myCanvas.height())
 }
 
+function getDocWidth() {
+    return document.documentElement.offsetWidth
+}
 
+function getDocHeight() {
+    var D = document
+    return Math.max(
+        Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
+        Math.max(D.body.offsetHeight, D.documentElement.offsetHeight),
+        Math.max(D.body.clientHeight, D.documentElement.clientHeight)
+    )
+}
 
 }
 
 
 
 
+// So $.browser was removed in jQuery 1.9 but I really need it
+// 	not to make conditional changes but to output the browser info,
+//	and because of that I'm including it in here again.
+(function() {
+
+    var matched, browser;
+    jQuery.uaMatch = function( ua ) {
+        ua = ua.toLowerCase();
+
+        var match = /(chrome)[ \/]([\w.]+)/.exec( ua ) ||
+            /(webkit)[ \/]([\w.]+)/.exec( ua ) ||
+            /(opera)(?:.*version|)[ \/]([\w.]+)/.exec( ua ) ||
+            /(msie) ([\w.]+)/.exec( ua ) ||
+            ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec( ua ) ||
+            [];
+
+        return {
+            browser: match[ 1 ] || "",
+            version: match[ 2 ] || "0"
+        };
+    };
+
+    matched = jQuery.uaMatch( navigator.userAgent );
+    browser = {};
+
+    if ( matched.browser ) {
+        browser[ matched.browser ] = true;
+        browser.version = matched.version;
+    }
+
+// Chrome is Webkit, but Webkit is also Safari.
+    if ( browser.chrome ) {
+        browser.webkit = true;
+    } else if ( browser.webkit ) {
+        browser.safari = true;
+    }
+
+    jQuery.browser = browser;
+
+    jQuery.sub = function() {
+        function jQuerySub( selector, context ) {
+            return new jQuerySub.fn.init( selector, context );
+        }
+        jQuery.extend( true, jQuerySub, this );
+        jQuerySub.superclass = this;
+        jQuerySub.fn = jQuerySub.prototype = this();
+        jQuerySub.fn.constructor = jQuerySub;
+        jQuerySub.sub = this.sub;
+        jQuerySub.fn.init = function init( selector, context ) {
+            if ( context && context instanceof jQuery && !(context instanceof jQuerySub) ) {
+                context = jQuerySub( context );
+            }
+            return jQuery.fn.init.call( this, selector, context, rootjQuerySub );
+        };
+        jQuerySub.fn.init.prototype = jQuerySub.fn;
+        var rootjQuerySub = jQuerySub(document);
+        return jQuerySub;
+    };
+
+})();
 
 
 
