@@ -11,6 +11,7 @@ var report = []
 
 
 function saveReport() {
+_gaq.push(['_trackEvent', 'step', 'save', ''])
 
 	var finalMsg = "<h3>All done</h3>  Now it's up to you to do something with the gathered info."+
 	"<br/>Check console to view the log of the report object "
@@ -177,6 +178,7 @@ function cleanup() {
 	// 	Get the user feedback description.
 	// 		prepare click actions for step1
 	function goStep1() {
+	_gaq.push(['_trackEvent', 'step', '1', ''])
 
 		$("#feedback").hide()
 
@@ -206,6 +208,7 @@ function cleanup() {
 	// 	Show modal that allow user to highlight and black out the page.
 	// 		Set up canvas element and prepare click event for step 2
 	function goStep2() {
+	_gaq.push(['_trackEvent', 'step', '2', ''])
 
 		var reportDialog = $('#reportDialog')
 
@@ -236,6 +239,7 @@ function cleanup() {
 	// show the screenshot taken and all the info about the environment
 	//		set up buttons for step 3
   function goStep3() {
+  _gaq.push(['_trackEvent', 'step', '3', ''])
 
 		//	animate to center, already using the new width
 		$('#reportDialog').dialog("widget").animate({
