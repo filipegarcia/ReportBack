@@ -1668,7 +1668,9 @@ _html2canvas.Parse = function (images, options) {
     elps.className = pseudoHide + "-before " + pseudoHide + "-after";
 
     Object.keys(elStyle).filter(indexedProperty).forEach(function(prop) {
-      elps.style[prop] = elStyle[prop];
+      if(elStyle[prop] != undefined && elStyle[prop] != ''){
+       elps.style[prop] = elStyle[prop];
+      }
     });
 
     if(isImage) {
