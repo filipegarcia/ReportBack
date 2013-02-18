@@ -32,7 +32,7 @@ function report_warmup_dyn(userInfo) {
 		// the rest of the dependencies
 		$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'assets/css/jquery.ui.css') );
 		$.getScript('assets/js/jquery.base64.min.js');
-    $.getScript('assets/js/html2canvas.min.js');
+    $.getScript('assets/js/html2canvas.js');
 
   //Draw modal dialog and set step 1
 
@@ -355,6 +355,9 @@ function makeThumbnail(){
   original.src    = report.screenshot
 
 	$('body').append('<canvas id="thumbCanvas"></canvas>')
+//console.log( $w.scrollLeft() +" - "+$w.scrollTop() +" - "+$w.width() +" - "+$w.height())
+
+
 
 	// The thumbnail will be drawn in here
 	var thumbCanvas = $("#thumbCanvas")
@@ -412,7 +415,7 @@ function finishCrop(original, $w, thumbCanvas, thumbCanvasBlank){
 
 	// Check if canvas is empty
 	if( thumbCanvas[0].toDataURL() != thumbCanvasBlank[0].toDataURL() ){
-		$("#screenshootImg").append("<img class='screenShotCanvas' src='"+ report.thumb +
+		$("#screenshootImg").append("<img class='screenShotCanvas' src='"+ report.screenshot +
             "' alt='Page Screenshot' width='400' >")
 	}
 	else{
@@ -425,9 +428,7 @@ function finishCrop(original, $w, thumbCanvas, thumbCanvasBlank){
 
 
 
-
-
-
+// Taking the screenshot of the hole image
 function takeScreenShot(){
 
 		// Draw outline on viewport

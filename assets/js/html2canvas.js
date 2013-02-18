@@ -7,7 +7,6 @@
 
 (function(window, document, undefined){
 
-"use strict";
 
 var _html2canvas = {},
 previousElement,
