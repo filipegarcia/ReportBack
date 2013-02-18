@@ -354,9 +354,6 @@ function makeThumbnail(){
 	var original = new Image()
   original.src    = report.screenshot
 
-//TODO check why the thumbnail is not always created.
-
-
 	$('body').append('<canvas id="thumbCanvas"></canvas>')
 
 	// The thumbnail will be drawn in here
@@ -370,36 +367,31 @@ function makeThumbnail(){
 	thumbCanvasBlank[0].width = $w.width()
   thumbCanvasBlank[0].height = $w.height()
 
-	var thumbContext = thumbCanvas[0].getContext('2d')
-
-
-//  thumbContext.drawImage(original, $w.scrollLeft(), $w.scrollTop(), $w.width(), $w.height(), 0, 0, $w.width(), $w.height() )
-
-
-
 	//set viewport crop window
 	// It looks like drawImage doesn't like to wait for original image
 	// so divided the function to a loop for now.
 	//TODO add loop limit counter
 	//TODO try to optimize this process
-	cropImg(original,thumbContext, $w, thumbCanvas, thumbCanvasBlank)
+	startCrop(original, $w, thumbCanvas, thumbCanvasBlank)
 
 }
 
 
 // try to draw the thumbnail
 // if it's still empty, try again.
-function cropImg(original, thumbContext, $w, thumbCanvas, thumbCanvasBlank){
+function startCrop(original, $w, thumbCanvas, thumbCanvasBlank){
+	var thumbContext = thumbCanvas[0].getContext('2d')
 
+	// draw the viewport image and copy it to another var
   thumbContext.drawImage(original, $w.scrollLeft(), $w.scrollTop(), $w.width(), $w.height(), 0, 0, $w.width(), $w.height() )
 
 	if (thumbCanvas[0].toDataURL() == thumbCanvasBlank[0].toDataURL()) {
 		setTimeout(function(){
-			cropImg(original, thumbContext, $w, thumbCanvas, thumbCanvasBlank)
+			startCrop(original, $w, thumbCanvas, thumbCanvasBlank)
 		},500)
 	}
 	else{
-		finishCrop(original, thumbContext, $w, thumbCanvas, thumbCanvasBlank)
+		finishCrop(original, $w, thumbCanvas, thumbCanvasBlank)
 	}
 
 }
@@ -407,7 +399,7 @@ function cropImg(original, thumbContext, $w, thumbCanvas, thumbCanvasBlank){
 
 
 // It would be cool to catch invalidstateerror instead of doing this bad trick
-function finishCrop(original, thumbContext, $w, thumbCanvas, thumbCanvasBlank){
+function finishCrop(original, $w, thumbCanvas, thumbCanvasBlank){
 
 	report.thumb = thumbCanvas[0].toDataURL()
 
