@@ -21,10 +21,10 @@ function saveReport() {
 
 }
 
+//Initialize the report back, dynamically loading the scripts and css and setp up step 1
 function report_warmup_dyn(userInfo) {
 
 	//Load the dependencies
-
 		// I already loaded the bootstrap for the demo page but you might need them in here
 		$.getScript('assets/js/bootstrap.min.js');
 		$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'assets/css/bootstrap.min.css') );
@@ -44,12 +44,10 @@ function report_warmup_dyn(userInfo) {
 
 function report_warmup() {
 
-
 	$("#feedback").on("click", function () {
 		drawDialog()
 		goStep1()
 	})
-
 
 }
 
@@ -187,8 +185,12 @@ function cleanup() {
 			modal: false,
 			resizable: false,
 			zIndex: 1050,
-            close: function() {cleanup()}
+      close: function() {cleanup()}
 		})
+
+		// fixing the position because the dialog is injected in the body
+		$(".ui-dialog ").css("position","fixed")
+		$("#reportDialog").dialog("option", "position", "center");
 
 		if ($("#step2").is(':visible') ) {
 			$('#step2').hide("blind", { direction: "vertical" }, 500)
@@ -205,8 +207,10 @@ function cleanup() {
 	// 		Set up canvas element and prepare click event for step 2
 	function goStep2() {
 
+		var reportDialog = $('#reportDialog')
 
-		$('#reportDialog').dialog({ width: 500}).dialog("widget").animate({
+		reportDialog.dialog({ width: 500})
+		reportDialog.dialog("widget").animate({
 			left: $(window).width()  - 550,
 			top:  $(window).height() - 350
 		}, 1000);
