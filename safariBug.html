@@ -1,0 +1,268 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/html">
+  <head>
+       <meta charset="utf-8">
+    <title>Report Back</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="assets/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="assets/css/docs.css" rel="stylesheet">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+    <script src="assets/js/jquery.js"></script>
+
+  </head>
+   <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+    <!-- Navbar
+    ================================================== -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="./index.html">ReportBack</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active">
+                <a href="#">Home</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- Subhead
+================================================== -->
+<header class="jumbotron subhead" id="overview">
+  <div class="container">
+    <h1>Report Back</h1>
+    <p class="lead">feedback and bug report <i>à la</i> youtube</p>  </div>
+</header>
+
+  <div class="container">
+
+      <section id="Report-Back<">
+
+        <h2>Description</h2>
+        <p>Working fine in chrome and firefox and opera(slow but working). <br>
+          The Tool is loaded dynamically when the feedback button is clicked. It grabs user information, browser information, operating system information, the page html code, and a screenshot of the rendered page.<br>
+        It allows the user to highlight or blackout a portion of the page.<br>
+        The screenshot is done in client-side and allows to see the viewport of the client and how the page was rendered.<br/> For this html2canvas comes to the rescue. Taking the screenshot in client side is like building a browser inside the browser, and rendering the page again in the browser. <br>
+        In the end, you can save the json result that was created.<br>
+        <i>The thumbnail creation is still a little buggy.</i>
+        </p>
+
+         <h2>Demo</h2>
+        <p>
+          Press the feedback button on the right bottom corner to try it out
+        </p>
+        <br>
+        <h2>Markup</h2>
+        <div class="bs-docs-example">
+
+<div id="newnav"></div>
+You can draw the feedback button directly in your layout and just add the click event. <br>
+This only needs jquery, jqueryUI and the rest can be added dynamically.
+</div>
+
+<pre class="prettyprint linenums">
+&lt;script type="text/javascript"&gt;
+
+$("#feedback").on("click",function (){
+  $.getScript("assets/js/report-back.js", function() { report_warmup_dyn() })
+})
+
+&lt;/script&gt;
+</pre>
+
+
+
+        <h2>What is grabbed?</h2>
+        <p>
+          <dl>
+            <dt>Browser info</dt>
+            <dd>Version</dd>
+            <dd>Installed plugins</dd>
+
+            <dt>Screenshot</dt>
+            <dd>a rendered version of the page with highlight and blackout parts</dd>
+            <dd>cropped version of the viewport</dd>
+
+            <dt>Page info</dt>
+            <dd>Full url info</dd>
+            <dd>page structure</dd>
+
+            <dt>User info</dt>
+            <dd>Cookies</dd>
+            <dd>everything that </dd>
+
+            <dt>Anything else</dt>
+            <dd>just add more stuff to be recorded from you own system</dd>
+          </dl>
+        </p>
+
+
+
+    <h2>Dependencies</h2>
+      <p>The dependencies could all be injected in the page when the user clicks the feedback button or loaded normally.</p>
+
+<div class="bs-docs-example">
+  <div id="newnav2"></div>
+  For this demo only these ones are needed:
+</div>
+<pre class="prettyprint linenums">
+&lt;script src="assets/js/jquery.js"&gt;&lt;/script&gt;
+&lt;script src="assets/js/jquery.ui.js"&gt;&lt;/script&gt;
+</pre>
+
+<div class="bs-docs-example">
+  <div id="newnav3"></div>
+  But these are all the dependencies used by the tool:
+</div>
+<pre class="prettyprint linenums">
+&lt;link href="assets/css/bootstrap.min.css" rel="stylesheet"&gt;
+&lt;link href="assets/css/jquery.ui.css" rel="stylesheet"&gt;
+
+&lt;script src="assets/js/jquery.js"&gt;&lt;/script&gt;
+&lt;script src="assets/js/bootstrap.min.js"&gt;&lt;/script&gt;
+&lt;script src="assets/js/jquery.ui.js"&gt;&lt;/script&gt;
+&lt;script src="assets/js/html2canvas.min.js"&gt;&lt;/script&gt;
+&lt;script src="assets/js/jquery.base64.min.js"&gt;&lt;/script&gt;
+&lt;script src="assets/js/report-back.min.js"&gt;&lt;/script&gt;
+</pre>
+<p></p>
+
+    <h3>Download</h3>
+
+    Drop me a <a href="mailto:hello@evolving.in">line</a> if you're using this in your project. <br>
+    <div class="well center" style="max-width: 400px; margin: 30px auto 10px;text-align: center;">
+      <div class="btn-group" style="width: 123px; margin: 0 auto;">
+        <a class="btn btn-primary" href="https://github.com/filipegarcia/ReportBack/archive/gh-pages.zip"><i class="icon-download-alt icon-white"></i> Download</a>
+        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+
+        <ul class="dropdown-menu">
+          <li><a href="https://github.com/filipegarcia/ReportBack">View On <strong>GitHub</strong></a></li>
+          <li><a href="https://github.com/filipegarcia/ReportBack/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/filipegarcia/ReportBack/tarball/master">Download <strong>TAR Ball</strong></a></li>
+        </ul>
+      </div>
+    </div>
+
+
+  <h2>ToDos:</h2>
+    <p>Add a function to remove highlight and black out boxes individually</p>
+    <p>In older browsers that don't support canvas, don't take screenshot</p>
+    <p>Add extra fields to be saved(public and "private")</p>
+    <p> </p>
+
+  </section>
+
+</div>
+
+
+
+    <!-- Footer ================================================== -->
+    <footer class="footer" style="text-align: left;">
+      <div class="container">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+
+        <p>Report Back <a href="mailto:hello@evolving.in">Filipe Garcia</a>.</p>
+        <p>html2canvas <a href="https://github.com/niklasvh/html2canvas/tree/gh-pages">Niklas von Hertzen</a>.</p>
+        <p>Twitter Bootsrap with all the love in the world <a href="http://twitter.com/twitter" target="_blank">@twitter</a> by <a href="http://twitter.com/mdo" target="_blank">@mdo</a> and <a href="http://twitter.com/fat" target="_blank">@fat</a>.</p>
+        <p>Code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+        <p>Icons from <a href="http://glyphicons.com">Glyphicons Free</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+        <p>jQuery UI from <a href="http://http://jqueryui.com">jQuery UI</a>.</p>
+        <p>jQuery UI Bootstrap theme from <a href="http://addyosmani.github.com/jquery-ui-bootstrap/">Addy Osmani</a>.</p>
+
+      </div>
+    </footer>
+
+<script type="text/javascript">
+
+  // for demo purpose
+    // some user information that can come from your system
+    var user = new Object();
+    user.fullName = "John Doe"
+    user.permissions = "view and edit"
+    user.logedIn = "false"
+    user.otherStuff = "this and that"
+    // and a cookie value
+    document.cookie = encodeURI("reportBack")+"="+encodeURI("Demo value")+"; path=/";
+
+
+
+
+    // Append the feedback button. This could also be
+    $('body').append("<div id='feedback' class='btn feedbackBtnGroup'><i class='icon-bullhorn'></i> Feedback</div>")
+    $('#feedback').css({position : 'fixed',bottom : '0',right : '0'})
+
+    // Set up the click event that will load the js file and its dependencies
+    //
+
+      $("#feedback").on("click",function (){
+      $.getScript("assets/js/report-backSafariBug.js", function() { report_warmup_dyn(user) })
+    })
+
+    //report_warmup()
+
+
+</script>
+
+
+
+
+
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/jquery.ui.js"></script>
+    <script src="assets/js/report-back.js"></script>
+
+
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/google-code-prettify/prettify.js"></script>
+    <script src="assets/js/application.js"></script>
+
+
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37955838-1']);
+  _gaq.push(['_setDomainName', 'github.com']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>
