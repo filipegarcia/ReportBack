@@ -67,7 +67,7 @@ function drawDialog(){
 	'          Report Back lets you send suggestions about the product.'+
 	'					 We welcome problem reports, feature ideas and general comments.<br/><br/>'+
 	'					 Legal notifications sent through Report Back will not be processed and '+
-	'they\'r something I don\'t care about in here.<br/><br/>'+
+	'they\'r something I don\'t care about in here.(Legal mambo-jambo)<br/><br/>'+
 	'					 Start by writing a brief description:'+
 	'          <textarea id="usrDescription" rows="5" class="span12"></textarea>'+
 	'						Next we\'ll let you identify areas of the page related to your description.'+
