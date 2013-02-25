@@ -822,17 +822,17 @@ $.widget("ui.boxer", $.ui.mouse, {
 
     return false
   }
+
 })
 
-<<<<<<< HEAD
-=======
+
 	// Using the boxer "plugin"
 	//$('#canvas').boxer({
 	//  stop: function(event, ui) {
 	//    ui.box.addClass($boxSettings)
 	//  }
 	//})
->>>>>>> refs/heads/master
+//
 
 $.extend($.ui.boxer.prototype, {
     options: $.extend({}, $.ui.mouse.prototype.options, {
@@ -840,7 +840,6 @@ $.extend($.ui.boxer.prototype, {
         distance: 0
     })
 });
-<<<<<<< HEAD
 // Using the boxer plugin
 $(window).boxer({
     stop: function(event, ui) {
@@ -848,14 +847,8 @@ $(window).boxer({
         console.log(ui.box);
     }
 });
-=======
-$(window).boxer({
-    stop: function(event, ui) {
-        var offset = ui.box.offset();
-    }
-});
 
->>>>>>> refs/heads/master
+
 
 // stretch Canvas and div to full page
 function stretchOut(){
