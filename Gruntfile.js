@@ -53,8 +53,8 @@ grunt.initConfig({
       'default',
       [
           'uglify',
+          'jshint'
           //'cssmin',
-          //'jshint'
       ]
   );
 };
