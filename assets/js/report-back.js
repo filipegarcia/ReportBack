@@ -144,7 +144,7 @@ function drawDialog(){
 	'					<div id="thumbProgress" class="progress progress-striped active">'+
 	'						<div class="bar" style="width: 100%;"></div>'+
 	'					</div>'+
-	'	 				<div id="screenshootImg" >'+
+	'			<div id="screenshootImg">'+
   '					</div>'+
 	'			</div>'+
 	'		</div>'+
@@ -268,8 +268,8 @@ function cleanup() {
 		//take the screenshot and continue the logic after that
 		// wait after the animation is complete or otherwise the screen would freeze
 		setTimeout(function(){
-    	takeScreenShot()
-  	}, 1000);
+			takeScreenShot()
+		},1000)
 
 	}
 
@@ -285,35 +285,37 @@ function setStep1Buttons(){
 	$('#reportDialog').dialog({
 		buttons: [{
 			text:"Next",
-      class: "btn",
       click: function(){
-    		goStep2()
+				goStep2()
       }
 	  }]
 	})
+
+	$(".ui-dialog-buttonset :button").addClass("btn")
 }
+
 function setStep2Buttons(){
 
 	$('#reportDialog').dialog({
 		buttons: [{
 				text:"Back",
-				class: "btn",
 				click:function(){
 					goStep1()
-        	// The animation is only set only when coming back
-        	$('#reportDialog').dialog("widget").animate({
-        		left: ($(window).width()  /2 ) - 250 ,
-        		top:  ($(window).height() /2 ) - 200
-        	}, 1000);
+					// The animation is only set only when coming back
+					$('#reportDialog').dialog("widget").animate({
+						left: ($(window).width()  /2 ) - 250 ,
+						top:  ($(window).height() /2 ) - 200
+					}, 1000);
 	      }
 		    },{
 		    text:"Next",
-		    class: "btn",
 		    click: function(){
-		    	goStep3()
+					goStep3()
 		    }
 	  }]
 	})
+
+	$(".ui-dialog-buttonset :button").addClass("btn")
 }
 
 
@@ -322,23 +324,22 @@ function setStep3Buttons(){
 	$('#reportDialog').dialog({
 		buttons: [{
       text:"Back",
-      class: "btn",
       click:function(){
-      	goStep2()
+				goStep2()
         cleanThumbElement()
       }
-    	},{
-    	text:"Submit",
-      class: "btn",
+			},{
+			text:"Submit",
       click: function(){
 
 				report.description = $("#updatedDescription").val()
-      	saveReport()
+				saveReport()
 
       }
-   	}]
+		}]
 	})
 
+	$(".ui-dialog-buttonset :button").addClass("btn")
 }
 
 function finishButtons(){
@@ -346,15 +347,15 @@ function finishButtons(){
 	$('#reportDialog').dialog({
 		buttons: [{
       text:"ok",
-      class: "btn",
       click:function(){
         $("#reportDialog").dialog( "close" )
         cleanup()
       }
 
-   	}]
+		}]
 	})
 
+	$(".ui-dialog-buttonset :button").addClass("btn")
 }
 /* #########################################################################################
 
@@ -455,7 +456,6 @@ function finishCrop(original, $w, thumbCanvas, thumbCanvasBlank){
 				'Don\'t worry, submit your feedback anyway'
 				$("#screenshootImg").append(thumbErrorMsg)
 	}
-
 }
 
 
@@ -477,15 +477,15 @@ function takeScreenShot(){
 		html2canvas($('body'), {
 		//you can enable logging on
 		//logging:true ,
-	    onrendered: function(canvas) {
+			onrendered: function(canvas) {
 
-	  	  var data = canvas.toDataURL()
+				var data = canvas.toDataURL()
 
-	  	  //the render canvas messes up the viewport
+				//the render canvas messes up the viewport
 				$w.scrollTop(oldTop)
 				$w.scrollLeft(oldLeft)
 
-	    	// add screenshot image to report
+				// add screenshot image to report
 				report.screenshot = data
 
 				hideCanvas()
@@ -535,7 +535,7 @@ function stripTags(val) { return val.replace(/<\/?[^>]+>/gi, ''); }
 function dumpVars(obj, div, notInclude) {
 		$div = $(div)
     jQuery.each(obj, function (j, val) {
-        if (typeof (val) != "function" && jQuery.inArray(j, notInclude) == -1 && val != "") {
+        if (typeof (val) != "function" && jQuery.inArray(j, notInclude) == -1 && val !== "") {
             $div.append(j + " : " + val + "<br/>")
         }
     })
@@ -560,7 +560,7 @@ function showPlugins() {
 
 function get_cookies_array() {
     var cookies = { }
-    if (document.cookie && document.cookie != '') {
+    if (document.cookie && document.cookie !== '') {
 			var split = document.cookie.split(';')
 			for (var i = 0; i < split.length; i++) {
 			  var name_value = split[i].split("=")
@@ -608,7 +608,7 @@ function writePageInfo() {
 function writeUserInfo() {
   var userinfo = $(".userInfo")
 	//Check if the user has something filled in
-	if (report.user != null) {
+	if (report.user !== null) {
         userinfo.append("<h4>User Info:</h4>")
 		dumpVars(report.user, ".userInfo")
 	}
@@ -634,7 +634,7 @@ function writeProductInfo(){
 	var out =	'<label><b>Product Info</b></label>'+
 	'			<div id="prodInfo" style="margin-left:20px;"></div>'
 
-	if (report.productInfo != null) {
+	if (report.productInfo !== null) {
 		$("#usertext").after(out)
 		dumpVars(report.productInfo , "#prodInfo")
 	}
@@ -666,7 +666,6 @@ function drawInCanvas(){
 	  'z-index': '1040'
 	})
 
-
 	var drawCanvas = $('#canvas')
 	var myCanvas = $('#myCanvas')
 	context = myCanvas[0].getContext('2d')
@@ -674,7 +673,6 @@ function drawInCanvas(){
 	var shadergb = "rgba(0, 0, 0, 0.295)"
 	var blackrgb = "rgba(0, 0, 0, 1)"
 	var whitergb = "rgba(0, 0, 0, 0)"
-
 
 	// initialization of the canvas element
 	stretchOut()
@@ -687,8 +685,6 @@ function drawInCanvas(){
 	  shrinkIn()
 	  stretchOut()
 	})
-
-
 
 	$.extend($.ui.boxer, {
 	  defaults: $.extend({}, $.ui.mouse.defaults, {
@@ -762,10 +758,10 @@ $.widget("ui.boxer", $.ui.mouse, {
     })
 
     if ($boxSettings == "highlight") {
-    	this.helper.css({"background": whitergb})
+			this.helper.css({"background": whitergb})
     }
     else{
-    	this.helper.css({"background": shadergb})
+			this.helper.css({"background": shadergb})
     }
   },
 
@@ -778,10 +774,11 @@ $.widget("ui.boxer", $.ui.mouse, {
 
     var options = this.options
 
-    var x1 = this.opos[0], y1 = this.opos[1], x2 = event.pageX, y2 = event.pageY;
+    var x1 = this.opos[0], y1 = this.opos[1], x2 = event.pageX, y2 = event.pageY
+		var tmp
 
-    if (x1 > x2) { var tmp = x2; x2 = x1; x1 = tmp; }
-    if (y1 > y2) { var tmp = y2; y2 = y1; y1 = tmp; }
+    if (x1 > x2) { tmp = x2; x2 = x1; x1 = tmp; }
+    if (y1 > y2) { tmp = y2; y2 = y1; y1 = tmp; }
     this.helper.css({left: x1, top: y1, width: x2-x1, height: y2-y1})
 
     this._trigger("drag", event)
@@ -806,12 +803,12 @@ $.widget("ui.boxer", $.ui.mouse, {
 
 
     // check if highlight or black out
- 		if ($boxSettings == "highlight") {
+		if ($boxSettings == "highlight") {
 			context.clearRect (bleft,btop,bwith,bheight)
     }
     else{
       context.fillStyle = blackrgb
-    	context.fillRect (bleft,btop,bwith,bheight)
+			context.fillRect (bleft,btop,bwith,bheight)
     }
 
     this.helper.remove()
@@ -819,13 +816,6 @@ $.widget("ui.boxer", $.ui.mouse, {
     return false
   }
 })
-
-	// Using the boxer "plugin"
-	//$('#canvas').boxer({
-	//  stop: function(event, ui) {
-	//    ui.box.addClass($boxSettings)
-	//  }
-	//})
 
 $.extend($.ui.boxer.prototype, {
     options: $.extend({}, $.ui.mouse.prototype.options, {
@@ -848,14 +838,14 @@ function stretchOut(){
     drawCanvas.width(width)
     drawCanvas.height(height)
 
-  	myCanvas.attr({ width: width, height: height })
+		myCanvas.attr({ width: width, height: height })
 
 
   // Fill the canvas with black opacity of shade
     context.fillStyle = shadergb
     context.fillRect (0,0,myCanvas.width(),myCanvas.height())
 
-  	cleanCanvas()
+		cleanCanvas()
 }
 
 // clear Canvas and div so the page can shrink
