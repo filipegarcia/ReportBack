@@ -1,0 +1,22 @@
+{
+  "name": "ReportBack",
+  "version": "0.0.1",
+  "description": "feedback tool à la youtube",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "https://filipegarcia@github.com/filipegarcia/ReportBack.git"
+  },
+  "keywords": [
+    "report",
+    "bug",
+    "feedback",
+    "track"
+  ],
+  "author": "Filipe Garcia",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "grunt-contrib-uglify": "~0.1.1"
+  }
+}
