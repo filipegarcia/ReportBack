@@ -64,12 +64,11 @@
       <section id="Report-Back<">
 
         <h2>Description</h2>
-        <p>Working fine in chrome and firefox and opera(slow but working). <br>
+        <p>Working fine in chrome, firefox and opera(slow but working). <br>
           The Tool is loaded dynamically when the feedback button is clicked. It grabs user information, browser information, operating system information, the page html code, and a screenshot of the rendered page.<br>
         It allows the user to highlight or blackout a portion of the page.<br>
         The screenshot is done in client-side and allows to see the viewport of the client and how the page was rendered.<br/> For this html2canvas comes to the rescue. Taking the screenshot in client side is like building a browser inside the browser, and rendering the page again in the browser. <br>
         In the end, you can save the json result that was created.<br>
-        <i>The thumbnail creation is still a little buggy.</i>
         </p>
 
          <h2>Demo</h2>
@@ -171,11 +170,9 @@ $("#feedback").on("click",function (){
 
   <h2>ToDos:</h2>
     <p>Add a function to remove highlight and black out boxes individually</p>
-    <p>Make a thumbnail</p>
-    <p>In older browsers that don't support canvas, don't take screenshot</p>
-    <p>add close modal event with cleanup function</p>
+    <p>In older browsers that don't support canvas, jump the screenshot step</p>
     <p>Add extra fields to be saved(public and "private")</p>
-    <p> </p>
+    <p>Record highlighted Text</p>
 
   </section>
 
@@ -208,7 +205,15 @@ $("#feedback").on("click",function (){
     user.permissions = "view and edit"
     user.logedIn = "false"
     user.otherStuff = "this and that"
-    // and a cookie value
+
+    // some Product information that can also come from your system
+    var product = new Object();
+    product.name = "Report Back"
+    product.version = "xpto 0"
+    product.is_partner = "false"
+    product.otherStuff = "this and that"
+
+    // creating a cookie
     document.cookie = encodeURI("reportBack")+"="+encodeURI("Demo value")+"; path=/";
 
 
@@ -219,14 +224,9 @@ $("#feedback").on("click",function (){
     $('#feedback').css({position : 'fixed',bottom : '0',right : '0'})
 
     // Set up the click event that will load the js file and its dependencies
-    //
-
-      $("#feedback").on("click",function (){
-      $.getScript("assets/js/report-back.js", function() { report_warmup_dyn(user) })
+    $("#feedback").on("click",function (){
+      $.getScript("assets/js/report-back.js", function() { report_warmup_dyn(user, product) })
     })
-
-    //report_warmup()
-
 
 </script>
 

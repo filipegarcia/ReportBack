@@ -1,0 +1,28 @@
+{
+  "name": "ReportBack",
+  "version": "0.0.1",
+  "description": "feedback tool à la youtube",
+  "author": {
+    "name": "Filipe Garcia",
+    "email": "hello@evolving.in"
+  },
+  "private": true,
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "keywords": [
+    "report",
+    "bug",
+    "feedback",
+    "track"
+  ],
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "https://filipegarcia@github.com/filipegarcia/ReportBack.git"
+  },
+  "devDependencies": {
+    "grunt-contrib-uglify": "~0.1.1",
+    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-css": "~0.5.3"
+  }
+}

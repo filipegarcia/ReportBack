@@ -7,6 +7,10 @@
 
 (function(window, document, undefined){
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/heads/master
 var _html2canvas = {},
 previousElement,
 computedCSS,

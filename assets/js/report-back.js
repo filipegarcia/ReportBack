@@ -16,24 +16,26 @@ _gaq.push(['_trackEvent', 'step', 'save', ''])
 	var finalMsg = "<h3>All done</h3>  Now it's up to you to do something with the gathered info."+
 	"<br/>Check console to view the log of the report object "
 
-	$("#reportDialog").html(finalMsg)
+	$('#reportDialog').dialog({width: 500})
+	$('#step3').hide("blind", { direction: "vertical" }, 200)
+	$('#step4').show("blind", { direction: "vertical" }, 200)
 
+
+	finishButtons()
+	//$("#reportDialog").html(finalMsg)
+
+	//remove
 	console.log(report)
 
 }
 
 //Initialize the report back, dynamically loading the scripts and css and setp up step 1
-function report_warmup_dyn(userInfo) {
+function report_warmup_dyn(userInfo, productInfo) {
 
 	//Load the dependencies
-		// I already loaded the bootstrap for the demo page but you might need them in here
-		$.getScript('assets/js/bootstrap.min.js');
+		$.getScript('assets/js/dependencies.js'); // check /.Gruntfile.js to know which files are minified
 		$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'assets/css/bootstrap.min.css') );
-
-		// the rest of the dependencies
 		$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'assets/css/jquery.ui.css') );
-		$.getScript('assets/js/jquery.base64.min.js');
-    $.getScript('assets/js/html2canvas.min.js');
 
   //Draw modal dialog and set step 1
 
@@ -41,6 +43,7 @@ function report_warmup_dyn(userInfo) {
 		goStep1()
 
 		report.user = userInfo
+		report.productInfo = productInfo
 }
 
 function report_warmup() {
@@ -65,7 +68,7 @@ function drawDialog(){
 	'          Report Back lets you send suggestions about the product.'+
 	'					 We welcome problem reports, feature ideas and general comments.<br/><br/>'+
 	'					 Legal notifications sent through Report Back will not be processed and '+
-	'they\'r something I don\'t care about in here.<br/><br/>'+
+	'they\'r something I don\'t care about in here.(Legal mambo-jambo)<br/><br/>'+
 	'					 Start by writing a brief description:'+
 	'          <textarea id="usrDescription" rows="5" class="span12"></textarea>'+
 	'						Next we\'ll let you identify areas of the page related to your description.'+
@@ -97,12 +100,14 @@ function drawDialog(){
 
 	step3 = '<div id="step3" style="display:none;">'+
 	'	<div class="row-fluid">'+
-	'	<div class="span6" >'+
+	'	<div class="span6" style="max-height: 350px;overflow-y: scroll;}">'+
 	'		<form>'+
-	'	    <div class="row-fluid">tell us where you would improve or change'+
-	'	        <br />'+
-	'	    <label>Description</label>'+
-	'	    <div class="accordion" id="envInfo" style="max-height: 350px;overflow-y: scroll;}">'+
+	'	    <div class="row-fluid">'+
+	'	    <label><b>Description</b></label>'+
+	'			<div id="usertext" style="margin-left:20px;"></div>'+
+
+	'	    <label><b>Aditional Info</b></label>'+
+	'	    <div class="accordion" id="envInfo" style="margin-left:20px;">'+
 	'	      <div class="accordion-group">'+
 	'	          <div class="accordion-heading">'+
 	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseOne">'+
@@ -147,9 +152,14 @@ function drawDialog(){
 	'		</div>'+
 	'	</div>'
 
+	step4 = '<div id="step4" style="display:none;">'+
+	'				<h3>All done</h3>  Now it\'s up to you to do something with the gathered info.'+
+	'				<br/>Check console to view the log of the report object '+
+	'		</div>'
+
 
 	$('body').append(out)
-	$('#reportDialog').append(step1 + step2 + step3)
+	$('#reportDialog').append(step1 + step2 + step3 + step4)
 
 }
 
@@ -161,6 +171,7 @@ function cleanup() {
 	$('#step1').show()
 	$('#step2').hide()
 	$('#step3').hide()
+	$('#step4').hide()
 
 	//Now the click on the feedback button has to be different
 	$("#feedback").unbind('click').on('click', function(){
@@ -246,12 +257,17 @@ function cleanup() {
         left: ($(window).width()/2  ) - 450 ,
         top:  ($(window).height()/2 ) - 260
     }, 1000)
-      $('#reportDialog').dialog({width: 900})
+
+    $('#reportDialog').dialog({width: 900})
 
 		$('#step2').hide("blind", { direction: "vertical" }, 500)
 		$('#step3').show("blind", { direction: "vertical" }, 500)
 
 		setStep3Buttons()
+
+		// Collect and fill in the info about the page
+		fillInInfo()
+
 
 		//take the screenshot and continue the logic after that
 		// wait after the animation is complete or otherwise the screen would freeze
@@ -316,16 +332,34 @@ function setStep3Buttons(){
         cleanThumbElement()
       }
     	},{
-    	text:"Next",
+    	text:"Submit",
       class: "btn",
       click: function(){
+
+				report.description = $("#updatedDescription").val()
       	saveReport()
+
       }
    	}]
 	})
 
 }
 
+function finishButtons(){
+
+	$('#reportDialog').dialog({
+		buttons: [{
+      text:"ok",
+      class: "btn",
+      click:function(){
+        $("#reportDialog").dialog( "close" )
+        cleanup()
+      }
+
+   	}]
+	})
+
+}
 /* #########################################################################################
 
 		Take a screenshot and create a "thumbnail"
@@ -359,6 +393,7 @@ function makeThumbnail(){
   original.src    = report.screenshot
 
 	$('body').append('<canvas id="thumbCanvas"></canvas>')
+
 
 	// The thumbnail will be drawn in here
 	var thumbCanvas = $("#thumbCanvas")
@@ -429,9 +464,7 @@ function finishCrop(original, $w, thumbCanvas, thumbCanvasBlank){
 
 
 
-
-
-
+// Taking the screenshot of the hole image
 function takeScreenShot(){
 
 		// Draw outline on viewport
@@ -460,9 +493,6 @@ function takeScreenShot(){
 				report.screenshot = data
 
 				hideCanvas()
-
-				// Collect and fill in the info about the page
-				fillInInfo()
 
 				// Create screenshot thumbnail
 				makeThumbnail()
@@ -493,6 +523,9 @@ function takeScreenShot(){
 function fillInInfo(){
 
 	//Fetch info
+		writeUserComment()
+		writeProductInfo()
+
 		writeUserInfo()
 		writePageInfo()
 		writeBrowserInfo()
@@ -504,9 +537,10 @@ function stripTags(val) { return val.replace(/<\/?[^>]+>/gi, ''); }
 // append to a div an echo of all properties with exception of empty values, functions or
 //		something inside the notInclude array
 function dumpVars(obj, div, notInclude) {
+		$div = $(div)
     jQuery.each(obj, function (j, val) {
         if (typeof (val) != "function" && jQuery.inArray(j, notInclude) == -1 && val != "") {
-            $(div).append(j + " : " + val + "<br/>")
+            $div.append(j + " : " + val + "<br/>")
         }
     })
 }
@@ -567,7 +601,7 @@ function writePageInfo() {
    // Get all DOM elements
    var html = $.base64.encode($("html").clone().html())
    //var html = $("html").clone().html()
-    pageInfo.append("<h4>Page Structure:</h4>")
+    pageInfo.append("<h4>Encoded Page Structure:</h4>")
                  .append("<div class='row-fluid'><textarea rows='4' class='span12'>" + html + "</textarea></div>")
    report.encodedHtml = html
 
@@ -576,7 +610,7 @@ function writePageInfo() {
 
 
 function writeUserInfo() {
-    var userinfo = $(".userInfo")
+  var userinfo = $(".userInfo")
 	//Check if the user has something filled in
 	if (report.user != null) {
         userinfo.append("<h4>User Info:</h4>")
@@ -593,7 +627,22 @@ function writeUserInfo() {
 }
 
 
+function writeUserComment(){
+	var out = "<textarea rows='4' class='span12' id='updatedDescription'>" + report.description + "</textarea>"
+	$('#usertext').html(out)
+}
 
+
+function writeProductInfo(){
+
+	var out =	'<label><b>Product Info</b></label>'+
+	'			<div id="prodInfo" style="margin-left:20px;"></div>'
+
+	if (report.productInfo != null) {
+		$("#usertext").after(out)
+		dumpVars(report.productInfo , "#prodInfo")
+	}
+}
 
 
 
@@ -681,7 +730,6 @@ $.widget("ui.boxer", $.ui.mouse, {
   },
 
   _init: function() {
-
 
     this.element.addClass("ui-boxer")
 
@@ -774,9 +822,17 @@ $.widget("ui.boxer", $.ui.mouse, {
 
     return false
   }
-
 })
 
+<<<<<<< HEAD
+=======
+	// Using the boxer "plugin"
+	//$('#canvas').boxer({
+	//  stop: function(event, ui) {
+	//    ui.box.addClass($boxSettings)
+	//  }
+	//})
+>>>>>>> refs/heads/master
 
 $.extend($.ui.boxer.prototype, {
     options: $.extend({}, $.ui.mouse.prototype.options, {
@@ -784,6 +840,7 @@ $.extend($.ui.boxer.prototype, {
         distance: 0
     })
 });
+<<<<<<< HEAD
 // Using the boxer plugin
 $(window).boxer({
     stop: function(event, ui) {
@@ -791,6 +848,14 @@ $(window).boxer({
         console.log(ui.box);
     }
 });
+=======
+$(window).boxer({
+    stop: function(event, ui) {
+        var offset = ui.box.offset();
+    }
+});
+
+>>>>>>> refs/heads/master
 
 // stretch Canvas and div to full page
 function stretchOut(){
