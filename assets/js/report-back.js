@@ -15,8 +15,11 @@ function saveReport() {
 	var finalMsg = "<h3>All done</h3>  Now it's up to you to do something with the gathered info."+
 	"<br/>Check console to view the log of the report object "
 
+	$('#reportDialog').dialog({width: 500})
+	finishButtons()
 	$("#reportDialog").html(finalMsg)
 
+	//remove
 	console.log(report)
 
 }
@@ -325,6 +328,21 @@ function setStep3Buttons(){
 
 }
 
+function finishButtons(){
+
+	$('#reportDialog').dialog({
+		buttons: [{
+      text:"ok",
+      class: "btn",
+      click:function(){
+        $("#reportDialog").dialog( "close" )
+        cleanup()
+      }
+
+   	}]
+	})
+
+}
 /* #########################################################################################
 
 		Take a screenshot and create a "thumbnail"
