@@ -7,10 +7,6 @@
 
 (function(window, document, undefined){
 
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/heads/master
 var _html2canvas = {},
 previousElement,
 computedCSS,
@@ -1670,7 +1666,7 @@ _html2canvas.Parse = function (images, options) {
     elps.className = pseudoHide + "-before " + pseudoHide + "-after";
 
     Object.keys(elStyle).filter(indexedProperty).forEach(function(prop) {
-      if(elStyle[prop] != undefined && elStyle[prop] != ''){
+      if(elStyle[prop] !== undefined && elStyle[prop] !== ''){
        elps.style[prop] = elStyle[prop];
       }
     });

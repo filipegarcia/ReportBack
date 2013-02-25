@@ -41,7 +41,7 @@ grunt.initConfig({
       asi: true,
       smarttabs: true
     },
-    all: ['Gruntfile.js', 'assets/js/report-back.js']
+    all: ['Gruntfile.js', 'assets/js/report-back.js', 'assets/js/html2canvas.js']
   }
 
 
@@ -52,8 +52,8 @@ grunt.initConfig({
   grunt.registerTask(
       'default',
       [
-          'uglify',
-          'jshint'
+          'jshint',
+          'uglify'
           //'cssmin',
       ]
   );
