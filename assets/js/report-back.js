@@ -727,7 +727,6 @@ $.widget("ui.boxer", $.ui.mouse, {
 
   _init: function() {
 
-
     this.element.addClass("ui-boxer")
 
     this.dragged = false
@@ -819,16 +818,26 @@ $.widget("ui.boxer", $.ui.mouse, {
 
     return false
   }
-
 })
 
-
 	// Using the boxer "plugin"
-	$('#canvas').boxer({
-	  stop: function(event, ui) {
-	    ui.box.addClass($boxSettings)
-	  }
-	})
+	//$('#canvas').boxer({
+	//  stop: function(event, ui) {
+	//    ui.box.addClass($boxSettings)
+	//  }
+	//})
+
+$.extend($.ui.boxer.prototype, {
+    options: $.extend({}, $.ui.mouse.prototype.options, {
+        appendTo: '#canvas',
+        distance: 0
+    })
+});
+$(window).boxer({
+    stop: function(event, ui) {
+        var offset = ui.box.offset();
+    }
+});
 
 
 // stretch Canvas and div to full page
