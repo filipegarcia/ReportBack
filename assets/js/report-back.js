@@ -22,17 +22,12 @@ function saveReport() {
 }
 
 //Initialize the report back, dynamically loading the scripts and css and setp up step 1
-function report_warmup_dyn(userInfo) {
+function report_warmup_dyn(userInfo, productInfo) {
 
 	//Load the dependencies
-		// I already loaded the bootstrap for the demo page but you might need them in here
-		$.getScript('assets/js/bootstrap.min.js');
+		$.getScript('assets/js/dependencies.js'); // check /.Gruntfile.js to know which files are minified
 		$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'assets/css/bootstrap.min.css') );
-
-		// the rest of the dependencies
 		$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'assets/css/jquery.ui.css') );
-		$.getScript('assets/js/jquery.base64.min.js');
-    $.getScript('assets/js/html2canvas.js');
 
   //Draw modal dialog and set step 1
 
@@ -40,6 +35,7 @@ function report_warmup_dyn(userInfo) {
 		goStep1()
 
 		report.user = userInfo
+		report.productInfo = productInfo
 }
 
 function report_warmup() {
@@ -96,12 +92,14 @@ function drawDialog(){
 
 	step3 = '<div id="step3" style="display:none;">'+
 	'	<div class="row-fluid">'+
-	'	<div class="span6" >'+
+	'	<div class="span6" style="max-height: 350px;overflow-y: scroll;}">'+
 	'		<form>'+
-	'	    <div class="row-fluid">tell us where you would improve or change'+
-	'	        <br />'+
-	'	    <label>Description</label>'+
-	'	    <div class="accordion" id="envInfo" style="max-height: 350px;overflow-y: scroll;}">'+
+	'	    <div class="row-fluid">'+
+	'	    <label><b>Description</b></label>'+
+	'			<div id="usertext" style="margin-left:20px;"></div>'+
+
+	'	    <label><b>Aditional Info</b></label>'+
+	'	    <div class="accordion" id="envInfo" style="margin-left:20px;">'+
 	'	      <div class="accordion-group">'+
 	'	          <div class="accordion-heading">'+
 	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseOne">'+
@@ -242,12 +240,17 @@ function cleanup() {
         left: ($(window).width()/2  ) - 450 ,
         top:  ($(window).height()/2 ) - 260
     }, 1000)
-      $('#reportDialog').dialog({width: 900})
+
+    $('#reportDialog').dialog({width: 900})
 
 		$('#step2').hide("blind", { direction: "vertical" }, 500)
 		$('#step3').show("blind", { direction: "vertical" }, 500)
 
 		setStep3Buttons()
+
+		// Collect and fill in the info about the page
+		fillInInfo()
+
 
 		//take the screenshot and continue the logic after that
 		// wait after the animation is complete or otherwise the screen would freeze
@@ -312,7 +315,7 @@ function setStep3Buttons(){
         cleanThumbElement()
       }
     	},{
-    	text:"Next",
+    	text:"Submit",
       class: "btn",
       click: function(){
       	saveReport()
@@ -355,8 +358,6 @@ function makeThumbnail(){
   original.src    = report.screenshot
 
 	$('body').append('<canvas id="thumbCanvas"></canvas>')
-//console.log( $w.scrollLeft() +" - "+$w.scrollTop() +" - "+$w.width() +" - "+$w.height())
-
 
 
 	// The thumbnail will be drawn in here
@@ -415,7 +416,7 @@ function finishCrop(original, $w, thumbCanvas, thumbCanvasBlank){
 
 	// Check if canvas is empty
 	if( thumbCanvas[0].toDataURL() != thumbCanvasBlank[0].toDataURL() ){
-		$("#screenshootImg").append("<img class='screenShotCanvas' src='"+ report.screenshot +
+		$("#screenshootImg").append("<img class='screenShotCanvas' src='"+ report.thumb +
             "' alt='Page Screenshot' width='400' >")
 	}
 	else{
@@ -458,9 +459,6 @@ function takeScreenShot(){
 
 				hideCanvas()
 
-				// Collect and fill in the info about the page
-				fillInInfo()
-
 				// Create screenshot thumbnail
 				makeThumbnail()
 				//setTimeout(function(){makeThumbnail()},2000)
@@ -490,6 +488,9 @@ function takeScreenShot(){
 function fillInInfo(){
 
 	//Fetch info
+		writeUserComment()
+		writeProductInfo()
+
 		writeUserInfo()
 		writePageInfo()
 		writeBrowserInfo()
@@ -501,9 +502,10 @@ function stripTags(val) { return val.replace(/<\/?[^>]+>/gi, ''); }
 // append to a div an echo of all properties with exception of empty values, functions or
 //		something inside the notInclude array
 function dumpVars(obj, div, notInclude) {
+		$div = $(div)
     jQuery.each(obj, function (j, val) {
         if (typeof (val) != "function" && jQuery.inArray(j, notInclude) == -1 && val != "") {
-            $(div).append(j + " : " + val + "<br/>")
+            $div.append(j + " : " + val + "<br/>")
         }
     })
 }
@@ -564,7 +566,7 @@ function writePageInfo() {
    // Get all DOM elements
    var html = $.base64.encode($("html").clone().html())
    //var html = $("html").clone().html()
-    pageInfo.append("<h4>Page Structure:</h4>")
+    pageInfo.append("<h4>Encoded Page Structure:</h4>")
                  .append("<div class='row-fluid'><textarea rows='4' class='span12'>" + html + "</textarea></div>")
    report.encodedHtml = html
 
@@ -573,7 +575,7 @@ function writePageInfo() {
 
 
 function writeUserInfo() {
-    var userinfo = $(".userInfo")
+  var userinfo = $(".userInfo")
 	//Check if the user has something filled in
 	if (report.user != null) {
         userinfo.append("<h4>User Info:</h4>")
@@ -590,7 +592,22 @@ function writeUserInfo() {
 }
 
 
+function writeUserComment(){
+	var out = "<textarea rows='4' class='span12'>" + report.description + "</textarea>"
+	$('#usertext').html(out)
+}
 
+
+function writeProductInfo(){
+
+	var out =	'<label><b>Product Info</b></label>'+
+	'			<div id="prodInfo" style="margin-left:20px;"></div>'
+
+	if (report.productInfo != null) {
+		$("#usertext").after(out)
+		dumpVars(report.productInfo , "#prodInfo")
+	}
+}
 
 
 
