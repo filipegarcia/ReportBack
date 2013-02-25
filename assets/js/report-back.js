@@ -778,13 +778,19 @@ $.widget("ui.boxer", $.ui.mouse, {
 })
 
 
-	// Using the boxer "plugin"
-	$('#canvas').boxer({
-	  stop: function(event, ui) {
-	    ui.box.addClass($boxSettings)
-	  }
-	})
-
+$.extend($.ui.boxer.prototype, {
+    options: $.extend({}, $.ui.mouse.prototype.options, {
+        appendTo: '#canvas',
+        distance: 0
+    })
+});
+// Using the boxer plugin
+$(window).boxer({
+    stop: function(event, ui) {
+        var offset = ui.box.offset();
+        console.log(ui.box);
+    }
+});
 
 // stretch Canvas and div to full page
 function stretchOut(){
