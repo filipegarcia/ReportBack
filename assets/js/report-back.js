@@ -16,8 +16,12 @@ function saveReport() {
 	"<br/>Check console to view the log of the report object "
 
 	$('#reportDialog').dialog({width: 500})
+	$('#step3').hide("blind", { direction: "vertical" }, 200)
+	$('#step4').show("blind", { direction: "vertical" }, 200)
+
+
 	finishButtons()
-	$("#reportDialog").html(finalMsg)
+	//$("#reportDialog").html(finalMsg)
 
 	//remove
 	console.log(report)
@@ -147,9 +151,14 @@ function drawDialog(){
 	'		</div>'+
 	'	</div>'
 
+	step4 = '<div id="step4" style="display:none;">'+
+	'				<h3>All done</h3>  Now it\'s up to you to do something with the gathered info.'+
+	'				<br/>Check console to view the log of the report object '+
+	'		</div>'
+
 
 	$('body').append(out)
-	$('#reportDialog').append(step1 + step2 + step3)
+	$('#reportDialog').append(step1 + step2 + step3 + step4)
 
 }
 
@@ -161,6 +170,7 @@ function cleanup() {
 	$('#step1').show()
 	$('#step2').hide()
 	$('#step3').hide()
+	$('#step4').hide()
 
 	//Now the click on the feedback button has to be different
 	$("#feedback").unbind('click').on('click', function(){
@@ -321,7 +331,10 @@ function setStep3Buttons(){
     	text:"Submit",
       class: "btn",
       click: function(){
+
+				report.description = $("#updatedDescription").val()
       	saveReport()
+
       }
    	}]
 	})
@@ -611,7 +624,7 @@ function writeUserInfo() {
 
 
 function writeUserComment(){
-	var out = "<textarea rows='4' class='span12'>" + report.description + "</textarea>"
+	var out = "<textarea rows='4' class='span12' id='updatedDescription'>" + report.description + "</textarea>"
 	$('#usertext').html(out)
 }
 
