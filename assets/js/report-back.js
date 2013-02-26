@@ -136,7 +136,6 @@ function drawDialog(){
 	'	      </div>'+
 
 
-
 	'	      <div class="accordion-group">'+
 	'	          <div class="accordion-heading">'+
 	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseTwo">'+
@@ -182,7 +181,6 @@ function drawDialog(){
 	'	    <div class="row-fluid">'+
 	'	    <label><b>Description</b></label>'+
 	'			<div id="usertext" style="margin-left:20px;"></div>'+
-
 	'	    <label><b>Aditional Info</b></label>'+
 	'	    <div class="accordion" id="envInfo" style="margin-left:20px;">'+
 	'	      <div class="accordion-group">'+
@@ -226,14 +224,14 @@ function drawDialog(){
 	'		</div>'
 
 
-	$('body').append(out)
+    $('body').append(out)
 
-	if (report.canvas) {
-		$('#reportDialog').append(step1 + step2 + step3 + step4)
-	}
-	else{
-		$('#reportDialog').append(step1 + step3noCanvas + step4)
-	}
+    if (report.canvas) {
+      $('#reportDialog').append(step1 + step2 + step3 + step4)
+    }
+    else{
+      $('#reportDialog').append(step1 + step3noCanvas + step4)
+    }
 
 }
 
@@ -319,8 +317,6 @@ function cleanup() {
 			$('#step3').hide("blind", { direction: "vertical" }, 500)
 		}
 
-
-
 		setStep2Buttons()
 
 		// clean canvas first
@@ -355,7 +351,7 @@ function cleanup() {
 		fillInInfo()
 
 		//take the screenshot and continue the logic after that
-		// wait after the animation is complete or otherwise the screen would freeze
+		// wait after the animation is complete or otherwise the screen can flicker
 		if (report.canvas) {
 			setTimeout(function(){
 				takeScreenShot()
@@ -434,10 +430,8 @@ function setStep3Buttons(){
 			},{
 			text:"Submit",
       click: function(){
-
 				report.description = $("#updatedDescription").val()
 				saveReport()
-
       }
 		}]
 	})
@@ -449,17 +443,18 @@ function finishButtons(){
 
 	$('#reportDialog').dialog({
 		buttons: [{
-      text:"ok",
+      text:"Ok",
       click:function(){
         $("#reportDialog").dialog( "close" )
         cleanup()
       }
-
 		}]
 	})
 
 	$(".ui-dialog-buttonset :button").addClass("btn")
 }
+
+
 /* #########################################################################################
 
 		Take a screenshot and create a "thumbnail"
