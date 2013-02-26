@@ -123,6 +123,8 @@ function drawDialog(){
 
 	'	    <label><b>Aditional Info</b></label>'+
 	'	    <div class="accordion" id="envInfo" style="margin-left:20px;">'+
+
+
 	'	      <div class="accordion-group">'+
 	'	          <div class="accordion-heading">'+
 	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseOne">'+
@@ -132,16 +134,21 @@ function drawDialog(){
 	'	              <div class="accordion-inner userInfo"></div>'+
 	'	          </div>'+
 	'	      </div>'+
-	'	          <div class="accordion-group">'+
-	'	              <div class="accordion-heading">'+
-	'	                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseTwo">'+
-	'	                      Page info </a>'+
-	'	              </div>'+
-	'	              <div id="collapseTwo" class="accordion-body collapse">'+
-	'	                  <div class="accordion-inner pageInfo"></div>'+
-	'	              </div>'+
+
+
+
+	'	      <div class="accordion-group">'+
+	'	          <div class="accordion-heading">'+
+	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseTwo">'+
+	'	                  Page info </a>'+
 	'	          </div>'+
-	'	          <div class="accordion-group">'+
+	'	          <div id="collapseTwo" class="accordion-body collapse">'+
+	'	              <div class="accordion-inner pageInfo"></div>'+
+	'	          </div>'+
+	'	      </div>'+
+
+
+	'	      <div class="accordion-group">'+
 	'	          <div class="accordion-heading">'+
 	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseThree">'+
 	'	                 Browser info </a>'+
@@ -150,6 +157,7 @@ function drawDialog(){
 	'	              <div class="accordion-inner browserInfo"></div>'+
 	'	          </div>'+
 	'	      </div>'+
+
 	'	    </div>'+
 	'	    </div>'+
 	'	   </form>'+
@@ -250,6 +258,7 @@ function cleanup() {
 	$(".browserInfo").empty()
 
 	cleanThumbElement()
+  $("#usrDescription").val("")
 }
 
 	// 	Get the user feedback description.
