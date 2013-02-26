@@ -26,10 +26,12 @@ function report_warmup_dyn(userInfo, productInfo) {
 				$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'assets/css/jquery.ui.css') );
 		}
 
-  //Draw modal dialog and set step 1
-
+  	//Draw modal dialog and go to step 1
 		drawDialog()
 		goStep1()
+
+		//checking if browser support canvas element
+		report.canvas = isCanvasSupported()
 
 		report.user = userInfo
 		report.productInfo = productInfo
@@ -164,6 +166,51 @@ function drawDialog(){
 	'		</div>'+
 	'	</div>'
 
+	step3noCanvas = '<div id="step3" style="display:none;">'+
+	'	<div class="row-fluid">'+
+	'	<div class="span12" style="max-height: 350px;overflow-y: scroll;}">'+
+	'		<form>'+
+	'	    <div class="row-fluid">'+
+	'	    <label><b>Description</b></label>'+
+	'			<div id="usertext" style="margin-left:20px;"></div>'+
+
+	'	    <label><b>Aditional Info</b></label>'+
+	'	    <div class="accordion" id="envInfo" style="margin-left:20px;">'+
+	'	      <div class="accordion-group">'+
+	'	          <div class="accordion-heading">'+
+	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseOne">'+
+	'	                  User info</a>'+
+	'	          </div>'+
+	'	          <div id="collapseOne" class="accordion-body collapse">'+
+	'	              <div class="accordion-inner userInfo"></div>'+
+	'	          </div>'+
+	'	      </div>'+
+	'	          <div class="accordion-group">'+
+	'	              <div class="accordion-heading">'+
+	'	                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseTwo">'+
+	'	                      Page info </a>'+
+	'	              </div>'+
+	'	              <div id="collapseTwo" class="accordion-body collapse">'+
+	'	                  <div class="accordion-inner pageInfo"></div>'+
+	'	              </div>'+
+	'	          </div>'+
+	'	          <div class="accordion-group">'+
+	'	          <div class="accordion-heading">'+
+	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseThree">'+
+	'	                 Browser info </a>'+
+	'	          </div>'+
+	'	          <div id="collapseThree" class="accordion-body collapse">'+
+	'	              <div class="accordion-inner browserInfo"></div>'+
+	'	          </div>'+
+	'	      </div>'+
+	'	    </div>'+
+	'	    </div>'+
+	'	   </form>'+
+	'		</div>'+
+	'		</div>'+
+	'	</div>'
+
+
 	step4 = '<div id="step4" style="display:none;">'+
 	'				<h3>All done</h3>  Now it\'s up to you to do something with the gathered info.'+
 	'				<br/>Check console to view the log of the report object '+
@@ -171,7 +218,12 @@ function drawDialog(){
 
 
 	$('body').append(out)
-	$('#reportDialog').append(step1 + step2 + step3 + step4)
+	if (report.canvas) {
+		$('#reportDialog').append(step1 + step2 + step3 + step4)
+	}
+	else{
+		$('#reportDialog').append(step1 + step3noCanvas + step4)
+	}
 
 }
 
@@ -218,8 +270,11 @@ function cleanup() {
 
 		if ($("#step2").is(':visible') ) {
 			$('#step2').hide("blind", { direction: "vertical" }, 500)
-			$('#step1').show("blind", { direction: "vertical" }, 500)
 		}
+		else if($("#step3").is(':visible') ) {
+				$('#step3').hide("blind", { direction: "vertical" }, 500)
+		}
+		$('#step1').show("blind", { direction: "vertical" }, 500)
 
 		setStep1Buttons()
 
@@ -269,6 +324,11 @@ function cleanup() {
 
     $('#reportDialog').dialog({width: 900})
 
+    //Check if is jumping step2 because of not supporting canvas
+		if ($("#step1").is(':visible') ) {
+			$('#step1').hide("blind", { direction: "vertical" }, 500)
+		}
+
 		$('#step2').hide("blind", { direction: "vertical" }, 500)
 		$('#step3').show("blind", { direction: "vertical" }, 500)
 
@@ -280,9 +340,11 @@ function cleanup() {
 
 		//take the screenshot and continue the logic after that
 		// wait after the animation is complete or otherwise the screen would freeze
-		setTimeout(function(){
-			takeScreenShot()
-		},1000)
+		if (report.canvas) {
+			setTimeout(function(){
+				takeScreenShot()
+			},1000)
+		}
 
 	}
 
@@ -299,7 +361,12 @@ function setStep1Buttons(){
 		buttons: [{
 			text:"Next",
       click: function(){
-				goStep2()
+				if (report.canvas) {
+					goStep2()
+				}
+				else{
+					goStep3()
+				}
       }
 	  }]
 	})
@@ -338,8 +405,13 @@ function setStep3Buttons(){
 		buttons: [{
       text:"Back",
       click:function(){
-				goStep2()
-        cleanThumbElement()
+				if (report.canvas) {
+					goStep2()
+					cleanThumbElement()
+				}
+				else{
+					goStep1()
+				}
       }
 			},{
 			text:"Submit",
