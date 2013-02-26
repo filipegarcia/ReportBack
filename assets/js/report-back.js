@@ -295,7 +295,6 @@ function cleanup() {
 		}, 1000);
 
 		if ($("#step1").is(':visible') ) {
-			report.description = $("#usrDescription").val()
 			$('#step1').hide("blind", { direction: "vertical" }, 500)
 		}
 		else if($("#step3").is(':visible') ){
@@ -361,6 +360,7 @@ function setStep1Buttons(){
 		buttons: [{
 			text:"Next",
       click: function(){
+        report.description = $("#usrDescription").val()
 				if (report.canvas) {
 					goStep2()
 				}
