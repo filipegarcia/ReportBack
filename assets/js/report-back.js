@@ -190,26 +190,26 @@ function drawDialog(){
 	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseOne">'+
 	'	                  User info</a>'+
 	'	          </div>'+
-	'	          <div id="collapseOne" class="accordion-body collapse">'+
+	'	          <div id="collapseOne" class=" accordion-body collapse in">'+
 	'	              <div class="accordion-inner userInfo"></div>'+
 	'	          </div>'+
 	'	      </div>'+
-	'	          <div class="accordion-group">'+
-	'	              <div class="accordion-heading">'+
-	'	                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseTwo">'+
+	'	          <div class=" accordion-group">'+
+	'	              <div class=" accordion-heading">'+
+	'	                  <a class=" accordion-toggle" data-toggle=" collapse" data-parent="#envInfo" href="#collapseTwo">'+
 	'	                      Page info </a>'+
 	'	              </div>'+
-	'	              <div id="collapseTwo" class="accordion-body collapse">'+
-	'	                  <div class="accordion-inner pageInfo"></div>'+
+	'	              <div id="collapseTwo" class=" accordion-body collapse">'+
+	'	                  <div class=" accordion-inner pageInfo"></div>'+
 	'	              </div>'+
 	'	          </div>'+
-	'	          <div class="accordion-group">'+
-	'	          <div class="accordion-heading">'+
-	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseThree">'+
+	'	          <div class=" accordion-group">'+
+	'	          <div class=" accordion-heading">'+
+	'	              <a class=" accordion-toggle" data-toggle=" collapse" data-parent="#envInfo" href="#collapseThree">'+
 	'	                 Browser info </a>'+
 	'	          </div>'+
-	'	          <div id="collapseThree" class="accordion-body collapse">'+
-	'	              <div class="accordion-inner browserInfo"></div>'+
+	'	          <div id="collapseThree" class=" accordion-body collapse">'+
+	'	              <div class=" accordion-inner browserInfo"></div>'+
 	'	          </div>'+
 	'	      </div>'+
 	'	    </div>'+
