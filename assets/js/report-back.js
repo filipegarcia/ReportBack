@@ -354,6 +354,11 @@ function cleanup() {
 		// Collect and fill in the info about the page
 		fillInInfo()
 
+    jQuery('#envInfo').on('show hide', function() {
+        jQuery(this).css('height', 'auto');
+    });
+    jQuery('#envInfo').collapse({ parent: true, toggle: true });
+
 
 		//take the screenshot and continue the logic after that
 		// wait after the animation is complete or otherwise the screen would freeze
