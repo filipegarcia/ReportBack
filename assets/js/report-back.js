@@ -26,12 +26,13 @@ function report_warmup_dyn(userInfo, productInfo) {
 				$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'assets/css/jquery.ui.css') );
 		}
 
+    //checking if browser support canvas element
+    report.canvas = isCanvasSupported()
+
+
 		//Draw modal dialog and go to step 1
 		drawDialog()
 		goStep1()
-
-		//checking if browser support canvas element
-		report.canvas = isCanvasSupported()
 
 		report.user = userInfo
 		report.productInfo = productInfo
@@ -218,6 +219,7 @@ function drawDialog(){
 
 
 	$('body').append(out)
+
 	if (report.canvas) {
 		$('#reportDialog').append(step1 + step2 + step3 + step4)
 	}
@@ -285,7 +287,6 @@ function cleanup() {
 	// 	Show modal that allow user to highlight and black out the page.
 	// 		Set up canvas element and prepare click event for step 2
 	function goStep2() {
-
 		var reportDialog = $('#reportDialog')
 
 		reportDialog.dialog({ width: 500})
@@ -294,13 +295,14 @@ function cleanup() {
 			top:  $(window).height() - 350
 		}, 1000);
 
+    $('#step2').show("blind", { direction: "vertical" }, 500)
 		if ($("#step1").is(':visible') ) {
 			$('#step1').hide("blind", { direction: "vertical" }, 500)
 		}
 		else if($("#step3").is(':visible') ){
 			$('#step3').hide("blind", { direction: "vertical" }, 500)
 		}
-		$('#step2').show("blind", { direction: "vertical" }, 500)
+
 
 
 		setStep2Buttons()

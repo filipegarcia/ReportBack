@@ -5,7 +5,6 @@
   regexp: false, rhino: true, safe: false, strict: false, sub: false,
   undef: true, white: false, widget: false, windows: false */
 /*global jQuery: false, window: false */
-"use strict";
 
 /*
  * Original code (c) 2010 Nick Galbreath
@@ -57,9 +56,9 @@
  * If the input length is not a multiple of 4, or contains invalid characters
  *   then an exception is thrown.
  */
- 
+
 jQuery.base64 = ( function( $ ) {
-  
+
   var _PADCHAR = "=",
     _ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
     _VERSION = "1.0";
@@ -78,8 +77,8 @@ jQuery.base64 = ( function( $ ) {
 
     return idx;
   }
-  
-  
+
+
   function _decode( s ) {
     var pads = 0,
       i,
@@ -88,7 +87,7 @@ jQuery.base64 = ( function( $ ) {
       x = [];
 
     s = String( s );
-    
+
     if ( imax === 0 ) {
       return s;
     }
@@ -127,15 +126,15 @@ jQuery.base64 = ( function( $ ) {
 
     return x.join( "" );
   }
-  
-  
+
+
   function _getbyte( s, i ) {
     var x = s.charCodeAt( i );
 
     if ( x > 255 ) {
       throw "INVALID_CHARACTER_ERR: DOM Exception 5";
     }
-    
+
     return x;
   }
 
@@ -185,6 +184,6 @@ jQuery.base64 = ( function( $ ) {
     encode: _encode,
     VERSION: _VERSION
   };
-      
+
 }( jQuery ) );
 

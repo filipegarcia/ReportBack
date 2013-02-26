@@ -24,6 +24,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
     <script src="assets/js/jquery.js"></script>
 
   </head>
@@ -64,7 +65,7 @@
       <section id="Report-Back<">
 
         <h2>Description</h2>
-        <p>Working fine in chrome, firefox, opera(slow but working) and, with some bugs Safari and IE.<br>
+        <p>Working fine in chrome, firefox, opera(slow but working) and, with some bugs Safari and IE (no canvas for version 8) .<br>
           The Tool is loaded dynamically when the feedback button is clicked. It grabs user information, browser information, operating system information, the page html code, and a screenshot of the rendered page.<br>
         It allows the user to highlight or blackout a portion of the page.<br>
         The screenshot is done in client-side and allows to see the viewport of the client and how the page was rendered.<br/> For this html2canvas comes to the rescue. Taking the screenshot in client side is like building a browser inside the browser, and rendering the page again in the browser. <br>
@@ -170,7 +171,6 @@ $("#feedback").on("click",function (){
 
   <h2>ToDos:</h2>
     <p>Add a function to remove highlight and black out boxes individually</p>
-    <p>In older browsers that don't support canvas, jump the screenshot step</p>
     <p>Add extra fields to be saved(public and "private")</p>
     <p>Record highlighted Text</p>
 
