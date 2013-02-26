@@ -26,7 +26,7 @@ function report_warmup_dyn(userInfo, productInfo) {
 				$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'assets/css/jquery.ui.css') );
 		}
 
-  	//Draw modal dialog and go to step 1
+		//Draw modal dialog and go to step 1
 		drawDialog()
 		goStep1()
 
@@ -59,7 +59,7 @@ function saveReport() {
 	console.log(report)
 
 
-	/* 	send to BD
+	/*	send to BD
 	$.ajax({
 	    type: "POST",
 	    url: "save/savereport",
