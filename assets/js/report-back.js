@@ -12,7 +12,7 @@ var report = []
 function report_warmup_dyn(userInfo, productInfo) {
 
 	//Load the dependencies
-		$.getScript('assets/js/dependencies.js'); // check /.Gruntfile.js to know which files are minified
+		$.getScript('assets/js/dependencies.js'); // check /Gruntfile.js to know which files are being minified
 
 		// add stylesheet to IE8 :(
 		if (document.createStyleSheet)
@@ -267,6 +267,7 @@ function cleanup() {
 
 		$("#feedback").hide()
 
+
 		$('#reportDialog').dialog({
 			width: 500,
 			modal: false,
@@ -274,6 +275,7 @@ function cleanup() {
 			zIndex: 1050,
       close: function() {cleanup()}
 		})
+
 
 		// fixing the position because the dialog is injected in the body
 		$(".ui-dialog ").css("position","fixed")
@@ -290,7 +292,12 @@ function cleanup() {
 		setStep1Buttons()
 
 		//I really don't like the cross mouse pointer in the jquery ui modal
-		$(".ui-dialog-titlebar").css("cursor", "auto")
+    $(".ui-dialog-titlebar").css("cursor", "auto")
+
+    //Close btn added(for some reason it's not there) TODO fix this
+    var btnclose = '<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span class="ui-button-text">close</span>'
+    $(".ui-dialog-titlebar-close").html(btnclose)
+
 	}
 
 	// 	Show modal that allow user to highlight and black out the page.
@@ -381,6 +388,7 @@ function setStep1Buttons(){
       }
 	  }]
 	})
+
 
 	$(".ui-dialog-buttonset :button").addClass("btn")
 }
@@ -925,7 +933,6 @@ $.extend($.ui.boxer.prototype, {
 $(window).boxer({
     stop: function(event, ui) {
         var offset = ui.box.offset();
-        console.log(ui.box);
     }
 });
 
