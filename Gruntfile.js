@@ -1,28 +1,28 @@
 module.exports = function (grunt) {
 
-
   grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-css');
 
 grunt.initConfig({
 
-
   uglify: {
     main: {
       files: {
-        'assets/js/report-back.min.js': [
-        'assets/js/report-back.js'
-      ]
+        'assets/js/report-back.min.js':
+        [
+          'assets/js/report-back.js'
+        ]
       }
     },
     libs: {
       files: {
-        'assets/js/dependencies.js': [
-        'assets/js/jquery.base64.js',
-        'assets/js/html2canvas.js',
-        'bootstrap.min.js'
-      ]
+        'assets/js/dependencies.js':
+        [
+          'assets/js/jquery.base64.js',
+          'assets/js/html2canvas.js',
+          'bootstrap.min.js'
+        ]
       }
     }
   },
@@ -36,6 +36,7 @@ grunt.initConfig({
       dest: 'assets/css/deps.css'
     }
   },
+
   jshint: {
     options: {
       asi: true,
@@ -43,8 +44,6 @@ grunt.initConfig({
     },
     all: ['Gruntfile.js', 'assets/js/report-back.js', 'assets/js/html2canvas.js']
   }
-
-
 
 });
 

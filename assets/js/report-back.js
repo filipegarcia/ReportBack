@@ -8,26 +8,6 @@
 // report array to be build during the process
 var report = []
 
-
-
-function saveReport() {
-
-	var finalMsg = "<h3>All done</h3>  Now it's up to you to do something with the gathered info."+
-	"<br/>Check console to view the log of the report object "
-
-	$('#reportDialog').dialog({width: 500})
-	$('#step3').hide("blind", { direction: "vertical" }, 200)
-	$('#step4').show("blind", { direction: "vertical" }, 200)
-
-
-	finishButtons()
-	//$("#reportDialog").html(finalMsg)
-
-	//remove
-	console.log(report)
-
-}
-
 //Initialize the report back, dynamically loading the scripts and css and setp up step 1
 function report_warmup_dyn(userInfo, productInfo) {
 
@@ -54,6 +34,29 @@ function report_warmup() {
 
 }
 
+
+function saveReport() {
+
+	$('#reportDialog').dialog({width: 500})
+	$('#step3').hide("blind", { direction: "vertical" }, 200)
+	$('#step4').show("blind", { direction: "vertical" }, 200)
+
+	finishButtons()
+
+	//remove this for production
+	console.log(report)
+
+
+	/* 	send to BD
+	$.ajax({
+	    type: "POST",
+	    url: "save/savereport",
+	    dataType: 'json',
+	    data: { json: report }
+	});
+	*/
+
+}
 
 // add all steps to the dialog window
 // show step 1 first
