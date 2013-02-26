@@ -199,7 +199,7 @@ function drawDialog(){
 	'	                  <a class=" accordion-toggle" data-toggle=" collapse" data-parent="#envInfo" href="#collapseTwo">'+
 	'	                      Page info </a>'+
 	'	              </div>'+
-	'	              <div id="collapseTwo" class=" accordion-body collapse">'+
+	'	              <div id="collapseTwo" class=" accordion-body collapse in">'+
 	'	                  <div class=" accordion-inner pageInfo"></div>'+
 	'	              </div>'+
 	'	          </div>'+
@@ -208,7 +208,7 @@ function drawDialog(){
 	'	              <a class=" accordion-toggle" data-toggle=" collapse" data-parent="#envInfo" href="#collapseThree">'+
 	'	                 Browser info </a>'+
 	'	          </div>'+
-	'	          <div id="collapseThree" class=" accordion-body collapse">'+
+	'	          <div id="collapseThree" class=" accordion-body collapse in">'+
 	'	              <div class=" accordion-inner browserInfo"></div>'+
 	'	          </div>'+
 	'	      </div>'+
@@ -353,12 +353,6 @@ function cleanup() {
 
 		// Collect and fill in the info about the page
 		fillInInfo()
-
-    jQuery('#envInfo').on('show hide', function() {
-        jQuery(this).css('height', 'auto');
-    });
-    jQuery('#envInfo').collapse({ parent: true, toggle: true });
-
 
 		//take the screenshot and continue the logic after that
 		// wait after the animation is complete or otherwise the screen would freeze
