@@ -13,8 +13,18 @@ function report_warmup_dyn(userInfo, productInfo) {
 
 	//Load the dependencies
 		$.getScript('assets/js/dependencies.js'); // check /.Gruntfile.js to know which files are minified
-		$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'assets/css/bootstrap.min.css') );
-		$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'assets/css/jquery.ui.css') );
+
+		// add stylesheet to IE8 :(
+		if (document.createStyleSheet)
+		{
+		    document.createStyleSheet('assets/css/bootstrap.min.css');
+		    document.createStyleSheet('assets/css/jquery.ui.css');
+		}
+		else
+		{
+				$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'assets/css/bootstrap.min.css') );
+				$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'assets/css/jquery.ui.css') );
+		}
 
   //Draw modal dialog and set step 1
 
