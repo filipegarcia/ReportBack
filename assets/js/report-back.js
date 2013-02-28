@@ -8,6 +8,63 @@
 // report array to be build during the process
 var report = []
 
+
+
+var msg = {
+	ok : "ok",
+	close: "close",
+	next : "next",
+	submit: "Submit",
+	back: "Back",
+	highlight : "Highlight",
+	blackOut : "Black out",
+	clear : "Clear",
+	dialog  : {
+		title: "Give us your feedback :)",
+		step1:{
+			info1: "Report Back lets you send suggestions about the product."+
+							"We welcome problem reports, feature ideas and general comments.<br/><br/>"+
+							"Legal notifications sent through Report Back will not be processed and "+
+							"they\'r something I don\'t care about in here.(Legal mambo-jambo)<br/><br/>",
+			info2: "Start by writing a brief description:",
+			info3: "Next we\'ll let you identify areas of the page related to your description."
+		},
+		step2: {
+			info1: "Click and drag on the page to help us better understand your feedback."+
+							"You can move this dialog if it\'s in the way.",
+			label1: " Highlight areas relevant to your feedback.",
+			label2: " Black out any personal information.",
+			label3: " Remove all boxes."
+		},
+		step3: {
+			description: "Description",
+			aditionalInfo: "Aditional Info",
+			userInfo: "User info",
+			pageInfo: "Page info",
+			browserInfo: "Browser info",
+			screenshot: "Screenshot",
+			cookies: "Cookies",
+			prodInfo: "Product Info",
+			pageStucture: "Encoded Page Structure",
+			pageUrl: "Page Url",
+			installedPlugins: "Installed Plugins",
+			operatingSystem: "Operating System",
+			browserVersion: "Browser version"
+
+		},
+		step4:{
+			title: "All done",
+			info1: "Now it\'s up to you to do something with the gathered info.<br/>",
+			info2: "Check console to view the log of the report object"
+		}
+	}
+
+
+}
+
+
+
+
 //Initialize the report back, dynamically loading the scripts and css and setp up step 1
 function report_warmup_dyn(userInfo, productInfo) {
 
@@ -75,60 +132,55 @@ function saveReport() {
 // show step 1 first
 function drawDialog(){
 
-	var out = '<div id="reportDialog" title="Give us your feedback :)"></div>'
+	var out = '<div id="reportDialog" title="'+msg.dialog.title+'"></div>'
 
 	step1 = ' <div id="step1">'+
 	'        <form>'+
-	'          <div class="row-fluid">'+
-	'          Report Back lets you send suggestions about the product.'+
-	'					 We welcome problem reports, feature ideas and general comments.<br/><br/>'+
-	'					 Legal notifications sent through Report Back will not be processed and '+
-	'they\'r something I don\'t care about in here.(Legal mambo-jambo)<br/><br/>'+
-	'					 Start by writing a brief description:'+
+	'          <div class="row-fluid">'+ msg.dialog.step1.info1 +
+							msg.dialog.step1.info2 +
 	'          <textarea id="usrDescription" rows="5" class="span12"></textarea>'+
-	'						Next we\'ll let you identify areas of the page related to your description.'+
+							msg.dialog.step1.info3 +
 	'          </div>'+
 	'        </form>'+
 	'      </div>'
 
 	step2 = '<div id="step2" style="display:none;">'+
-	'	<p>Click and drag on the page to help us better understand your feedback.'+
-	'			 You can move this dialog if it\'s in the way.</p>'+
+	'	<p>'+ msg.dialog.step2.info1 +'</p>'+
 	'			<div>'+
 	'				<div class="row-fluid">'+
 	'					<div class="span12"> <button id="highlight" class="btn btn-primary" type="button">'+
-  '<i class="icon-eye-open"></i> Highlight&nbsp;</button>'+
-	'					 Highlight areas relevant to your feedback.</div>'+
+  '						<i class="icon-eye-open"></i> '+ msg.highlight +'&nbsp;</button>'+
+							msg.dialog.step2.label1 + '</div>'+
 	'				</div><br/>'+
 	'				<div class="row-fluid">'+
 	'					<div class="span12"> <button id="block" class="btn" type="button"><i class="icon-eye-close">'+
-  '</i> Black out</button>'+
-	'					 Black out any personal information.</div>'+
+  '						</i> '+msg.blackOut+'</button>'+
+							msg.dialog.step2.label2 + '</div>'+
 	'				</div><br/>'+
 	'				<div class="row-fluid">'+
-	'					<div class="span12"> <button id="clear" class="btn" type="button"><i class="icon-remove"></i>'+
-  ' Clear&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>'+
-	'					 Remove all boxes.</div>'+
+	'					<div class="span12"> <button id="clear" class="btn" type="button"><i class="icon-remove"></i> '+
+						  msg.clear + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>'+
+							msg.dialog.step2.label3 + '</div>'+
 	'				</div>'+
 	'				</div>'+
 	'			</div>'
 
 	step3 = '<div id="step3" style="display:none;">'+
 	'	<div class="row-fluid">'+
-	'	<div class="span6" style="max-height: 350px;overflow-y: scroll;}">'+
+	'	<div id="strechInNoCanvas" class="span6" style="max-height: 350px;overflow-y: scroll;}">'+
 	'		<form>'+
 	'	    <div class="row-fluid">'+
-	'	    <label><b>Description</b></label>'+
+	'	    <label><b>'+ msg.dialog.step3.description +'</b></label>'+
 	'			<div id="usertext" style="margin-left:20px;"></div>'+
 
-	'	    <label><b>Aditional Info</b></label>'+
+	'	    <label><b>'+ msg.dialog.step3.aditionalInfo +'</b></label>'+
 	'	    <div class="accordion" id="envInfo" style="margin-left:20px;">'+
 
 
 	'	      <div class="accordion-group">'+
 	'	          <div class="accordion-heading">'+
 	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseOne">'+
-	'	                  User info</a>'+
+									msg.dialog.step3.userInfo +'</a>'+
 	'	          </div>'+
 	'	          <div id="collapseOne" class="accordion-body collapse">'+
 	'	              <div class="accordion-inner userInfo"></div>'+
@@ -139,7 +191,7 @@ function drawDialog(){
 	'	      <div class="accordion-group">'+
 	'	          <div class="accordion-heading">'+
 	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseTwo">'+
-	'	                  Page info </a>'+
+		msg.dialog.step3.pageInfo +'</a>'+
 	'	          </div>'+
 	'	          <div id="collapseTwo" class="accordion-body collapse">'+
 	'	              <div class="accordion-inner pageInfo"></div>'+
@@ -150,7 +202,7 @@ function drawDialog(){
 	'	      <div class="accordion-group">'+
 	'	          <div class="accordion-heading">'+
 	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseThree">'+
-	'	                 Browser info </a>'+
+		msg.dialog.step3.browserInfo +'</a>'+
 	'	          </div>'+
 	'	          <div id="collapseThree" class="accordion-body collapse">'+
 	'	              <div class="accordion-inner browserInfo"></div>'+
@@ -161,9 +213,9 @@ function drawDialog(){
 	'	    </div>'+
 	'	   </form>'+
 	'		</div>'+
-	'		<div class="span6">'+
+	'		<div id="onlyInCanvas" class="span6">'+
 	'			<div id="screenPreview">'+
-	'					<b>Screenshot</b>'+
+	'					<b>'+ msg.dialog.step3.screenshot  +'</b>'+
 	'					<div id="thumbProgress" class="progress progress-striped active">'+
 	'						<div class="bar" style="width: 100%;"></div>'+
 	'					</div>'+
@@ -174,53 +226,11 @@ function drawDialog(){
 	'		</div>'+
 	'	</div>'
 
-	step3noCanvas = '<div id="step3" style="display:none;">'+
-	'	<div class="row-fluid">'+
-	'	<div class="span12" style="max-height: 350px;overflow-y: scroll;}">'+
-	'		<form>'+
-	'	    <div class="row-fluid">'+
-	'	    <label><b>Description</b></label>'+
-	'			<div id="usertext" style="margin-left:20px;"></div>'+
-	'	    <label><b>Aditional Info</b></label>'+
-	'	    <div class="accordion" id="envInfo" style="margin-left:20px;">'+
-	'	      <div class="accordion-group">'+
-	'	          <div class="accordion-heading">'+
-	'	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseOne">'+
-	'	                  User info</a>'+
-	'	          </div>'+
-	'	          <div id="collapseOne" class=" accordion-body collapse in">'+
-	'	              <div class="accordion-inner userInfo"></div>'+
-	'	          </div>'+
-	'	      </div>'+
-	'	          <div class=" accordion-group">'+
-	'	              <div class=" accordion-heading">'+
-	'	                  <a class=" accordion-toggle" data-toggle=" collapse" data-parent="#envInfo" href="#collapseTwo">'+
-	'	                      Page info </a>'+
-	'	              </div>'+
-	'	              <div id="collapseTwo" class=" accordion-body collapse in">'+
-	'	                  <div class=" accordion-inner pageInfo"></div>'+
-	'	              </div>'+
-	'	          </div>'+
-	'	          <div class=" accordion-group">'+
-	'	          <div class=" accordion-heading">'+
-	'	              <a class=" accordion-toggle" data-toggle=" collapse" data-parent="#envInfo" href="#collapseThree">'+
-	'	                 Browser info </a>'+
-	'	          </div>'+
-	'	          <div id="collapseThree" class=" accordion-body collapse in">'+
-	'	              <div class=" accordion-inner browserInfo"></div>'+
-	'	          </div>'+
-	'	      </div>'+
-	'	    </div>'+
-	'	    </div>'+
-	'	   </form>'+
-	'		</div>'+
-	'		</div>'+
-	'	</div>'
-
 
 	step4 = '<div id="step4" style="display:none;">'+
-	'				<h3>All done</h3>  Now it\'s up to you to do something with the gathered info.'+
-	'				<br/>Check console to view the log of the report object '+
+	'				<h3>'+  msg.dialog.step4.title +'</h3>'+
+		msg.dialog.step4.info1+
+		msg.dialog.step4.info2+
 	'		</div>'
 
 
@@ -230,7 +240,10 @@ function drawDialog(){
       $('#reportDialog').append(step1 + step2 + step3 + step4)
     }
     else{
-      $('#reportDialog').append(step1 + step3noCanvas + step4)
+      $('#reportDialog').append(step1 + step3 + step4)
+
+			$("#onlyInCanvas").remove()
+			$("#strechInNoCanvas").removeClass("span6").addClass("span12")
     }
 
 }
@@ -371,7 +384,7 @@ function setStep1Buttons(){
 
 	$('#reportDialog').dialog({
 		buttons: [{
-			text:"Next",
+			text: msg.next ,
       click: function(){
         report.description = $("#usrDescription").val()
 				if (report.canvas) {
@@ -392,7 +405,7 @@ function setStep2Buttons(){
 
 	$('#reportDialog').dialog({
 		buttons: [{
-				text:"Back",
+				text: msg.back,
 				click:function(){
 					goStep1()
 					// The animation is only set only when coming back
@@ -402,7 +415,7 @@ function setStep2Buttons(){
 					}, 1000);
 	      }
 		    },{
-		    text:"Next",
+		    text: msg.next,
 		    click: function(){
 					goStep3()
 		    }
@@ -417,7 +430,7 @@ function setStep3Buttons(){
 
 	$('#reportDialog').dialog({
 		buttons: [{
-      text:"Back",
+      text: msg.back,
       click:function(){
 				if (report.canvas) {
 					goStep2()
@@ -428,7 +441,7 @@ function setStep3Buttons(){
 				}
       }
 			},{
-			text:"Submit",
+			text: msg.submit,
       click: function(){
 				report.description = $("#updatedDescription").val()
 				saveReport()
@@ -443,9 +456,9 @@ function finishButtons(){
 
 	$('#reportDialog').dialog({
 		buttons: [{
-      text:"Ok",
+      text: msg.ok ,
       click:function(){
-        $("#reportDialog").dialog( "close" )
+        $("#reportDialog").dialog( msg.close )
         cleanup()
       }
 		}]
@@ -674,28 +687,28 @@ function get_cookies_array() {
 function writeBrowserInfo() {
 
    var browserInfo = $(".browserInfo")
-   browserInfo.append("<h4>Browser version:</h4>")
+   browserInfo.append("<h4>"+ msg.dialog.step3.browserVersion +":</h4>")
    dumpVars(jQuery.browser, ".browserInfo")
    report.browserInfo = jQuery.browser
 
-   browserInfo.append("<h4>Operating System: </h4>")
+   browserInfo.append("<h4>"+ msg.dialog.step3.operatingSystem +": </h4>")
    dumpVars(navigator, ".browserInfo", ['plugins', 'mimeTypes'])
    report.navigator = navigator
 
-   browserInfo.append("<h4>Installed Plugins: </h4>" + showPlugins())
+   browserInfo.append("<h4>"+  msg.dialog.step3.installedPlugins +": </h4>" + showPlugins())
 }
 
 function writePageInfo() {
    var pageInfo  = $(".pageInfo")
    // Get all page url info
-   pageInfo.append("<h4>Page Url:</h4>")
+   pageInfo.append("<h4>"+ msg.dialog.step3.pageUrl +":</h4>")
    dumpVars(window.location, ".pageInfo", ["ancestorOrigins"])
    report.location = window.location
 
    // Get all DOM elements
    var html = $.base64.encode($("html").clone().html())
    //var html = $("html").clone().html()
-    pageInfo.append("<h4>Encoded Page Structure:</h4>")
+    pageInfo.append("<h4>"+ msg.dialog.step3.pageStucture +":</h4>")
                  .append("<div class='row-fluid'><textarea rows='4' class='span12'>" + html + "</textarea></div>")
    report.encodedHtml = html
 
@@ -707,14 +720,14 @@ function writeUserInfo() {
   var userinfo = $(".userInfo")
 	//Check if the user has something filled in
 	if (report.user !== null) {
-        userinfo.append("<h4>User Info:</h4>")
+        userinfo.append("<h4>"+ msg.dialog.step3.userInfo +":</h4>")
 		dumpVars(report.user, ".userInfo")
 	}
 
 	// Get all cookies
 	var cookies = get_cookies_array()
 	if (!$.isEmptyObject(cookies)) {
-        userinfo.append("<h4>Cookies:</h4>")
+        userinfo.append("<h4>"+ msg.dialog.step3.cookies +":</h4>")
 		dumpVars(cookies, ".userInfo")
 		report.cookies = cookies
 	}
@@ -729,8 +742,8 @@ function writeUserComment(){
 
 function writeProductInfo(){
 
-	var out =	'<label><b>Product Info</b></label>'+
-	'			<div id="prodInfo" style="margin-left:20px;"></div>'
+	var out =	"<label><b>"+ msg.dialog.step3.prodInfo + "</b></label>"+
+				'<div id="prodInfo" style="margin-left:20px;"></div>'
 
 	if (report.productInfo !== null) {
 		$("#usertext").after(out)

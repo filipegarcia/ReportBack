@@ -38,13 +38,13 @@ function saveReport() {
 // add all steps to the dialog window
 // show step 1 first
 function drawDialog() {
-    var e = '<div id="reportDialog" title="Give us your feedback :)"></div>';
-    step1 = ' <div id="step1">        <form>          <div class="row-fluid">          Report Back lets you send suggestions about the product.					 We welcome problem reports, feature ideas and general comments.<br/><br/>					 Legal notifications sent through Report Back will not be processed and they\'r something I don\'t care about in here.(Legal mambo-jambo)<br/><br/>					 Start by writing a brief description:          <textarea id="usrDescription" rows="5" class="span12"></textarea>						Next we\'ll let you identify areas of the page related to your description.          </div>        </form>      </div>', 
-    step2 = '<div id="step2" style="display:none;">	<p>Click and drag on the page to help us better understand your feedback.			 You can move this dialog if it\'s in the way.</p>			<div>				<div class="row-fluid">					<div class="span12"> <button id="highlight" class="btn btn-primary" type="button"><i class="icon-eye-open"></i> Highlight&nbsp;</button>					 Highlight areas relevant to your feedback.</div>				</div><br/>				<div class="row-fluid">					<div class="span12"> <button id="block" class="btn" type="button"><i class="icon-eye-close"></i> Black out</button>					 Black out any personal information.</div>				</div><br/>				<div class="row-fluid">					<div class="span12"> <button id="clear" class="btn" type="button"><i class="icon-remove"></i> Clear&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>					 Remove all boxes.</div>				</div>				</div>			</div>', 
-    step3 = '<div id="step3" style="display:none;">	<div class="row-fluid">	<div class="span6" style="max-height: 350px;overflow-y: scroll;}">		<form>	    <div class="row-fluid">	    <label><b>Description</b></label>			<div id="usertext" style="margin-left:20px;"></div>	    <label><b>Aditional Info</b></label>	    <div class="accordion" id="envInfo" style="margin-left:20px;">	      <div class="accordion-group">	          <div class="accordion-heading">	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseOne">	                  User info</a>	          </div>	          <div id="collapseOne" class="accordion-body collapse">	              <div class="accordion-inner userInfo"></div>	          </div>	      </div>	      <div class="accordion-group">	          <div class="accordion-heading">	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseTwo">	                  Page info </a>	          </div>	          <div id="collapseTwo" class="accordion-body collapse">	              <div class="accordion-inner pageInfo"></div>	          </div>	      </div>	      <div class="accordion-group">	          <div class="accordion-heading">	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseThree">	                 Browser info </a>	          </div>	          <div id="collapseThree" class="accordion-body collapse">	              <div class="accordion-inner browserInfo"></div>	          </div>	      </div>	    </div>	    </div>	   </form>		</div>		<div class="span6">			<div id="screenPreview">					<b>Screenshot</b>					<div id="thumbProgress" class="progress progress-striped active">						<div class="bar" style="width: 100%;"></div>					</div>			<div id="screenshootImg">					</div>			</div>		</div>		</div>	</div>', 
-    step3noCanvas = '<div id="step3" style="display:none;">	<div class="row-fluid">	<div class="span12" style="max-height: 350px;overflow-y: scroll;}">		<form>	    <div class="row-fluid">	    <label><b>Description</b></label>			<div id="usertext" style="margin-left:20px;"></div>	    <label><b>Aditional Info</b></label>	    <div class="accordion" id="envInfo" style="margin-left:20px;">	      <div class="accordion-group">	          <div class="accordion-heading">	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseOne">	                  User info</a>	          </div>	          <div id="collapseOne" class=" accordion-body collapse in">	              <div class="accordion-inner userInfo"></div>	          </div>	      </div>	          <div class=" accordion-group">	              <div class=" accordion-heading">	                  <a class=" accordion-toggle" data-toggle=" collapse" data-parent="#envInfo" href="#collapseTwo">	                      Page info </a>	              </div>	              <div id="collapseTwo" class=" accordion-body collapse in">	                  <div class=" accordion-inner pageInfo"></div>	              </div>	          </div>	          <div class=" accordion-group">	          <div class=" accordion-heading">	              <a class=" accordion-toggle" data-toggle=" collapse" data-parent="#envInfo" href="#collapseThree">	                 Browser info </a>	          </div>	          <div id="collapseThree" class=" accordion-body collapse in">	              <div class=" accordion-inner browserInfo"></div>	          </div>	      </div>	    </div>	    </div>	   </form>		</div>		</div>	</div>', 
-    step4 = '<div id="step4" style="display:none;">				<h3>All done</h3>  Now it\'s up to you to do something with the gathered info.				<br/>Check console to view the log of the report object 		</div>', 
-    $("body").append(e), report.canvas ? $("#reportDialog").append(step1 + step2 + step3 + step4) : $("#reportDialog").append(step1 + step3noCanvas + step4);
+    var e = '<div id="reportDialog" title="' + msg.dialog.title + '"></div>';
+    step1 = ' <div id="step1">        <form>          <div class="row-fluid">' + msg.dialog.step1.info1 + msg.dialog.step1.info2 + '          <textarea id="usrDescription" rows="5" class="span12"></textarea>' + msg.dialog.step1.info3 + "          </div>" + "        </form>" + "      </div>", 
+    step2 = '<div id="step2" style="display:none;">	<p>' + msg.dialog.step2.info1 + "</p>" + "			<div>" + '				<div class="row-fluid">' + '					<div class="span12"> <button id="highlight" class="btn btn-primary" type="button">' + '						<i class="icon-eye-open"></i> ' + msg.highlight + "&nbsp;</button>" + msg.dialog.step2.label1 + "</div>" + "				</div><br/>" + '				<div class="row-fluid">' + '					<div class="span12"> <button id="block" class="btn" type="button"><i class="icon-eye-close">' + "						</i> " + msg.blackOut + "</button>" + msg.dialog.step2.label2 + "</div>" + "				</div><br/>" + '				<div class="row-fluid">' + '					<div class="span12"> <button id="clear" class="btn" type="button"><i class="icon-remove"></i> ' + msg.clear + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>" + msg.dialog.step2.label3 + "</div>" + "				</div>" + "				</div>" + "			</div>", 
+    step3 = '<div id="step3" style="display:none;">	<div class="row-fluid">	<div id="strechInNoCanvas" class="span6" style="max-height: 350px;overflow-y: scroll;}">		<form>	    <div class="row-fluid">	    <label><b>' + msg.dialog.step3.description + "</b></label>" + '			<div id="usertext" style="margin-left:20px;"></div>' + "	    <label><b>" + msg.dialog.step3.aditionalInfo + "</b></label>" + '	    <div class="accordion" id="envInfo" style="margin-left:20px;">' + '	      <div class="accordion-group">' + '	          <div class="accordion-heading">' + '	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseOne">' + msg.dialog.step3.userInfo + "</a>" + "	          </div>" + '	          <div id="collapseOne" class="accordion-body collapse">' + '	              <div class="accordion-inner userInfo"></div>' + "	          </div>" + "	      </div>" + '	      <div class="accordion-group">' + '	          <div class="accordion-heading">' + '	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseTwo">' + msg.dialog.step3.pageInfo + "</a>" + "	          </div>" + '	          <div id="collapseTwo" class="accordion-body collapse">' + '	              <div class="accordion-inner pageInfo"></div>' + "	          </div>" + "	      </div>" + '	      <div class="accordion-group">' + '	          <div class="accordion-heading">' + '	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseThree">' + msg.dialog.step3.browserInfo + "</a>" + "	          </div>" + '	          <div id="collapseThree" class="accordion-body collapse">' + '	              <div class="accordion-inner browserInfo"></div>' + "	          </div>" + "	      </div>" + "	    </div>" + "	    </div>" + "	   </form>" + "		</div>" + '		<div id="onlyInCanvas" class="span6">' + '			<div id="screenPreview">' + "					<b>" + msg.dialog.step3.screenshot + "</b>" + '					<div id="thumbProgress" class="progress progress-striped active">' + '						<div class="bar" style="width: 100%;"></div>' + "					</div>" + '			<div id="screenshootImg">' + "					</div>" + "			</div>" + "		</div>" + "		</div>" + "	</div>", 
+    step4 = '<div id="step4" style="display:none;">				<h3>' + msg.dialog.step4.title + "</h3>" + msg.dialog.step4.info1 + msg.dialog.step4.info2 + "		</div>", 
+    $("body").append(e), report.canvas ? $("#reportDialog").append(step1 + step2 + step3 + step4) : ($("#reportDialog").append(step1 + step3 + step4), 
+    $("#onlyInCanvas").remove(), $("#strechInNoCanvas").removeClass("span6").addClass("span12"));
 }
 
 function cleanup() {
@@ -136,7 +136,7 @@ function goStep3() {
 function setStep1Buttons() {
     $("#reportDialog").dialog({
         buttons: [ {
-            text: "Next",
+            text: msg.next,
             click: function() {
                 report.description = $("#usrDescription").val(), report.canvas ? goStep2() : goStep3();
             }
@@ -147,7 +147,7 @@ function setStep1Buttons() {
 function setStep2Buttons() {
     $("#reportDialog").dialog({
         buttons: [ {
-            text: "Back",
+            text: msg.back,
             click: function() {
                 goStep1(), // The animation is only set only when coming back
                 $("#reportDialog").dialog("widget").animate({
@@ -156,7 +156,7 @@ function setStep2Buttons() {
                 }, 1e3);
             }
         }, {
-            text: "Next",
+            text: msg.next,
             click: function() {
                 goStep3();
             }
@@ -167,12 +167,12 @@ function setStep2Buttons() {
 function setStep3Buttons() {
     $("#reportDialog").dialog({
         buttons: [ {
-            text: "Back",
+            text: msg.back,
             click: function() {
                 report.canvas ? (goStep2(), cleanThumbElement()) : goStep1();
             }
         }, {
-            text: "Submit",
+            text: msg.submit,
             click: function() {
                 report.description = $("#updatedDescription").val(), saveReport();
             }
@@ -183,9 +183,9 @@ function setStep3Buttons() {
 function finishButtons() {
     $("#reportDialog").dialog({
         buttons: [ {
-            text: "Ok",
+            text: msg.ok,
             click: function() {
-                $("#reportDialog").dialog("close"), cleanup();
+                $("#reportDialog").dialog(msg.close), cleanup();
             }
         } ]
     }), $(".ui-dialog-buttonset :button").addClass("btn");
@@ -320,30 +320,32 @@ function get_cookies_array() {
 
 function writeBrowserInfo() {
     var e = $(".browserInfo");
-    e.append("<h4>Browser version:</h4>"), dumpVars(jQuery.browser, ".browserInfo"), 
-    report.browserInfo = jQuery.browser, e.append("<h4>Operating System: </h4>"), dumpVars(navigator, ".browserInfo", [ "plugins", "mimeTypes" ]), 
-    report.navigator = navigator, e.append("<h4>Installed Plugins: </h4>" + showPlugins());
+    e.append("<h4>" + msg.dialog.step3.browserVersion + ":</h4>"), dumpVars(jQuery.browser, ".browserInfo"), 
+    report.browserInfo = jQuery.browser, e.append("<h4>" + msg.dialog.step3.operatingSystem + ": </h4>"), 
+    dumpVars(navigator, ".browserInfo", [ "plugins", "mimeTypes" ]), report.navigator = navigator, 
+    e.append("<h4>" + msg.dialog.step3.installedPlugins + ": </h4>" + showPlugins());
 }
 
 function writePageInfo() {
     var e = $(".pageInfo");
     // Get all page url info
-    e.append("<h4>Page Url:</h4>"), dumpVars(window.location, ".pageInfo", [ "ancestorOrigins" ]), 
+    e.append("<h4>" + msg.dialog.step3.pageUrl + ":</h4>"), dumpVars(window.location, ".pageInfo", [ "ancestorOrigins" ]), 
     report.location = window.location;
     // Get all DOM elements
     var t = $.base64.encode($("html").clone().html());
     //var html = $("html").clone().html()
-    e.append("<h4>Encoded Page Structure:</h4>").append("<div class='row-fluid'><textarea rows='4' class='span12'>" + t + "</textarea></div>"), 
+    e.append("<h4>" + msg.dialog.step3.pageStucture + ":</h4>").append("<div class='row-fluid'><textarea rows='4' class='span12'>" + t + "</textarea></div>"), 
     report.encodedHtml = t;
 }
 
 function writeUserInfo() {
     var e = $(".userInfo");
     //Check if the user has something filled in
-    null !== report.user && (e.append("<h4>User Info:</h4>"), dumpVars(report.user, ".userInfo"));
+    null !== report.user && (e.append("<h4>" + msg.dialog.step3.userInfo + ":</h4>"), 
+    dumpVars(report.user, ".userInfo"));
     // Get all cookies
     var t = get_cookies_array();
-    $.isEmptyObject(t) || (e.append("<h4>Cookies:</h4>"), dumpVars(t, ".userInfo"), 
+    $.isEmptyObject(t) || (e.append("<h4>" + msg.dialog.step3.cookies + ":</h4>"), dumpVars(t, ".userInfo"), 
     report.cookies = t);
 }
 
@@ -353,7 +355,7 @@ function writeUserComment() {
 }
 
 function writeProductInfo() {
-    var e = '<label><b>Product Info</b></label>			<div id="prodInfo" style="margin-left:20px;"></div>';
+    var e = "<label><b>" + msg.dialog.step3.prodInfo + "</b></label>" + '<div id="prodInfo" style="margin-left:20px;"></div>';
     null !== report.productInfo && ($("#usertext").after(e), dumpVars(report.productInfo, "#prodInfo"));
 }
 
@@ -406,7 +408,7 @@ function drawInCanvas() {
     // initialization of the canvas element
     e();
     // highlight or blackout state
-    var h = "highlight";
+    var p = "highlight";
     $(window).resize(function() {
         t(), e();
     }), $.extend($.ui.boxer, {
@@ -416,10 +418,10 @@ function drawInCanvas() {
         })
     }), $("#highlight").on("click", function() {
         $("#reportDialog button").removeClass("btn-primary"), $(this).addClass("btn-primary"), 
-        h = "highlight";
+        p = "highlight";
     }), $("#block").on("click", function() {
         $("#reportDialog button").removeClass("btn-primary"), $(this).addClass("btn-primary"), 
-        h = "block";
+        p = "block";
     }), $("#clear").on("click", function() {
         o();
     }), //$.widget("ui.boxer", $.extend({}, $.ui.mouse, {
@@ -443,7 +445,7 @@ function drawInCanvas() {
                     width: 0,
                     height: 0,
                     "z-index": 1040
-                }), "highlight" == h ? this.helper.css({
+                }), "highlight" == p ? this.helper.css({
                     background: d
                 }) : this.helper.css({
                     background: l
@@ -467,7 +469,7 @@ function drawInCanvas() {
             // get the positions
             var e = this.helper.offset().top, t = this.helper.offset().left, o = this.helper.width(), n = this.helper.height();
             // check if highlight or black out
-            return "highlight" == h ? context.clearRect(t, e, o, n) : (context.fillStyle = c, 
+            return "highlight" == p ? context.clearRect(t, e, o, n) : (context.fillStyle = c, 
             context.fillRect(t, e, o, n)), this.helper.remove(), !1;
         }
     }), $.extend($.ui.boxer.prototype, {
@@ -483,7 +485,50 @@ function drawInCanvas() {
     });
 }
 
-var report = [];
+var report = [], msg = {
+    ok: "ok",
+    close: "close",
+    next: "next",
+    submit: "Submit",
+    back: "Back",
+    highlight: "Highlight",
+    blackOut: "Black out",
+    clear: "Clear",
+    dialog: {
+        title: "Give us your feedback :)",
+        step1: {
+            info1: "Report Back lets you send suggestions about the product.We welcome problem reports, feature ideas and general comments.<br/><br/>Legal notifications sent through Report Back will not be processed and they'r something I don't care about in here.(Legal mambo-jambo)<br/><br/>",
+            info2: "Start by writing a brief description:",
+            info3: "Next we'll let you identify areas of the page related to your description."
+        },
+        step2: {
+            info1: "Click and drag on the page to help us better understand your feedback.You can move this dialog if it's in the way.",
+            label1: " Highlight areas relevant to your feedback.",
+            label2: " Black out any personal information.",
+            label3: " Remove all boxes."
+        },
+        step3: {
+            description: "Description",
+            aditionalInfo: "Aditional Info",
+            userInfo: "User info",
+            pageInfo: "Page info",
+            browserInfo: "Browser info",
+            screenshot: "Screenshot",
+            cookies: "Cookies",
+            prodInfo: "Product Info",
+            pageStucture: "Encoded Page Structure",
+            pageUrl: "Page Url",
+            installedPlugins: "Installed Plugins",
+            operatingSystem: "Operating System",
+            browserVersion: "Browser version"
+        },
+        step4: {
+            title: "All done",
+            info1: "Now it's up to you to do something with the gathered info.<br/>",
+            info2: "Check console to view the log of the report object"
+        }
+    }
+};
 
 // So $.browser was removed in jQuery 1.9 but I really need it
 // 	not to make conditional changes but to output the browser info,
