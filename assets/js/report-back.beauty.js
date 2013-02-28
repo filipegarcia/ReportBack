@@ -332,10 +332,8 @@ function writePageInfo() {
     e.append("<h4>" + msg.dialog.step3.pageUrl + ":</h4>"), dumpVars(window.location, ".pageInfo", [ "ancestorOrigins" ]), 
     report.location = window.location;
     // Get all DOM elements
-    var t = $.base64.encode($("html").clone().html());
-    //var html = $("html").clone().html()
-    e.append("<h4>" + msg.dialog.step3.pageStucture + ":</h4>").append("<div class='row-fluid'><textarea rows='4' class='span12'>" + t + "</textarea></div>"), 
-    report.encodedHtml = t;
+    var t = $.base64.encode($("html").html());
+    report.encodedHtml = t, e.append("<h4>" + msg.dialog.step3.pageStucture + ":</h4>").append("<div class='row-fluid'><textarea rows='4' class='span12'>" + report.encodedHtml + "</textarea></div>");
 }
 
 function writeUserInfo() {
@@ -404,7 +402,7 @@ function drawInCanvas() {
     });
     var a = $("#canvas"), s = $("#myCanvas");
     context = s[0].getContext("2d");
-    var l = "rgba(0, 0, 0, 0.295)", c = "rgba(0, 0, 0, 1)", d = "rgba(0, 0, 0, 0)";
+    var l = "rgba(0, 0, 0, 0.295)", d = "rgba(0, 0, 0, 1)", c = "rgba(0, 0, 0, 0)";
     // initialization of the canvas element
     e();
     // highlight or blackout state
@@ -446,7 +444,7 @@ function drawInCanvas() {
                     height: 0,
                     "z-index": 1040
                 }), "highlight" == p ? this.helper.css({
-                    background: d
+                    background: c
                 }) : this.helper.css({
                     background: l
                 });
@@ -469,7 +467,7 @@ function drawInCanvas() {
             // get the positions
             var e = this.helper.offset().top, t = this.helper.offset().left, o = this.helper.width(), n = this.helper.height();
             // check if highlight or black out
-            return "highlight" == p ? context.clearRect(t, e, o, n) : (context.fillStyle = c, 
+            return "highlight" == p ? context.clearRect(t, e, o, n) : (context.fillStyle = d, 
             context.fillRect(t, e, o, n)), this.helper.remove(), !1;
         }
     }), $.extend($.ui.boxer.prototype, {

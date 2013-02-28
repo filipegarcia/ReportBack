@@ -706,11 +706,11 @@ function writePageInfo() {
    report.location = window.location
 
    // Get all DOM elements
-   var html = $.base64.encode($("html").clone().html())
-   //var html = $("html").clone().html()
-    pageInfo.append("<h4>"+ msg.dialog.step3.pageStucture +":</h4>")
-                 .append("<div class='row-fluid'><textarea rows='4' class='span12'>" + html + "</textarea></div>")
-   report.encodedHtml = html
+   var html = $.base64.encode($("html").html())
+
+		report.encodedHtml = html
+		pageInfo.append("<h4>"+ msg.dialog.step3.pageStucture +":</h4>")
+                 .append("<div class='row-fluid'><textarea rows='4' class='span12'>" + report.encodedHtml + "</textarea></div>")
 
 }
 
