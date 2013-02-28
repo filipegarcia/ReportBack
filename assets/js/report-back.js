@@ -5,11 +5,11 @@
  Released under Apache License v2.0
 */
 
-// report array to be build during the process
+// report array to be used during the process
 var report = []
 
 
-
+// all the labels are extracted, you know, for translation.
 var msg = {
 	ok : "ok",
 	close: "close",
@@ -65,7 +65,7 @@ var msg = {
 
 
 
-//Initialize the report back, dynamically loading the scripts and css and setp up step 1
+//Initialize the report back, dynamically loading the scripts and css and set up step1
 function report_warmup_dyn(userInfo, productInfo) {
 
 	//Load the dependencies
@@ -95,36 +95,14 @@ function report_warmup_dyn(userInfo, productInfo) {
 		report.productInfo = productInfo
 }
 
+
+//If you don't need to dynamically load anything you can use this one
 function report_warmup() {
 
 	$("#feedback").on("click", function () {
 		drawDialog()
 		goStep1()
 	})
-
-}
-
-
-function saveReport() {
-
-	$('#reportDialog').dialog({width: 500})
-	$('#step3').hide("blind", { direction: "vertical" }, 200)
-	$('#step4').show("blind", { direction: "vertical" }, 200)
-
-	finishButtons()
-
-	//remove this for production
-	console.log(report)
-
-
-	/*	send to BD
-	$.ajax({
-	    type: "POST",
-	    url: "save/savereport",
-	    dataType: 'json',
-	    data: { json: report }
-	});
-	*/
 
 }
 
@@ -236,6 +214,7 @@ function drawDialog(){
 
     $('body').append(out)
 
+		// if no the browser doesn't support canvas, skip step 2
     if (report.canvas) {
       $('#reportDialog').append(step1 + step2 + step3 + step4)
     }
@@ -370,6 +349,29 @@ function cleanup() {
 				takeScreenShot()
 			},1000)
 		}
+
+	}
+
+	function saveReport() {
+
+		$('#reportDialog').dialog({width: 500})
+		$('#step3').hide("blind", { direction: "vertical" }, 200)
+		$('#step4').show("blind", { direction: "vertical" }, 200)
+
+		finishButtons()
+
+		//remove this for production
+		console.log(report)
+
+
+		/*	send to BD
+		$.ajax({
+		    type: "POST",
+		    url: "save/savereport",
+		    dataType: 'json',
+		    data: { json: report }
+		});
+		*/
 
 	}
 

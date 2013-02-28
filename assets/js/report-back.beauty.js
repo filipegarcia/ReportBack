@@ -4,8 +4,8 @@
 
  Released under Apache License v2.0
 */
-// report array to be build during the process
-//Initialize the report back, dynamically loading the scripts and css and setp up step 1
+// report array to be used during the process
+//Initialize the report back, dynamically loading the scripts and css and set up step1
 function report_warmup_dyn(e, t) {
     //Load the dependencies
     $.getScript("assets/js/dependencies.js"), // check /Gruntfile.js to know which files are being minified
@@ -18,21 +18,11 @@ function report_warmup_dyn(e, t) {
     drawDialog(), goStep1(), report.user = e, report.productInfo = t;
 }
 
+//If you don't need to dynamically load anything you can use this one
 function report_warmup() {
     $("#feedback").on("click", function() {
         drawDialog(), goStep1();
     });
-}
-
-function saveReport() {
-    $("#reportDialog").dialog({
-        width: 500
-    }), $("#step3").hide("blind", {
-        direction: "vertical"
-    }, 200), $("#step4").show("blind", {
-        direction: "vertical"
-    }, 200), finishButtons(), //remove this for production
-    console.log(report);
 }
 
 // add all steps to the dialog window
@@ -43,7 +33,8 @@ function drawDialog() {
     step2 = '<div id="step2" style="display:none;">	<p>' + msg.dialog.step2.info1 + "</p>" + "			<div>" + '				<div class="row-fluid">' + '					<div class="span12"> <button id="highlight" class="btn btn-primary" type="button">' + '						<i class="icon-eye-open"></i> ' + msg.highlight + "&nbsp;</button>" + msg.dialog.step2.label1 + "</div>" + "				</div><br/>" + '				<div class="row-fluid">' + '					<div class="span12"> <button id="block" class="btn" type="button"><i class="icon-eye-close">' + "						</i> " + msg.blackOut + "</button>" + msg.dialog.step2.label2 + "</div>" + "				</div><br/>" + '				<div class="row-fluid">' + '					<div class="span12"> <button id="clear" class="btn" type="button"><i class="icon-remove"></i> ' + msg.clear + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>" + msg.dialog.step2.label3 + "</div>" + "				</div>" + "				</div>" + "			</div>", 
     step3 = '<div id="step3" style="display:none;">	<div class="row-fluid">	<div id="strechInNoCanvas" class="span6" style="max-height: 350px;overflow-y: scroll;}">		<form>	    <div class="row-fluid">	    <label><b>' + msg.dialog.step3.description + "</b></label>" + '			<div id="usertext" style="margin-left:20px;"></div>' + "	    <label><b>" + msg.dialog.step3.aditionalInfo + "</b></label>" + '	    <div class="accordion" id="envInfo" style="margin-left:20px;">' + '	      <div class="accordion-group">' + '	          <div class="accordion-heading">' + '	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseOne">' + msg.dialog.step3.userInfo + "</a>" + "	          </div>" + '	          <div id="collapseOne" class="accordion-body collapse">' + '	              <div class="accordion-inner userInfo"></div>' + "	          </div>" + "	      </div>" + '	      <div class="accordion-group">' + '	          <div class="accordion-heading">' + '	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseTwo">' + msg.dialog.step3.pageInfo + "</a>" + "	          </div>" + '	          <div id="collapseTwo" class="accordion-body collapse">' + '	              <div class="accordion-inner pageInfo"></div>' + "	          </div>" + "	      </div>" + '	      <div class="accordion-group">' + '	          <div class="accordion-heading">' + '	              <a class="accordion-toggle" data-toggle="collapse" data-parent="#envInfo" href="#collapseThree">' + msg.dialog.step3.browserInfo + "</a>" + "	          </div>" + '	          <div id="collapseThree" class="accordion-body collapse">' + '	              <div class="accordion-inner browserInfo"></div>' + "	          </div>" + "	      </div>" + "	    </div>" + "	    </div>" + "	   </form>" + "		</div>" + '		<div id="onlyInCanvas" class="span6">' + '			<div id="screenPreview">' + "					<b>" + msg.dialog.step3.screenshot + "</b>" + '					<div id="thumbProgress" class="progress progress-striped active">' + '						<div class="bar" style="width: 100%;"></div>' + "					</div>" + '			<div id="screenshootImg">' + "					</div>" + "			</div>" + "		</div>" + "		</div>" + "	</div>", 
     step4 = '<div id="step4" style="display:none;">				<h3>' + msg.dialog.step4.title + "</h3>" + msg.dialog.step4.info1 + msg.dialog.step4.info2 + "		</div>", 
-    $("body").append(e), report.canvas ? $("#reportDialog").append(step1 + step2 + step3 + step4) : ($("#reportDialog").append(step1 + step3 + step4), 
+    $("body").append(e), // if no the browser doesn't support canvas, skip step 2
+    report.canvas ? $("#reportDialog").append(step1 + step2 + step3 + step4) : ($("#reportDialog").append(step1 + step3 + step4), 
     $("#onlyInCanvas").remove(), $("#strechInNoCanvas").removeClass("span6").addClass("span12"));
 }
 
@@ -126,6 +117,17 @@ function goStep3() {
     report.canvas && setTimeout(function() {
         takeScreenShot();
     }, 1e3);
+}
+
+function saveReport() {
+    $("#reportDialog").dialog({
+        width: 500
+    }), $("#step3").hide("blind", {
+        direction: "vertical"
+    }, 200), $("#step4").show("blind", {
+        direction: "vertical"
+    }, 200), finishButtons(), //remove this for production
+    console.log(report);
 }
 
 /* #########################################################################################

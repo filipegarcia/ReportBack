@@ -74,15 +74,14 @@
 
          <h2>Demo</h2>
         <p>
-          Press the feedback button on the right bottom corner to try it out
+          Press the feedback button on the right bottom corner and take it out for a spin.
         </p>
         <br>
         <h2>Markup</h2>
         <div class="bs-docs-example">
 
 <div id="newnav"></div>
-You can draw the feedback button directly in your layout and just add the click event. <br>
-This only needs jquery, jqueryUI and the rest can be added dynamically.
+You can draw the feedback button directly in your layout and just add the this click event. <br>
 </div>
 
 <pre class="prettyprint linenums">
@@ -95,7 +94,25 @@ $("#feedback").on("click",function (){
 &lt;/script&gt;
 </pre>
 
+        <div class="bs-docs-example">
 
+<div id="newnav"></div>
+Or you can do everything in one place<br>
+</div>
+
+<pre class="prettyprint linenums">
+&lt;script type="text/javascript"&gt;
+
+var myButton = "&lt;div id='feedback' class='btn'&gt;&lt;i class='icon-bullhorn'&gt;&lt;/i&gt; Feedback&lt;/div&gt;"
+$('body').append(myButton)
+$('#feedback').css({position : 'fixed',bottom : '0',right : '0'})
+
+$("#feedback").on("click",function (){
+  $.getScript("assets/js/report-back.js", function() { report_warmup_dyn() })
+})
+
+&lt;/script&gt;
+</pre>
 
         <h2>What is grabbed?</h2>
         <p>
@@ -104,17 +121,17 @@ $("#feedback").on("click",function (){
             <dd>Version</dd>
             <dd>Installed plugins</dd>
 
-            <dt>Screenshot</dt>
+            <dt>Screenshot (when canvas is supported)</dt>
             <dd>a rendered version of the page with highlight and blackout parts</dd>
-            <dd>cropped version of the viewport</dd>
+            <dd>cropped section of the viewport</dd>
 
             <dt>Page info</dt>
             <dd>Full url info</dd>
-            <dd>page structure</dd>
+            <dd>full html code encoded in base64</dd>
 
             <dt>User info</dt>
             <dd>Cookies</dd>
-            <dd>everything that </dd>
+            <dd>username, role and everything else that you need</dd>
 
             <dt>Anything else</dt>
             <dd>just add more stuff to be recorded from you own system</dd>
@@ -128,7 +145,7 @@ $("#feedback").on("click",function (){
 
 <div class="bs-docs-example">
   <div id="newnav2"></div>
-  For this demo only these ones are needed:
+  For this demo only these are needed beforehand, everything else the tool needs, it loads it dynamically.
 </div>
 <pre class="prettyprint linenums">
 &lt;script src="assets/js/jquery.js"&gt;&lt;/script&gt;
@@ -137,7 +154,7 @@ $("#feedback").on("click",function (){
 
 <div class="bs-docs-example">
   <div id="newnav3"></div>
-  But these are all the dependencies used by the tool:
+  But these are all the dependencies used:
 </div>
 <pre class="prettyprint linenums">
 &lt;link href="assets/css/bootstrap.min.css" rel="stylesheet"&gt;
@@ -220,7 +237,7 @@ $("#feedback").on("click",function (){
 
 
     // Append the feedback button. This could also be
-    $('body').append("<div id='feedback' class='btn feedbackBtnGroup'><i class='icon-bullhorn'></i> Feedback</div>")
+    $('body').append("<div id='feedback' class='btn'><i class='icon-bullhorn'></i> Feedback</div>")
     $('#feedback').css({position : 'fixed',bottom : '0',right : '0'})
 
     // Set up the click event that will load the js file and its dependencies
