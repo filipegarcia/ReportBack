@@ -524,8 +524,8 @@ var report = [], msg = {
         },
         step4: {
             title: "All done",
-            info1: "Now it's up to you to do something with the gathered info.<br/>",
-            info2: "Check console to view the log of the report object"
+            info1: "Now it's up to you to do something with the gathered info.<br/>Why not send it over an ajax request to your server?<br/>",
+            info2: "For development purpose, check console.log to view the log of the report object"
         }
     }
 };

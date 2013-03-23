@@ -65,11 +65,12 @@
       <section id="Report-Back<">
 
         <h2>Description</h2>
-        <p>Working fine in chrome, firefox, opera(slow but working) and, with some bugs Safari and IE (no canvas for version 8) .<br>
+        <p>
           The Tool is loaded dynamically when the feedback button is clicked. It grabs user information, browser information, operating system information, the page html code, and a screenshot of the rendered page.<br>
         It allows the user to highlight or blackout a portion of the page.<br>
-        The screenshot is done in client-side and allows to see the viewport of the client and how the page was rendered.<br/> For this html2canvas comes to the rescue. Taking the screenshot in client side is like building a browser inside the browser, and rendering the page again in the browser. <br>
-        In the end, you can save the json result that was created.<br>
+        The screenshot is done in client-side and allows to see the viewport of the client and how the page was rendered.<br/> For this html2canvas comes to the rescue. Taking the screenshot in client side is like building a browser inside the browser, and render the page again in the browser. <br>
+        In the end, you can save the result json that was created by sending it over an ajax request (for development you can see the result in the console.log ).<br>
+        Working fine in chrome, firefox, opera(slow but working) and, with some bugs Safari and IE (no canvas for version 8) .<br>
         </p>
 
          <h2>Demo</h2>
@@ -215,7 +216,10 @@ $("#feedback").on("click",function (){
 
 <script type="text/javascript">
 
-  // for demo purpose
+  /*
+   *  demo only
+   */
+
     // some user information that can come from your system
     var user = new Object();
     user.fullName = "John Doe"
@@ -235,14 +239,16 @@ $("#feedback").on("click",function (){
 
 
 
-
-    // Append the feedback button. This could also be
+  /*
+   *    Report Back code
+   */
+    // Append the feedback button.
     $('body').append("<div id='feedback' class='btn'><i class='icon-bullhorn'></i> Feedback</div>")
     $('#feedback').css({position : 'fixed',bottom : '0',right : '0'})
 
     // Set up the click event that will load the js file and its dependencies
     $("#feedback").on("click",function (){
-      $.getScript("assets/js/report-back.js", function() { report_warmup_dyn(user, product) })
+      $.getScript("assets/js/report-back.min.js", function() { report_warmup_dyn(user, product) })
     })
 
 </script>
@@ -268,19 +274,16 @@ $("#feedback").on("click",function (){
 
 
 <script type="text/javascript">
-
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-37955838-1']);
   _gaq.push(['_setDomainName', 'github.com']);
   _gaq.push(['_setAllowLinker', true]);
   _gaq.push(['_trackPageview']);
-
   (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
-
 </script>
 
   </body>
