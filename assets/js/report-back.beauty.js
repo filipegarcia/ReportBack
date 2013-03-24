@@ -39,7 +39,7 @@ function drawDialog() {
 }
 
 function cleanup() {
-    //Hide the  canvas element
+    _gaq.push([ "_trackEvent", "Step", "close", "Close dialog" ]), //Hide the  canvas element
     hideCanvas(), //return to initial state
     $("#feedback").show(), $("#step1").show(), $("#step2").hide(), $("#step3").hide(), 
     $("#step4").hide(), //Now the click on the feedback button has to be different
@@ -53,7 +53,8 @@ function cleanup() {
 // 	Get the user feedback description.
 // 		prepare click actions for step1
 function goStep1() {
-    _gaq.push([ "_trackEvent", "step", "1", "" ]), $("#feedback").hide(), $("#reportDialog").dialog({
+    _gaq.push([ "_trackEvent", "Step", "1", "Open step1" ]), $("#feedback").hide(), 
+    $("#reportDialog").dialog({
         width: 500,
         modal: !1,
         resizable: !1,
@@ -79,7 +80,7 @@ function goStep1() {
 // 	Show modal that allow user to highlight and black out the page.
 // 		Set up canvas element and prepare click event for step 2
 function goStep2() {
-    _gaq.push([ "_trackEvent", "step", "2", "" ]);
+    _gaq.push([ "_trackEvent", "Step", "2", "Open step2" ]);
     var e = $("#reportDialog");
     e.dialog({
         width: 500
@@ -99,7 +100,7 @@ function goStep2() {
 // show the screenshot taken and all the info about the environment
 //		set up buttons for step 3
 function goStep3() {
-    _gaq.push([ "_trackEvent", "step", "3", "" ]), //	animate to center, already using the new width
+    _gaq.push([ "_trackEvent", "Step", "3", "Open step3" ]), //	animate to center, already using the new width
     $("#reportDialog").dialog("widget").animate({
         left: $(window).width() / 2 - 450,
         top: $(window).height() / 2 - 260
@@ -121,7 +122,7 @@ function goStep3() {
 }
 
 function saveReport() {
-    _gaq.push([ "_trackEvent", "step", "last", "" ]), $("#reportDialog").dialog({
+    _gaq.push([ "_trackEvent", "Step", "save", "Open save Report" ]), $("#reportDialog").dialog({
         width: 500
     }), $("#step3").hide("blind", {
         direction: "vertical"
@@ -498,7 +499,7 @@ var report = [], msg = {
     dialog: {
         title: "Give us your feedback :)",
         step1: {
-            info1: "Report Back lets you send suggestions about the product.We welcome problem reports, feature ideas and general comments.<br/><br/>Legal notifications sent through Report Back will not be processed and they'r something I don't care about in here.(Legal mambo-jambo)<br/><br/>",
+            info1: "Report Back lets you send suggestions about the product.We welcome problem reports, feature ideas and general comments.<br/><br/>Legal notifications sent through Report Back will not be processed and they're something I don't care about in here.(Legal mambo-jambo)<br/><br/>",
             info2: "Start by writing a brief description:",
             info3: "Next we'll let you identify areas of the page related to your description."
         },
@@ -525,8 +526,8 @@ var report = [], msg = {
         },
         step4: {
             title: "All done",
-            info1: "Now it's up to you to do something with the gathered info.<br/>",
-            info2: "Check console to view the log of the report object"
+            info1: "Now it's up to you to do something with the gathered info.<br/>Why not send it over an ajax request to your server?<br/>",
+            info2: "For development purposes, check console.log to view the log of the report object"
         }
     }
 };
