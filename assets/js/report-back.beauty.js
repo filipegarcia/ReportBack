@@ -39,7 +39,7 @@ function drawDialog() {
 }
 
 function cleanup() {
-    //Hide the  canvas element
+    _gaq.push([ "_trackEvent", "Step", "close", "Close dialog" ]), //Hide the  canvas element
     hideCanvas(), //return to initial state
     $("#feedback").show(), $("#step1").show(), $("#step2").hide(), $("#step3").hide(), 
     $("#step4").hide(), //Now the click on the feedback button has to be different
@@ -53,7 +53,8 @@ function cleanup() {
 // 	Get the user feedback description.
 // 		prepare click actions for step1
 function goStep1() {
-    $("#feedback").hide(), $("#reportDialog").dialog({
+    _gaq.push([ "_trackEvent", "Step", "1", "Open step1" ]), $("#feedback").hide(), 
+    $("#reportDialog").dialog({
         width: 500,
         modal: !1,
         resizable: !1,
@@ -79,6 +80,7 @@ function goStep1() {
 // 	Show modal that allow user to highlight and black out the page.
 // 		Set up canvas element and prepare click event for step 2
 function goStep2() {
+    _gaq.push([ "_trackEvent", "Step", "2", "Open step2" ]);
     var e = $("#reportDialog");
     e.dialog({
         width: 500
@@ -98,7 +100,7 @@ function goStep2() {
 // show the screenshot taken and all the info about the environment
 //		set up buttons for step 3
 function goStep3() {
-    //	animate to center, already using the new width
+    _gaq.push([ "_trackEvent", "Step", "3", "Open step3" ]), //	animate to center, already using the new width
     $("#reportDialog").dialog("widget").animate({
         left: $(window).width() / 2 - 450,
         top: $(window).height() / 2 - 260
@@ -120,7 +122,7 @@ function goStep3() {
 }
 
 function saveReport() {
-    $("#reportDialog").dialog({
+    _gaq.push([ "_trackEvent", "Step", "save", "Open save Report" ]), $("#reportDialog").dialog({
         width: 500
     }), $("#step3").hide("blind", {
         direction: "vertical"
@@ -404,7 +406,7 @@ function drawInCanvas() {
     });
     var a = $("#canvas"), s = $("#myCanvas");
     context = s[0].getContext("2d");
-    var l = "rgba(0, 0, 0, 0.295)", d = "rgba(0, 0, 0, 1)", c = "rgba(0, 0, 0, 0)";
+    var l = "rgba(0, 0, 0, 0.295)", c = "rgba(0, 0, 0, 1)", d = "rgba(0, 0, 0, 0)";
     // initialization of the canvas element
     e();
     // highlight or blackout state
@@ -446,7 +448,7 @@ function drawInCanvas() {
                     height: 0,
                     "z-index": 1040
                 }), "highlight" == p ? this.helper.css({
-                    background: c
+                    background: d
                 }) : this.helper.css({
                     background: l
                 });
@@ -469,7 +471,7 @@ function drawInCanvas() {
             // get the positions
             var e = this.helper.offset().top, t = this.helper.offset().left, o = this.helper.width(), n = this.helper.height();
             // check if highlight or black out
-            return "highlight" == p ? context.clearRect(t, e, o, n) : (context.fillStyle = d, 
+            return "highlight" == p ? context.clearRect(t, e, o, n) : (context.fillStyle = c, 
             context.fillRect(t, e, o, n)), this.helper.remove(), !1;
         }
     }), $.extend($.ui.boxer.prototype, {

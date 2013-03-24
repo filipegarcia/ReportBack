@@ -228,7 +228,7 @@ function drawDialog(){
 
 }
 
-function cleanup() {
+function cleanup() {_gaq.push(['_trackEvent', 'Step', 'close', 'Close dialog']);
 	//Hide the  canvas element
 	hideCanvas()
 	//return to initial state
@@ -254,7 +254,7 @@ function cleanup() {
 
 	// 	Get the user feedback description.
 	// 		prepare click actions for step1
-	function goStep1() {
+	function goStep1() {_gaq.push(['_trackEvent', 'Step', '1', 'Open step1']);
 
 		$("#feedback").hide()
 
@@ -293,7 +293,7 @@ function cleanup() {
 
 	// 	Show modal that allow user to highlight and black out the page.
 	// 		Set up canvas element and prepare click event for step 2
-	function goStep2() {
+	function goStep2() {_gaq.push(['_trackEvent', 'Step', '2', 'Open step2']);
 		var reportDialog = $('#reportDialog')
 
 		reportDialog.dialog({ width: 500})
@@ -320,7 +320,7 @@ function cleanup() {
 
 	// show the screenshot taken and all the info about the environment
 	//		set up buttons for step 3
-  function goStep3() {
+  function goStep3() {_gaq.push(['_trackEvent', 'Step', '3', 'Open step3']);
 
 		//	animate to center, already using the new width
 		$('#reportDialog').dialog("widget").animate({
@@ -353,7 +353,7 @@ function cleanup() {
 
 	}
 
-	function saveReport() {
+	function saveReport() {_gaq.push(['_trackEvent', 'Step', 'save', 'Open save Report']);
 
 		$('#reportDialog').dialog({width: 500})
 		$('#step3').hide("blind", { direction: "vertical" }, 200)
