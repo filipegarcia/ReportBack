@@ -497,7 +497,7 @@ var report = [], msg = {
     dialog: {
         title: "Give us your feedback :)",
         step1: {
-            info1: "Report Back lets you send suggestions about the product.We welcome problem reports, feature ideas and general comments.<br/><br/>Legal notifications sent through Report Back will not be processed and they'r something I don't care about in here.(Legal mambo-jambo)<br/><br/>",
+            info1: "Report Back lets you send suggestions about the product.We welcome problem reports, feature ideas and general comments.<br/><br/>Legal notifications sent through Report Back will not be processed and they're something I don't care about in here.(Legal mambo-jambo)<br/><br/>",
             info2: "Start by writing a brief description:",
             info3: "Next we'll let you identify areas of the page related to your description."
         },
@@ -525,7 +525,7 @@ var report = [], msg = {
         step4: {
             title: "All done",
             info1: "Now it's up to you to do something with the gathered info.<br/>Why not send it over an ajax request to your server?<br/>",
-            info2: "For development purpose, check console.log to view the log of the report object"
+            info2: "For development purposes, check console.log to view the log of the report object"
         }
     }
 };

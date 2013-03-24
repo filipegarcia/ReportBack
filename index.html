@@ -68,9 +68,9 @@
         <p>
           The Tool is loaded dynamically when the feedback button is clicked. It grabs user information, browser information, operating system information, the page html code, and a screenshot of the rendered page.<br>
         It allows the user to highlight or blackout a portion of the page.<br>
-        The screenshot is done in client-side and allows to see the viewport of the client and how the page was rendered.<br/> For this html2canvas comes to the rescue. Taking the screenshot in client side is like building a browser inside the browser, and render the page again in the browser. <br>
-        In the end, you can save the result json that was created by sending it over an ajax request (for development you can see the result in the console.log ).<br>
-        Working fine in chrome, firefox, opera(slow but working) and, with some bugs Safari and IE (no canvas for version 8) .<br>
+        The screenshot is done in client-side and allows to see the viewport of the client and how the page was rendered.<br/> For this html2canvas comes to the rescue. Taking the screenshot in client side is like building a browser inside the browser, and rendering the page again in the browser. <br>
+        In the end, you can save the resulting json that was created by sending it over an ajax request (for development you can see the result in the console.log ).<br>
+        Report Back is working fine in chrome, firefox, opera(slow but working) and, with some bugs Safari and IE (no canvas for version 8) .<br>
         </p>
 
          <h2>Demo</h2>
@@ -82,7 +82,7 @@
         <div class="bs-docs-example">
 
 <div id="newnav"></div>
-You can draw the feedback button directly in your layout and just add the this click event. <br>
+You can draw the feedback button directly in your layout and just add the click event. <br>
 </div>
 
 <pre class="prettyprint linenums">
@@ -115,7 +115,7 @@ $("#feedback").on("click",function (){
 &lt;/script&gt;
 </pre>
 
-        <h2>What is grabbed?</h2>
+        <h2>What's grabbed?</h2>
         <p>
           <dl>
             <dt>Browser info</dt>
@@ -146,7 +146,7 @@ $("#feedback").on("click",function (){
 
 <div class="bs-docs-example">
   <div id="newnav2"></div>
-  For this demo only these are needed beforehand, everything else the tool needs, it loads it dynamically.
+  For this demo, only these are needed beforehand. Everything else the tool needs loads dynamically.
 </div>
 <pre class="prettyprint linenums">
 &lt;script src="assets/js/jquery.js"&gt;&lt;/script&gt;
@@ -155,7 +155,7 @@ $("#feedback").on("click",function (){
 
 <div class="bs-docs-example">
   <div id="newnav3"></div>
-  But these are all the dependencies used:
+  These are all the dependencies used:
 </div>
 <pre class="prettyprint linenums">
 &lt;link href="assets/css/bootstrap.min.css" rel="stylesheet"&gt;
