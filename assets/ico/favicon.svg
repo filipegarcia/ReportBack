@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="ReportBack">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a0b2e"/>
+      <stop offset="1" stop-color="#5b2a52"/>
+    </linearGradient>
+    <linearGradient id="megaphoneFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e8e2f0"/>
+    </linearGradient>
+  </defs>
+  <!-- Rounded-square brand background -->
+  <rect x="0" y="0" width="512" height="512" rx="96" ry="96" fill="url(#bg)"/>
+  <!-- Megaphone (same silhouette as the Feedback button SVG, scaled to fill ~70% of the canvas) -->
+  <g transform="translate(50 70) scale(25.75)">
+    <path fill="url(#megaphoneFill)"
+          d="M14 2.5a.5.5 0 0 0-.7-.46L5 5.5H2.5A1.5 1.5 0 0 0 1 7v2a1.5 1.5 0 0 0 1.5 1.5h.5v3a.5.5 0 0 0 .35.48l2 .66A.5.5 0 0 0 6 14.16V10.5l7.3 2.96a.5.5 0 0 0 .7-.46V2.5z"/>
+  </g>
+</svg>

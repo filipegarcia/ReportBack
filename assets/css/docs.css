@@ -1062,3 +1062,47 @@ form.bs-docs-example {
     padding-bottom: 20px;
   }
 }
+
+/* -------------------------------------------------------------------------
+   Small-screen safety net for the jQuery UI dialog (issue #2).
+   The widget computes its own width in JS (clamped to viewport - 16px),
+   but this CSS rule is the belt-and-braces: even if anything ever sets
+   the dialog wider than the viewport, max-width + box-sizing here will
+   force it to fit. Box-sizing matters because the jQuery UI dialog
+   has padding that would otherwise overflow.
+   ------------------------------------------------------------------------- */
+.ui-dialog {
+  max-width: calc(100vw - 16px);
+  /* Cap dialog height to the viewport too — otherwise on phones the
+     long step-3 body pushes Submit / OK below the fold. Keep the
+     titlebar + buttonpane pinned and let only the middle body scroll. */
+  max-height: calc(100vh - 16px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+.ui-dialog .ui-dialog-titlebar,
+.ui-dialog .ui-dialog-buttonpane {
+  flex: 0 0 auto;
+}
+.ui-dialog .ui-dialog-content {
+  box-sizing: border-box;
+  max-width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+@media (max-width: 540px) {
+  /* Step 2's parked-in-the-corner pose collapses on phones — the
+     dialog body has very little room. Stack the highlight/blackout/
+     clear rows so the buttons + their labels don't collide. */
+  #step2 .row-fluid .span12 { display: block; }
+  /* On phones the step-3 review (description on the left, screenshot
+     on the right) is too tight side-by-side; let bootstrap-responsive
+     stack them by zeroing out the float. */
+  #step3 .row-fluid > [class*="span"] {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+  }
+}

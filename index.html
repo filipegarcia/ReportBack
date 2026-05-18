@@ -1,24 +1,23 @@
 <!doctype html>
-<html xmlns="http://www.w3.org/1999/html">
+<html lang="en">
   <head>
-       <meta charset="utf-8">
+    <meta charset="utf-8">
     <title>Report Back</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="ReportBack — feedback and bug-report tool à la YouTube. Captures user info, page metadata and an in-browser screenshot.">
+    <meta name="author" content="Filipe Garcia">
 
-    <!-- Le styles -->
+    <!-- Styles -->
+    <!-- Bootstrap 2's responsive overrides MUST come AFTER the base
+         bootstrap.min.css, otherwise the responsive media queries lose
+         the cascade and the page renders at the fixed 940px width on
+         every viewport (the original cause of issue #2). -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="assets/css/docs.css" rel="stylesheet">
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="assets/js/html5shiv.js"></script>
-    <![endif]-->
-
-    <!-- Le fav and touch icons -->
+    <!-- Favicons -->
     <link rel="shortcut icon" href="assets/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
@@ -26,9 +25,8 @@
     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
 
     <script src="assets/js/jquery.js"></script>
-
   </head>
-   <body data-spy="scroll" data-target=".bs-docs-sidebar">
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
 
     <!-- Navbar
     ================================================== -->
@@ -52,151 +50,143 @@
       </div>
     </div>
 
-<!-- Subhead
-================================================== -->
-<header class="jumbotron subhead" id="overview">
-  <div class="container">
-    <h1>Report Back</h1>
-    <p class="lead">feedback and bug report <i>à la</i> youtube</p>  </div>
-</header>
+    <!-- Subhead
+    ================================================== -->
+    <header class="jumbotron subhead" id="overview">
+      <div class="container">
+        <h1>Report Back</h1>
+        <p class="lead">feedback and bug report <i>à la</i> youtube</p>
+      </div>
+    </header>
 
-  <div class="container">
+    <div class="container">
 
-      <section id="Report-Back<">
+      <section id="report-back">
 
         <h2>Description</h2>
         <p>
           The Tool is loaded dynamically when the feedback button is clicked. It grabs user information, browser information, operating system information, the page html code, and a screenshot of the rendered page.<br>
-        It allows the user to highlight or blackout a portion of the page.<br>
-        The screenshot is done in client-side and allows to see the viewport of the client and how the page was rendered.<br/> For this html2canvas comes to the rescue. Taking the screenshot in client side is like building a browser inside the browser, and rendering the page again in the browser. <br>
-        In the end, you can save the resulting json that was created by sending it over an ajax request (for development you can see the result in the console.log ).<br>
-        Report Back is working fine in chrome, firefox, opera(slow but working) and, with some bugs Safari and IE (no canvas for version 8) .<br>
+          It allows the user to highlight or blackout a portion of the page.<br>
+          The screenshot is done in client-side and allows to see the viewport of the client and how the page was rendered.<br/> For this html2canvas comes to the rescue. Taking the screenshot in client side is like building a browser inside the browser, and rendering the page again in the browser.<br>
+          In the end, you can save the resulting json that was created by sending it over an ajax request (for development you can see the result in the console.log).<br>
+          Report Back is working fine in chrome, firefox, opera (slow but working) and, with some bugs, Safari and IE (no canvas for version 8).<br>
         </p>
 
-         <h2>Demo</h2>
+        <h2>Demo</h2>
         <p>
           Press the feedback button on the right bottom corner and take it out for a spin.
         </p>
         <br>
         <h2>Markup</h2>
         <div class="bs-docs-example">
-
-<div id="newnav"></div>
-You can draw the feedback button directly in your layout and just add the click event. <br>
-</div>
+          <div id="newnav"></div>
+          You can draw the feedback button directly in your layout and just add the click event.<br>
+        </div>
 
 <pre class="prettyprint linenums">
 &lt;script type="text/javascript"&gt;
 
-$("#feedback").on("click",function (){
-  $.getScript("assets/js/report-back.js", function() { report_warmup_dyn() })
-})
+$("#feedback").on("click", function () {
+  $.getScript("assets/js/report-back.js", function () { report_warmup_dyn() });
+});
 
 &lt;/script&gt;
 </pre>
 
         <div class="bs-docs-example">
-
-<div id="newnav"></div>
-Or you can do everything in one place<br>
-</div>
+          <div id="newnav"></div>
+          Or you can do everything in one place<br>
+        </div>
 
 <pre class="prettyprint linenums">
 &lt;script type="text/javascript"&gt;
 
-var myButton = "&lt;div id='feedback' class='btn'&gt;&lt;i class='icon-bullhorn'&gt;&lt;/i&gt; Feedback&lt;/div&gt;"
-$('body').append(myButton)
-$('#feedback').css({position : 'fixed',bottom : '0',right : '0'})
+const myButton = "&lt;div id='feedback' class='btn'&gt;&lt;svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 16 16' fill='currentColor' aria-hidden='true' style='vertical-align:-2px;margin-right:4px'&gt;&lt;path d='M14 2.5a.5.5 0 0 0-.7-.46L5 5.5H2.5A1.5 1.5 0 0 0 1 7v2a1.5 1.5 0 0 0 1.5 1.5h.5v3a.5.5 0 0 0 .35.48l2 .66A.5.5 0 0 0 6 14.16V10.5l7.3 2.96a.5.5 0 0 0 .7-.46V2.5z'/&gt;&lt;/svg&gt; Feedback&lt;/div&gt;";
+$('body').append(myButton);
+$('#feedback').css({ position: 'fixed', bottom: '0', right: '0' });
 
-$("#feedback").on("click",function (){
-  $.getScript("assets/js/report-back.js", function() { report_warmup_dyn() })
-})
+$("#feedback").on("click", function () {
+  $.getScript("assets/js/report-back.js", function () { report_warmup_dyn() });
+});
 
 &lt;/script&gt;
 </pre>
 
         <h2>What's grabbed?</h2>
-        <p>
-          <dl>
-            <dt>Browser info</dt>
-            <dd>Version</dd>
-            <dd>Installed plugins</dd>
+        <dl>
+          <dt>Browser info</dt>
+          <dd>Version</dd>
+          <dd>Installed plugins</dd>
 
-            <dt>Screenshot (when canvas is supported)</dt>
-            <dd>a rendered version of the page with highlight and blackout parts</dd>
-            <dd>cropped section of the viewport</dd>
+          <dt>Screenshot (when canvas is supported)</dt>
+          <dd>a rendered version of the page with highlight and blackout parts</dd>
+          <dd>cropped section of the viewport</dd>
 
-            <dt>Page info</dt>
-            <dd>Full url info</dd>
-            <dd>full html code encoded in base64</dd>
+          <dt>Page info</dt>
+          <dd>Full url info</dd>
+          <dd>full html code encoded in base64</dd>
 
-            <dt>User info</dt>
-            <dd>Cookies</dd>
-            <dd>username, role and everything else that you need</dd>
+          <dt>User info</dt>
+          <dd>Cookies</dd>
+          <dd>username, role and everything else that you need</dd>
 
-            <dt>Anything else</dt>
-            <dd>just add more stuff to be recorded from you own system</dd>
-          </dl>
-        </p>
+          <dt>Anything else</dt>
+          <dd>just add more stuff to be recorded from your own system</dd>
+        </dl>
 
+        <h2>Dependencies</h2>
+        <p>The dependencies could all be injected in the page when the user clicks the feedback button or loaded normally.</p>
 
-
-    <h2>Dependencies</h2>
-      <p>The dependencies could all be injected in the page when the user clicks the feedback button or loaded normally.</p>
-
-<div class="bs-docs-example">
-  <div id="newnav2"></div>
-  For this demo, only these are needed beforehand. Everything else the tool needs loads dynamically.
-</div>
+        <div class="bs-docs-example">
+          <div id="newnav2"></div>
+          For this demo, only these are needed beforehand. Everything else the tool needs loads dynamically.
+        </div>
 <pre class="prettyprint linenums">
 &lt;script src="assets/js/jquery.js"&gt;&lt;/script&gt;
 &lt;script src="assets/js/jquery.ui.js"&gt;&lt;/script&gt;
 </pre>
 
-<div class="bs-docs-example">
-  <div id="newnav3"></div>
-  These are all the dependencies used:
-</div>
+        <div class="bs-docs-example">
+          <div id="newnav3"></div>
+          These are all the dependencies used:
+        </div>
 <pre class="prettyprint linenums">
 &lt;link href="assets/css/bootstrap.min.css" rel="stylesheet"&gt;
 &lt;link href="assets/css/jquery.ui.css" rel="stylesheet"&gt;
 
-&lt;script src="assets/js/report-back.min.js"&gt;&lt;/script&gt;
+&lt;script src="assets/js/report-back.js"&gt;&lt;/script&gt;
 &lt;script src="assets/js/jquery.js"&gt;&lt;/script&gt;
 &lt;script src="assets/js/jquery.ui.js"&gt;&lt;/script&gt;
 &lt;script src="assets/js/bootstrap.min.js"&gt;&lt;/script&gt;
-&lt;script src="assets/js/html2canvas.min.js"&gt;&lt;/script&gt;
-&lt;script src="assets/js/jquery.base64.min.js"&gt;&lt;/script&gt;
+&lt;script src="assets/js/html2canvas.js"&gt;&lt;/script&gt;
+&lt;script src="assets/js/jquery.base64.js"&gt;&lt;/script&gt;
 </pre>
-<p></p>
+        <p></p>
 
-    <h3>Download</h3>
+        <h3>Download</h3>
 
-    Drop me a <a href="mailto:hello@evolving.in">line</a> if you're using this in your project. <br>
-    <div class="well center" style="max-width: 400px; margin: 30px auto 10px;text-align: center;">
-      <div class="btn-group" style="width: 123px; margin: 0 auto;">
-        <a class="btn btn-primary" href="https://github.com/filipegarcia/ReportBack/archive/gh-pages.zip"><i class="icon-download-alt icon-white"></i> Download</a>
-        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+        Drop me a <a href="mailto:hello@evolving.in">line</a> if you're using this in your project. <br>
+        <div class="well center" style="max-width: 400px; margin: 30px auto 10px;text-align: center;">
+          <div class="btn-group" style="width: 123px; margin: 0 auto;">
+            <a class="btn btn-primary" href="https://github.com/filipegarcia/ReportBack/archive/gh-pages.zip"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px;margin-right:4px;"><path d="M7 1.5v7.25"/><polyline points="3.75,6 7,9.25 10.25,6"/><path d="M2.25 11.5h9.5"/></svg>Download</a>
+            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
 
-        <ul class="dropdown-menu">
-          <li><a href="https://github.com/filipegarcia/ReportBack">View On <strong>GitHub</strong></a></li>
-          <li><a href="https://github.com/filipegarcia/ReportBack/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/filipegarcia/ReportBack/tarball/master">Download <strong>TAR Ball</strong></a></li>
-        </ul>
-      </div>
+            <ul class="dropdown-menu">
+              <li><a href="https://github.com/filipegarcia/ReportBack">View On <strong>GitHub</strong></a></li>
+              <li><a href="https://github.com/filipegarcia/ReportBack/zipball/master">Download <strong>ZIP File</strong></a></li>
+              <li><a href="https://github.com/filipegarcia/ReportBack/tarball/master">Download <strong>TAR Ball</strong></a></li>
+            </ul>
+          </div>
+        </div>
+
+        <h2>ToDos:</h2>
+        <p>Add a function to remove highlight and black out boxes individually</p>
+        <p>Add extra fields to be saved (public and "private")</p>
+        <p>Record highlighted Text</p>
+
+      </section>
+
     </div>
-
-
-  <h2>ToDos:</h2>
-    <p>Add a function to remove highlight and black out boxes individually</p>
-    <p>Add extra fields to be saved(public and "private")</p>
-    <p>Record highlighted Text</p>
-
-  </section>
-
-</div>
-
-
 
     <!-- Footer ================================================== -->
     <footer class="footer" style="text-align: left;">
@@ -205,59 +195,52 @@ $("#feedback").on("click",function (){
 
         <p>Report Back <a href="mailto:hello@evolving.in">Filipe Garcia</a>.</p>
         <p>html2canvas <a href="https://github.com/niklasvh/html2canvas/tree/gh-pages">Niklas von Hertzen</a>.</p>
-        <p>Twitter Bootsrap with all the love in the world <a href="http://twitter.com/twitter" target="_blank">@twitter</a> by <a href="http://twitter.com/mdo" target="_blank">@mdo</a> and <a href="http://twitter.com/fat" target="_blank">@fat</a>.</p>
-        <p>Code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
-        <p>Icons from <a href="http://glyphicons.com">Glyphicons Free</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
-        <p>jQuery UI from <a href="http://http://jqueryui.com">jQuery UI</a>.</p>
-        <p>jQuery UI Bootstrap theme from <a href="http://addyosmani.github.com/jquery-ui-bootstrap/">Addy Osmani</a>.</p>
-
+        <p>Twitter Bootstrap with all the love in the world <a href="https://twitter.com/twitter" target="_blank" rel="noopener">@twitter</a> by <a href="https://twitter.com/mdo" target="_blank" rel="noopener">@mdo</a> and <a href="https://twitter.com/fat" target="_blank" rel="noopener">@fat</a>.</p>
+        <p>Code licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache License v2.0</a>. Documentation licensed under <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+        <p>Icons from <a href="https://glyphicons.com">Glyphicons Free</a>, licensed under <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+        <p>jQuery UI from <a href="https://jqueryui.com">jQuery UI</a>.</p>
+        <p>jQuery UI Bootstrap theme from <a href="https://addyosmani.github.com/jquery-ui-bootstrap/">Addy Osmani</a>.</p>
       </div>
     </footer>
 
-<script type="text/javascript">
+    <script>
+      /*
+       *  Demo wiring only — replace with your own integration code.
+       */
 
-  /*
-   *  demo only
-   */
+      // Some user information that can come from your system
+      const user = {
+        fullName: 'John Doe',
+        permissions: 'view and edit',
+        logedIn: 'false',
+        otherStuff: 'this and that',
+      };
 
-    // some user information that can come from your system
-    var user = new Object();
-    user.fullName = "John Doe"
-    user.permissions = "view and edit"
-    user.logedIn = "false"
-    user.otherStuff = "this and that"
+      // Some Product information that can also come from your system
+      const product = {
+        name: 'Report Back',
+        version: 'xpto 0',
+        is_partner: 'false',
+        otherStuff: 'this and that',
+      };
 
-    // some Product information that can also come from your system
-    var product = new Object();
-    product.name = "Report Back"
-    product.version = "xpto 0"
-    product.is_partner = "false"
-    product.otherStuff = "this and that"
+      // Creating a cookie so the widget has something to display
+      document.cookie = `${encodeURIComponent('reportBack')}=${encodeURIComponent('Demo value')}; path=/`;
 
-    // creating a cookie
-    document.cookie = encodeURI("reportBack")+"="+encodeURI("Demo value")+"; path=/";
+      /*
+       *  Report Back wiring
+       */
+      // Append the feedback button.
+      $('body').append("<div id='feedback' class='btn'><svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 16 16' fill='currentColor' aria-hidden='true' style='vertical-align:-2px;margin-right:4px'><path d='M14 2.5a.5.5 0 0 0-.7-.46L5 5.5H2.5A1.5 1.5 0 0 0 1 7v2a1.5 1.5 0 0 0 1.5 1.5h.5v3a.5.5 0 0 0 .35.48l2 .66A.5.5 0 0 0 6 14.16V10.5l7.3 2.96a.5.5 0 0 0 .7-.46V2.5z'/></svg> Feedback</div>");
+      $('#feedback').css({ position: 'fixed', bottom: '0', right: '0' });
 
-
-
-  /*
-   *    Report Back code
-   */
-    // Append the feedback button.
-    $('body').append("<div id='feedback' class='btn'><i class='icon-bullhorn'></i> Feedback</div>")
-    $('#feedback').css({position : 'fixed',bottom : '0',right : '0'})
-
-    // Set up the click event that will load the js file and its dependencies
-    $("#feedback").on("click",function (){
-      $.getScript("assets/js/report-back.min.js", function() { report_warmup_dyn(user, product) })
-    })
-
-</script>
-
-
-
-
-
-
+      // Set up the click event that will load the js file and its dependencies
+      $('#feedback').on('click', function () {
+        $.getScript('assets/js/report-back.js', function () {
+          report_warmup_dyn(user, product);
+        });
+      });
+    </script>
 
     <!-- Le javascript
     ================================================== -->
@@ -265,26 +248,8 @@ $("#feedback").on("click",function (){
     <script src="assets/js/jquery.ui.js"></script>
     <script src="assets/js/report-back.js"></script>
 
-
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/google-code-prettify/prettify.js"></script>
     <script src="assets/js/application.js"></script>
-
-
-
-
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-37955838-1']);
-  _gaq.push(['_setDomainName', 'github.com']);
-  _gaq.push(['_setAllowLinker', true]);
-  _gaq.push(['_trackPageview']);
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-
   </body>
 </html>
