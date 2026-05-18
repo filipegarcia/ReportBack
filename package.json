@@ -25,7 +25,8 @@
     "serve": "http-server -p 8080 -c-1 .",
     "test:e2e": "playwright test",
     "test:e2e:screenshots": "playwright test tests/e2e/screenshots.spec.js",
-    "screenshots": "playwright test tests/e2e/screenshots.spec.js"
+    "screenshots": "playwright test tests/e2e/screenshots.spec.js",
+    "favicons": "node scripts/build-favicons.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.47.0",
